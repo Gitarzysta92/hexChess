@@ -1,0 +1,25 @@
+<div class="container">
+  <div #tilesContainer class="tiles" >
+    <board-tile *ngFor="let tiles of items">
+      <div class="items-container" cdkDropList [cdkDropListData]="tiles" (cdkDropListDropped)="drop($event)">
+        <div cdkDrag *ngFor="let tile of tiles" class="item" (cdkDragStarted)="dragStarted($event)" [cdkDragConstrainPosition]="constrainPosition">
+          {{ tile.name }}
+
+
+          <div *cdkDragPlaceholder class="item">
+            {{ tile.name }}
+          </div>
+
+
+          <div class="drag-preview" *cdkDragPreview [style.width.px]="tileSize">
+            <board-tile class="borderless">
+              <div class="item">
+                {{ tile.name }}
+              </div>
+            </board-tile>
+          </div>
+        </div>
+      </div>
+    </board-tile>
+  </div>
+</div>

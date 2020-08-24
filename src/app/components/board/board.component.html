@@ -1,12 +1,11 @@
-<div class="board-container">
-  <div class="board-row" *ngFor="let row of board">
-    <div class="tile-wrapper" *ngFor="let item of row">
-      <div class="tile-outer">
-        <div class="tile-inner">
-          <img src="https://farm3.staticflickr.com/2878/10944255073_973d2cd25c.jpg" alt=""/>  
-        </div>
+<div class="board-row" *ngFor="let row of board">
+  <board-tile *ngFor="let item of row; let i = index;" [style.width.%]="20" [style.margin.px]="5">
+    <div class="items-container" cdkDropList [cdkDropListData]="item" (cdkDropListDropped)="drop($event)">
+      <div cdkDrag *ngFor="let i of item" class="item">
+        {{ i.name }}
       </div>
     </div>
-  </div>
+  </board-tile>
 </div>
+
 
