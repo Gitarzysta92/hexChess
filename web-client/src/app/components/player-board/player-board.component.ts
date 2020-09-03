@@ -44,7 +44,6 @@ export class PlayerBoardComponent implements OnInit {
     ];
 
     this._boardService.tileSize.subscribe(result => {
-      console.log('player-board', result)
       this.tileSize = result;
     });
   }
@@ -73,7 +72,6 @@ export class PlayerBoardComponent implements OnInit {
     this.dragItemRect.x = this.mouseX - this.dragItemRect.left;
     this.dragItemRect.y = this.mouseY - this.dragItemRect.top; 
 
-    console.log('asd', event);
   }
 
   constrainPosition = (event, ref) => {

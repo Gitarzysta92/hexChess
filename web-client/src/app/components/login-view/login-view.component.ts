@@ -33,10 +33,16 @@ export class LoginViewComponent implements OnInit {
     event.preventDefault();
     this.processing = true;
     this._userService.authenticate(this.loginForm.value).subscribe(isAuthenticated => {
+
+
+
       if (isAuthenticated) {
         this._routingService.navigateBack();
       } 
 
+      this.processing = false;
+    }, err => {
+      console.log(err)
       this.processing = false;
     })
   }

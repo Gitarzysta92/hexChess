@@ -5,6 +5,7 @@ import { UserController } from './controllers/user/user.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './models/user.model';
 import { UserService } from './services/user/user.service';
+import { GameSessionGateway } from './gateways/game-session/game-session.gateway';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { UserService } from './services/user/user.service';
   ],
   providers: [
     AppService,
-    UserService
+    UserService,
+    GameSessionGateway 
   ],
 })
 export class AppModule {}

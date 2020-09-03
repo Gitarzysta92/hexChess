@@ -13,7 +13,11 @@ import { RegistrationViewComponent } from './components/registration-view/regist
 import { MainMenuViewComponent } from './components/main-menu-view/main-menu-view.component';
 import { PlayViewComponent } from './components/play-view/play-view.component';
 import { UserService } from './services/user-service/user.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
+
+const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
 @NgModule({
   declarations: [
@@ -32,14 +36,12 @@ import { UserService } from './services/user-service/user.service';
     AppRoutingModule,
     DragDropModule,
     FormsModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    HttpClientModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
-<<<<<<< HEAD:src/app/app.module.ts
-=======
     UserService,
->>>>>>> e8c20dd1751def52acb8d3f8f705bc7e3e9e54a9:web-client/src/app/app.module.ts
     { provide: Window, useValue: window },
     { provide: Document, useValue: document }
   ],

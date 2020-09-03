@@ -23,6 +23,6 @@ export class UserController {
       response.status(401).send();
     }
 
-    return token;
+    response.send(token)
   }
 }
