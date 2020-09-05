@@ -2,6 +2,9 @@ import { Controller, Post, Body, Res } from '@nestjs/common';
 import { UserService, Credentials } from 'src/services/user/user.service';
 import { isNullOrUndefined } from 'util';
 import { Response } from 'express';
+import { User } from 'src/models/user.model';
+
+
 
 @Controller()
 export class UserController {
@@ -24,5 +27,16 @@ export class UserController {
     }
 
     response.send(token)
+  }
+
+
+  @Post('sign-up')
+  async signUp(@Body() body: User) {
+    const user = new User();
+
+    user.email = body.email;
+    user.password = body.password;
+
+    await this._userService.createUser(user);
   }
 }

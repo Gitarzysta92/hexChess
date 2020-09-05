@@ -2,12 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { Sequelize } from 'sequelize-typescript';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/models/user.model';
+import * as bcrypt from 'bcrypt';
+const saltRounds = 10;
+
+
 
 
 export interface Credentials {
   login: string;
   password: string;
 }
+
 
 
 const sampleUser: Credentials = {
@@ -30,6 +35,26 @@ export class UserService {
   public async authenticate(data: Credentials): Promise<string> {
     const { login, password } = sampleUser;
     return data.login === login && data.password === password ? 'token' : null;
+  }
+
+  public async createUser(user: User): Promise<void> {
+    await this.sequelize.transaction(async t => {
+      const transactionHost = { transaction: t };
+
+      const hash = await bcrypt.hash(user.password, saltRounds)
+      const asd = new Date(Date.now()).toISOString()
+
+      await this.userModel.create(
+        { 
+          email: user.email, 
+          password: hash,
+          role: 'admin',
+          //createdAt: asd,
+          //updatedAt: 'asdasd'
+        },
+        transactionHost,
+      );
+    })
   }
   
   async createMany() {

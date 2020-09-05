@@ -1,13 +1,24 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, Model, Table, PrimaryKey } from 'sequelize-typescript';
+import { DateDataTypeConstructor, DateDataType } from 'sequelize/types';
 
 @Table
 export class User extends Model<User> {
+  @PrimaryKey
   @Column
-  firstName: string;
+  id: number;
 
   @Column
-  lastName: string;
+  email: string;
 
-  @Column({ defaultValue: true })
-  isActive: boolean;
+  @Column
+  password: string;
+
+  @Column
+  role: string;
+
+  @Column
+  createdAt: Date;
+
+  @Column
+  updatedAt: Date;
 }
