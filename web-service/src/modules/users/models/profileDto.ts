@@ -4,7 +4,8 @@ export class ProfileDto implements IProfile {
   id: string;
   nickname: string;
 
-  constructor() {
-
+  constructor(data) {
+    this.id = data.id;
+    this.nickname = data.nickname;
   }
 }

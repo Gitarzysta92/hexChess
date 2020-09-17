@@ -1,18 +1,39 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+import { map, tap } from 'rxjs/operators';
+import { WrappedSocket } from 'src/app/libs/ng-web-sockets/ng-web-sockets.service';
  
 @Injectable()
 export class GameSessionService {
  
-    constructor(private socket: Socket) { }
+    constructor(
+        private readonly _socket: WrappedSocket,
+        private readonly _httpClient: HttpClient
+    ) { 
+
+        this._socket.connect();
+    }
  
     sendMessage(msg: string){
-        this.socket.emit("message", msg);
+        this._socket.emit("message", msg);
     }
-     getMessage() {
-         return this.socket
+
+    getMessage() {
+         return this._socket
              .fromEvent("message")
              .pipe(map((data) => (data as any).msg));
+    }
+
+    requestForQuickMatch() {
+        return this._httpClient.get('http://localhost:3000/start/quickmatch', { responseType: 'text'})
+    }
+
+    
+    listenForRequestApproval(roomName: string) {
+        console.log('listen for request');
+        this._socket.changeRoom(roomName);
+        return this._socket.fromEvent("players-matched");
     }
 }

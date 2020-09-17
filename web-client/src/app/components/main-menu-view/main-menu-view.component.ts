@@ -1,4 +1,10 @@
+import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { subscribeOn } from 'rxjs/operators';
+import { GameSessionService } from 'src/app/services/game-session/game-session.service';
+import { RoutingService } from 'src/app/services/routing-service/routing.service';
+import { UserService } from 'src/app/services/user-service/user.service';
 
 @Component({
   selector: 'app-main-menu-view',
@@ -7,9 +13,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainMenuViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private readonly _gameSessionService: GameSessionService,
+    private readonly _router: Router,
+    private readonly _route: ActivatedRoute,
+    private readonly _userService: UserService,
+    private readonly _routingService: RoutingService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  requestForQuickmatch() {
+    console.log(this._router);
+    this._gameSessionService.requestForQuickMatch()
+      .subscribe(result => {
+        this._router.navigate(['searching']);
+       
+        this._gameSessionService.listenForRequestApproval(result)
+          .subscribe(roomId => {
+            this._router.navigate(['play', roomId]);
+          })
+      });
+  }
+
+
+  logout() {
+    this._userService.unauthenticate();
+    this._routingService.nagivateToLogin();
   }
 
 }

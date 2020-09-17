@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 
 const headers = new HttpHeaders();
@@ -11,7 +11,7 @@ headers.append('Content-Type', 'x-www-form-urlencoded');
 
 
 interface SigninCredentials {
-  login: string;
+  email: string;
   password: string;
 }
 
@@ -20,51 +20,52 @@ interface SigninCredentials {
   providedIn: 'root'
 })
 export class UserService {
-
   private _user: User; 
-
-  auth: boolean =false;
+  public token: string;
 
   constructor(
-    private readonly _httpClient: HttpClient
+    private readonly _httpClient: HttpClient,
   ) { 
-    this._user = new User({
-      login: 'test',
-      password: 'test'
-    });
-
-
-    const token = localStorage.getItem('token');
-    this.auth = !!token;
+    this.token = localStorage.getItem('token');
   }
 
   public isAuthenticated(): boolean {
-    return this.auth;
+    return !!this.token;
   }
 
   public authenticate(credentials: SigninCredentials): Observable<string> {
-    //const result = this._user.login === credentials.login && this._user.password === credentials.password;
-    // this.auth = result;
-    // return new Observable(subscriber => {
-    //   subscriber.next(result);
-    //   subscriber.complete();
-    // })
-
     return this._httpClient.post('http://localhost:3000/authenticate', credentials, { headers, responseType: "text" })
       .pipe(tap(result => {
-        this.auth = !!result;
-
-        localStorage.setItem('token', 'token');
+        this.token = result
+        localStorage.setItem('token', this.token);
       }));
+  }
+
+  public unauthenticate() {
+    this.token = null;
+    localStorage.removeItem('token');
+  }
+
+
+  public refreshToken() {
+    return this._httpClient.get('http://localhost:3000/refresh-token', { headers, responseType: "text" })
+      .subscribe(result => {
+        this.token = result
+        localStorage.setItem('token', this.token);
+      }, err => {
+        this.token = null;
+        localStorage.removeItem('token');  
+      })
+
   }
 }
 
 
 class User {
-  login: string;
+  email: string;
   password: string;
   constructor(userData: SigninCredentials) {
-    this.login = userData.login;
+    this.email = userData.email;
     this.password = userData.password;
   }
 }

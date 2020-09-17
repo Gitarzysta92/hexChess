@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { GameSessionService } from 'src/app/services/game-session/game-session.service';
 
 @Component({
@@ -11,17 +12,19 @@ import { GameSessionService } from 'src/app/services/game-session/game-session.s
 })
 export class PlayViewComponent implements OnInit {
 
+  roomId: string;
+
   constructor(
-    private readonly _gameSession: GameSessionService
+    private readonly _gameSession: GameSessionService,
+    private readonly _route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-
-    this._gameSession.sendMessage('test');
+    this.roomId = this._route.snapshot.paramMap.get('roomId');
   }
 
   public sendMessage(): void {
-    this._gameSession.sendMessage('test');
+    this._gameSession.sendMessage(this.roomId);
   }
 
 }

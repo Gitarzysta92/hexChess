@@ -5,6 +5,7 @@ import { RegistrationViewComponent } from './components/registration-view/regist
 import { AuthenticationGuard } from './interceptors/authentication.guard';
 import { MainMenuViewComponent } from './components/main-menu-view/main-menu-view.component';
 import { PlayViewComponent } from './components/play-view/play-view.component';
+import { LoadingViewComponent } from './components/loading-view/loading-view.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
     children: [
       { path: '', pathMatch:'full', redirectTo:'main-menu' },
       { path: 'main-menu', component: MainMenuViewComponent },
-      { path: 'play/:roomId', component: PlayViewComponent  }
+      { path: 'searching', component: LoadingViewComponent },
+      { path: 'play/:roomId', component: PlayViewComponent }
   ]},
   
   { path: 'login', component: LoginViewComponent },

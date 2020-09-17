@@ -13,4 +13,8 @@ export class RoutingService {
   navigateBack() {
     this._router.navigate(['']);
   }
+
+  nagivateToLogin() {
+    this._router.navigate(['/login']);
+  }
 }

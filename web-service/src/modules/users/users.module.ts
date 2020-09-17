@@ -20,7 +20,8 @@ import { ProfilesService } from './services/profiles.service';
     ProfilesService
   ],
   exports: [
-    UsersService
+    UsersService,
+    ProfilesService
   ]
 })
 export class UsersModule {}

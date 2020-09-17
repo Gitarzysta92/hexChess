@@ -4,13 +4,15 @@ import { Sequelize } from 'sequelize-typescript';
 import { User } from 'src/database/models/user.model';
 import { UserDto } from '../models/userDto';
 import { ProfileDto } from '../models/profileDto';
+import { Profile } from 'src/database/models/profile.model';
 
 @Injectable()
 export class ProfilesService {
+ 
 
   constructor(
-    @InjectModel(User)
-    private user: typeof User,
+    @InjectModel(Profile)
+    private profile: typeof Profile,
     private sequelize: Sequelize
   ) { }
 
@@ -23,7 +25,7 @@ export class ProfilesService {
 
       const asd = new Date(Date.now()).toISOString()
 
-      createdUser = await this.user.create(
+      createdUser = await this.profile.create(
         { 
           // email: user.email, 
           // password: hash,
@@ -38,6 +40,16 @@ export class ProfilesService {
 
   public async updateProfile(userId: number) {
     throw new Error('Method not implemented.');
+  }
+
+
+  public async getProfile(userId: number) {
+    const result = await this.profile.findOne({
+      where: {
+        userId: userId
+      }
+    }); 
+    return result ? new ProfileDto(result) : null
   }
 
 }

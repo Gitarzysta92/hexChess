@@ -1,10 +1,12 @@
+<button (click)="logout()" >logout</button>
+
 <div class="container">
   <div class="row">
     <div class="column">
       <button>talia</button>
     </div>
     <div class="column">
-      <button [routerLink]="['../play/1']">dołącz</button>
+      <button (click)="requestForQuickmatch()">dołącz</button>
     </div>
     <div class="column">
       <button>graj</button>

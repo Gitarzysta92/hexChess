@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 
 import { SequelizeModule } from '@nestjs/sequelize';
-import { GameSessionGateway } from './gateways/game-session/game-session.gateway';
+
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { DatabaseModule } from './database/database.module';
+import { GameSessionModule } from './modules/game-session/game-session.module';
 
 @Module({
   imports: [
@@ -17,13 +18,15 @@ import { DatabaseModule } from './database/database.module';
       database: 'hex',
       autoLoadModels: true,
       //synchronize: true,
+      define: {
+        timestamps: false
+      }
     }),
     AuthModule,
     UsersModule,
-    DatabaseModule
+    DatabaseModule,
+    GameSessionModule
   ],
-  providers: [
-    GameSessionGateway 
-  ],
+  providers: [],
 })
 export class AppModule {}

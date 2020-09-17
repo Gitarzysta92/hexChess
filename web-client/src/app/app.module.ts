@@ -13,11 +13,16 @@ import { RegistrationViewComponent } from './components/registration-view/regist
 import { MainMenuViewComponent } from './components/main-menu-view/main-menu-view.component';
 import { PlayViewComponent } from './components/play-view/play-view.component';
 import { UserService } from './services/user-service/user.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SocketIoModule, SocketIoConfig } from './libs/ng-web-sockets/ng-web-sockets.module';
+import { LoadingViewComponent } from './components/loading-view/loading-view.component';
+import { GameSessionService } from './services/game-session/game-session.service';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 
-const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:8988', options: {
+  
+} };
 
 @NgModule({
   declarations: [
@@ -29,6 +34,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     RegistrationViewComponent,
     MainMenuViewComponent,
     PlayViewComponent,
+    LoadingViewComponent,
     
   ],
   imports: [
@@ -42,8 +48,10 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
   ],
   providers: [
     UserService,
+    GameSessionService,
     { provide: Window, useValue: window },
-    { provide: Document, useValue: document }
+    { provide: Document, useValue: document },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

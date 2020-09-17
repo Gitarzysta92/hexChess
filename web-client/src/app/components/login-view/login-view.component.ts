@@ -32,7 +32,11 @@ export class LoginViewComponent implements OnInit {
   public authenticate(event: Event): void {
     event.preventDefault();
     this.processing = true;
-    this._userService.authenticate(this.loginForm.value).subscribe(isAuthenticated => {
+    const credentials = {
+      email: this.loginForm.value.login,
+      password: this.loginForm.value.password
+    }
+    this._userService.authenticate(credentials).subscribe(isAuthenticated => {
 
 
 
