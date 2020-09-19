@@ -29,15 +29,13 @@ describe('MatchmakingHandler', () => {
   };
 
   // sample matchmaking requests
-  const requests: MatchRequestMock[] = [
-    new MatchRequestMock(new ProfileMock(), { numberOfRequiredRequests: 4, gameType: GamesType.Ranked }),
-    new MatchRequestMock(new ProfileMock(), { numberOfRequiredRequests: 2, gameType: GamesType.Ranked }),
-    new MatchRequestMock(new ProfileMock(), { numberOfRequiredRequests: 3, gameType: GamesType.Ranked }),
-    new MatchRequestMock(new ProfileMock(), { numberOfRequiredRequests: 4, gameType: GamesType.Quickmatch }),
-  ]
+  const requests: MatchRequestMock[] = generateMatchRequests([
+    [2, GamesType.Ranked], [3, GamesType.Ranked], [4, GamesType.Ranked], [4, GamesType.Quickmatch]  
+  ])
   
   beforeEach(() => {
     handler = new MatchmakingHandler(idGeneratorMock);
+    handler.initialize(config);
   });
 
   it('should be defined', () => {
@@ -45,22 +43,61 @@ describe('MatchmakingHandler', () => {
   });
 
   it('should have id equals to sample id for given id', () => {
-    handler.initialize(config);
     expect(handler.id).toEqual(id);
   });
 
   it('should been initialized with cfg values for passed config', () => {
-    handler.initialize(config);
     expect(handler['_requiredRequests']).toEqual(config.numberOfRequiredRequests);
     expect(handler['_maxSearchingTime']).toEqual(config.maxSearchingTime);
     expect(handler['_gameType']).toEqual(config.gameType);
   });
 
-  it('should have one matched request for given requests', () => {
-    handler.initialize(config);
-    requests.forEach(req => handler.addRequest(req));
-    expect(handler['_requests'].length).toEqual(1);
-
+  it('should return false for not matching request ', () => {
+    const spy = jest.spyOn(handler, 'addRequest');
+    const req = new MatchRequestMock(new ProfileMock(), {
+      numberOfRequiredRequests: 2, gameType: GamesType.Ranked
+    })
+    handler.addRequest(req);
+    expect(spy).toHaveReturnedWith(false);
   });
 
+  it('should return true for not matched request ', () => {
+    const spy = jest.spyOn(handler, 'addRequest');
+    const req = new MatchRequestMock(new ProfileMock(), {
+      numberOfRequiredRequests: 4, gameType: GamesType.Quickmatch
+    })
+    handler.addRequest(req);
+    expect(spy).toHaveReturnedWith(true);
+  });
+
+
+  it('should contains one request for requests set with one matching', () => {
+    requests.forEach(req => handler.addRequest(req));
+    expect(handler['_requests'].length).toEqual(1);
+  });
+
+  it('should contains four request for given request set with five matching', () => {
+    const requests: MatchRequestMock[] = generateMatchRequests([
+      [4, GamesType.Quickmatch], [4, GamesType.Quickmatch], [4, GamesType.Quickmatch], [4, GamesType.Quickmatch],[4, GamesType.Quickmatch]  
+    ])
+    requests.forEach(req => handler.addRequest(req));
+    expect(handler['_requests'].length).toEqual(4);    
+  });
+
+  
+
+
+
 });
+
+
+
+
+// helpers
+
+
+function generateMatchRequests(requestsSetup: [number, number][]) {
+  return requestsSetup.map(req => {
+    return new MatchRequestMock(new ProfileMock(), { numberOfRequiredRequests: req[0], gameType: req[1] })
+  });
+}
