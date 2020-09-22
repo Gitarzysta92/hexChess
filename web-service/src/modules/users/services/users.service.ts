@@ -6,17 +6,13 @@ import * as bcrypt from 'bcrypt';
 import { UserDto } from '../models/userDto';
 const saltRounds = 10;
 
-
-
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectModel(User)
     private user: typeof User,
-    private sequelize: Sequelize
-  ) { }
-
+    private sequelize: Sequelize,
+  ) {}
 
   public async createUser(user: UserDto): Promise<UserDto> {
     let createdUser;
@@ -24,12 +20,12 @@ export class UsersService {
     await this.sequelize.transaction(async t => {
       const transactionHost = { transaction: t };
 
-      const hash = await bcrypt.hash(user.password, saltRounds)
-      const asd = new Date(Date.now()).toISOString()
+      const hash = await bcrypt.hash(user.password, saltRounds);
+      const asd = new Date(Date.now()).toISOString();
 
       createdUser = await this.user.create(
-        { 
-          email: user.email, 
+        {
+          email: user.email,
           password: hash,
           role: 'admin',
         },
@@ -37,21 +33,21 @@ export class UsersService {
       );
     });
 
-    return createdUser
+    return createdUser;
   }
 
   async createMany() {
     try {
       await this.sequelize.transaction(async t => {
         const transactionHost = { transaction: t };
-  
+
         await this.user.create(
-            { firstName: 'Abraham', lastName: 'Lincoln' },
-            transactionHost,
+          { firstName: 'Abraham', lastName: 'Lincoln' },
+          transactionHost,
         );
         await this.user.create(
-            { firstName: 'John', lastName: 'Boothe' },
-            transactionHost,
+          { firstName: 'John', lastName: 'Boothe' },
+          transactionHost,
         );
       });
     } catch (err) {
@@ -63,18 +59,17 @@ export class UsersService {
   async getUser(email: string): Promise<UserDto> {
     const result = await this.user.findOne({
       where: {
-        email: email
-      }
-    }); 
-    return result ? new UserDto(result) : null
+        email: email,
+      },
+    });
+    return result ? new UserDto(result) : null;
   }
-
 
   async removeUser(userId: number): Promise<number> {
     const result = await User.destroy({
       where: {
-        id: userId
-      }
+        id: userId,
+      },
     });
     return result;
   }

@@ -4,9 +4,6 @@ import * as passport from 'passport';
 
 //import MySQLSessionStore from "express-mysql-session";
 
-
-
-
 export function setup(app: INestApplication): void {
   // app.useGlobalPipes(
   //   new ValidationPipe({
@@ -15,7 +12,6 @@ export function setup(app: INestApplication): void {
   //     errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
   //   }),
   // );
-
 
   app.use(passport.initialize());
   app.use(passport.session());
@@ -27,5 +23,4 @@ export function setup(app: INestApplication): void {
   // });
 
   app.enableCors();
-
 }

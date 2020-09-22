@@ -8,8 +8,7 @@ export class GuestCredentials {
   ip: string;
 }
 
-
 export interface ILocalUser {
   id: number;
-  email: string
+  email: string;
 }

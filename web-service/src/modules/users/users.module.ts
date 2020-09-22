@@ -5,23 +5,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { DatabaseModule } from 'src/database/database.module';
 import { ProfilesService } from './services/profiles.service';
 
-
-
-
 @Module({
-  imports: [
-    DatabaseModule
-  ],
-  controllers: [
-    UsersController
-  ],
-  providers: [
-    UsersService,
-    ProfilesService
-  ],
-  exports: [
-    UsersService,
-    ProfilesService
-  ]
+  imports: [DatabaseModule],
+  controllers: [UsersController],
+  providers: [UsersService, ProfilesService],
+  exports: [UsersService, ProfilesService],
 })
 export class UsersModule {}

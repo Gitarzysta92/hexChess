@@ -1,30 +1,10 @@
+import { throws } from 'assert';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { is } from 'sequelize/types/lib/operators';
 import { ProfileDto } from 'src/modules/users/models/profileDto';
-import * as uuid from 'uuid';
-
-
-class List<T> {
-  
-  public get length()  { return this._list.length }
-  private _list: T[] = [];
-
-  private _size: number;
-
-  constructor(settings) {
-    this._size = settings.size;
-  }
-
-  public add(item: T) {
-    const size = this._size;
-    if (size != null && size <= this._list.length) return;
-    return !!this._list.push(item);
-  }
-
-
-}
-
-
+import { v4 } from 'uuid';
+import { List } from 'utils';
 
 
 export enum GamesType {
@@ -38,13 +18,10 @@ export interface MatchmakingConfig {
   gameType: GamesType;
 }
 
-
 export interface RequestsChange {
   action: 'registered' | 'removed';
   request: MatchRequest;
 }
-
-
 
 export class MatchmakingHandler {
   public id: string;
@@ -58,11 +35,10 @@ export class MatchmakingHandler {
 
   private _uuid: Function;
 
-  constructor(
-    private readonly uuid: Function,
-  ) {
+  private _destroyed: Subject<any>;
+
+  constructor(private readonly uuid: Function) {
     this._uuid = uuid;
-    
   }
 
   public initialize(config: MatchmakingConfig): void {
@@ -72,63 +48,86 @@ export class MatchmakingHandler {
     this._gameType = config.gameType;
     this._requests = new List<MatchRequest>({ size: this._requiredRequests });
 
+    this._onAllRequestsMatched();
+    this._onRequestRemoved();
+    this._startCountdown(() => this.destroy());
+  }
+
+  public destroy() {
+    this._requests.forEach(req => (req.setUnavailable()));
+    this._requests.clear();
+    this._
   }
 
   public addRequest(req: MatchRequest): boolean {
-    // const isInvalid = !this._validRequest(req);
-    // if (isInvalid) 
-    const isFullfilsCriteria = this._validateCriteria(req);
-    if (isFullfilsCriteria === false) return;
+    let isValid = false;
+    isValid = this._validateRequest(req);
+    isValid = this._validateCriteria(req);
+    if (isValid === false) return false;
 
     return this._requests.add(req);
   }
 
-  
-
   public removeRequest(req: MatchRequest): void {
+    const isValid = this._validateRequest(req);
+    if (isValid === false) return;
 
+    this._requests.remove(req);
   }
-
 
   private _validateCriteria(req: MatchRequest): boolean {
     const { playersNumber, gameType } = req;
     let isValid = true;
 
-    if (
-      playersNumber !== this._requiredRequests || 
-      gameType !== this._gameType
-    ) isValid = false;
+    if (playersNumber !== this._requiredRequests || gameType !== this._gameType)
+      isValid = false;
 
     return isValid;
   }
 
-  private _startCountdown(): void {
-
+  private _validateRequest(req: MatchRequest): boolean {
+    const propNames = Object.keys(req);
+    const invalidProps = propNames.filter(key => req[key] == null);
+    return invalidProps.length === 0;
   }
 
+  private _startCountdown(cb: Function): void {
+    setTimeout(() => cb(), this._maxSearchingTime);
+  }
 
+  private _onAllRequestsMatched(): void {
+    this._requests.listChanged
+      .pipe(takeUntil(this._destroyed))
+      .pipe() // if fullfilled
+      .subscribe(() => {
+        this._requests.forEach(req => (req.setAvailable()));
+      });
+  }
+
+  private _onRequestRemoved(): void {
+    this._requests.listChanged
+      .pipe(takeUntil(this._destroyed))
+      .pipe()
+      .subscribe()
+  }
 }
 
-
-export type RequestCriteria = Omit<MatchmakingConfig, "maxSearchingTime">;
+export type RequestCriteria = Omit<MatchmakingConfig, 'maxSearchingTime'>;
+// unavaialable -> available -> confirmed -> start game
 
 
 export class MatchRequest {
+  public id: string;
   public gameType: GamesType;
   public playersNumber: number;
 
   private _isConfirmed: boolean;
 
   constructor(owner: ProfileDto, criteria: RequestCriteria) {
+    this.id = owner.id;
     this.gameType = criteria.gameType;
     this.playersNumber = criteria.numberOfRequiredRequests;
   }
-
-
-
 }
-
-
-
 
 // criteria:

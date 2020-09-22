@@ -3,11 +3,7 @@ import { GuestDto } from '../models/guestDto';
 
 @Controller('guest')
 export class GuestController {
-
-  
   constructor() {}
-
-  
 
   @Post('create')
   async createGuest(@Body() body: GuestDto) {
@@ -15,5 +11,4 @@ export class GuestController {
 
     //await this._usersService.createUser(user);
   }
-
 }

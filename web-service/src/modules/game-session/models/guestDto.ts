@@ -1,5 +1,3 @@
 export class GuestDto {
-  constructor() {
-    
-  }
+  constructor() {}
 }

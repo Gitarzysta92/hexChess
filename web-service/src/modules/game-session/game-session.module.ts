@@ -6,19 +6,9 @@ import { GameSessionGateway } from './gateway/game-session.gateway';
 import { MatchmakingService } from './services/matchmaking.service';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    UsersModule
-  ],
-  controllers: [
-    MatchmakingController
-  ],
-  providers: [
-    MatchmakingService,
-    GameSessionGateway
-  ],
-  exports: [
-    MatchmakingService
-  ]
+  imports: [DatabaseModule, UsersModule],
+  controllers: [MatchmakingController],
+  providers: [MatchmakingService, GameSessionGateway],
+  exports: [MatchmakingService],
 })
 export class GameSessionModule {}

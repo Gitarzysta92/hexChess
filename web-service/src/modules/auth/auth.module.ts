@@ -8,7 +8,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './controllers/auth.controller';
 import { SessionSerializer } from './session.serialize';
 
-
 const jwtConstants = {
   secret: 'secretKey',
 };
@@ -16,26 +15,17 @@ const jwtConstants = {
 @Module({
   imports: [
     UsersModule,
-    PassportModule.register({ 
+    PassportModule.register({
       defaultStrategy: 'jwt',
-      session: false
+      session: false,
     }),
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  controllers: [
-    AuthController
-  ],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-    SessionSerializer
-  ],
-  exports: [
-    AuthService
-  ]
+  controllers: [AuthController],
+  providers: [AuthService, LocalStrategy, JwtStrategy, SessionSerializer],
+  exports: [AuthService],
 })
 export class AuthModule {}

@@ -8,14 +8,11 @@ import { Profile } from 'src/database/models/profile.model';
 
 @Injectable()
 export class ProfilesService {
- 
-
   constructor(
     @InjectModel(Profile)
     private profile: typeof Profile,
-    private sequelize: Sequelize
-  ) { }
-
+    private sequelize: Sequelize,
+  ) {}
 
   public async createProfile(userId: number): Promise<ProfileDto> {
     let createdUser;
@@ -23,11 +20,11 @@ export class ProfilesService {
     await this.sequelize.transaction(async t => {
       const transactionHost = { transaction: t };
 
-      const asd = new Date(Date.now()).toISOString()
+      const asd = new Date(Date.now()).toISOString();
 
       createdUser = await this.profile.create(
-        { 
-          // email: user.email, 
+        {
+          // email: user.email,
           // password: hash,
           // role: 'admin',
         },
@@ -35,21 +32,19 @@ export class ProfilesService {
       );
     });
 
-    return createdUser
+    return createdUser;
   }
 
   public async updateProfile(userId: number) {
     throw new Error('Method not implemented.');
   }
 
-
   public async getProfile(userId: number) {
     const result = await this.profile.findOne({
       where: {
-        userId: userId
-      }
-    }); 
-    return result ? new ProfileDto(result) : null
+        userId: userId,
+      },
+    });
+    return result ? new ProfileDto(result) : null;
   }
-
 }

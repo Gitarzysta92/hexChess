@@ -1,4 +1,11 @@
-import { Column, Model, Table, PrimaryKey, HasMany, HasOne } from 'sequelize-typescript';
+import {
+  Column,
+  Model,
+  Table,
+  PrimaryKey,
+  HasMany,
+  HasOne,
+} from 'sequelize-typescript';
 import { Profile } from './profile.model';
 
 export interface IUser {
@@ -9,7 +16,6 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
 }
-
 
 @Table
 export class User extends Model<User> implements IUser {
@@ -32,11 +38,9 @@ export class User extends Model<User> implements IUser {
   @Column
   updatedAt: Date;
 
-  @HasOne(() => Profile, { 
+  @HasOne(() => Profile, {
     foreignKey: 'userId',
-    onDelete: 'CASCADE' 
+    onDelete: 'CASCADE',
   })
   profile: Profile;
-
 }
-

@@ -19,13 +19,13 @@ import { GameSessionModule } from './modules/game-session/game-session.module';
       autoLoadModels: true,
       //synchronize: true,
       define: {
-        timestamps: false
-      }
+        timestamps: false,
+      },
     }),
     AuthModule,
     UsersModule,
     DatabaseModule,
-    GameSessionModule
+    GameSessionModule,
   ],
   providers: [],
 })

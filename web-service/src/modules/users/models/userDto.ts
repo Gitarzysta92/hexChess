@@ -1,6 +1,4 @@
-import { IUser } from "src/database/models/user.model";
-
-
+import { IUser } from 'src/database/models/user.model';
 
 export class UserDto implements IUser {
   public id;

@@ -1,4 +1,4 @@
-import { IProfile } from "src/database/models/profile.model";
+import { IProfile } from 'src/database/models/profile.model';
 
 export class ProfileDto implements IProfile {
   id: string;
