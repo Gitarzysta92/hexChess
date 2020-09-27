@@ -11,3 +11,25 @@ export declare class List<T> {
     toArray(): T[];
     clear(): void;
 }
+
+
+export declare type CountdownSetup = ICountdownStep[] | Countdown | number;
+export interface ICountdownStep {
+    id?: any;
+    time: number;
+    next: (this: CountdownStep, ...args: any) => boolean;
+}
+export declare class Countdown {
+    completed: Subject<void>;
+    private _steps;
+    constructor(setup: CountdownSetup);
+    start(): void;
+}
+declare class CountdownStep implements ICountdownStep {
+    id: any;
+    time: number;
+    next: ICountdownStep['next'];
+    constructor(step: ICountdownStep);
+    start(): void;
+}
+export {};
