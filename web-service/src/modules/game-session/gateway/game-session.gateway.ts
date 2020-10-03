@@ -16,10 +16,20 @@ export class GameSessionGateway {
     return 'Hello world!';
   }
 
+  @SubscribeMessage('create')
+  handleCreate(client: any, payload: any) {
+    console.log('create');
+    client.join('room');
+  }
+
+  @SubscribeMessage('leave')
+  handleLeave(client: any) {
+    console.log('leave');
+    client.leave('room');
+  }
+
   emitMessage(roomName: string, payload: string): void {
     console.log('emit', roomName);
-    this.server.emit('players-matched', payload);
-    this.server.emit('message', payload);
     this.server.to(roomName).emit('message', payload);
   }
 }
