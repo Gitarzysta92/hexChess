@@ -14,19 +14,22 @@ export class ProfilesService {
     private sequelize: Sequelize,
   ) {}
 
-  public async createProfile(userId: number): Promise<ProfileDto> {
+
+  public async search(profile: { [key: string]: string }) {
+    return await this.profile.findOne({ where: { ...profile } });
+  }
+
+
+  public async createProfile(userId: number, nickname: string): Promise<ProfileDto> {
     let createdUser;
 
     await this.sequelize.transaction(async t => {
       const transactionHost = { transaction: t };
 
-      const asd = new Date(Date.now()).toISOString();
-
       createdUser = await this.profile.create(
         {
-          // email: user.email,
-          // password: hash,
-          // role: 'admin',
+          nickname: nickname,
+          userId: userId
         },
         transactionHost,
       );

@@ -1,16 +1,21 @@
 import { Subject } from "rxjs";
 export declare class List<T> {
     get length(): number;
-    listChanged: Subject<any>;
+    listChanged: Subject<number>;
     private _list;
     private _size;
-    constructor(settings: any);
+    constructor(settings: Config);
     add(item: T): boolean;
     remove(item: T): void;
     forEach(cb: (req: T) => any): void;
     toArray(): T[];
     clear(): void;
 }
+
+export interface Config {
+    size?: number;
+  
+  }
 
 
 export declare type CountdownSetup = ICountdownStep[] | Countdown | number;
@@ -33,3 +38,13 @@ declare class CountdownStep implements ICountdownStep {
     start(): void;
 }
 export {};
+
+
+export declare class StateContainer<T> {
+    get value(): T;
+    changed: Subject<T>;
+    private _currentState;
+    private _states;
+    constructor(states: T[], initial: T);
+    set(value: T): void;
+}

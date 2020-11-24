@@ -1,63 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { User } from 'src/database/models/user.model';
-import { ProfileDto } from 'src/modules/users/models/profileDto';
-import { GameSessionGateway } from '../gateway/game-session.gateway';
+import { EventService } from 'src/core/events/event.service';
+import { GamesType, MatchmakingFailureEvent, MatchmakingSuccessEvent } from '../models/events';
+import { MatchmakingFactory } from '../utlis/matchmaking.factory';
+import { MatchmakingHandler } from './matchmaking-handler';
+import { MatchmakingRequest } from './matchmaking-request';
+
+
 
 @Injectable()
 export class MatchmakingService {
-  private _queue: Array<Challenge> = [];
+  private _matchmakings: Array<MatchmakingHandler> = [];
 
-  constructor(private _gameSessionGateway: GameSessionGateway) {}
+  constructor(
+    private readonly _matchmakingFactory: MatchmakingFactory,
+    private readonly _eventService: EventService
+  ) {
+    this._eventService.on([MatchmakingSuccessEvent, MatchmakingFailureEvent])
+      .subscribe(event => {
+        this._removeMatchmakingRoom(event.id);
+      })
+  }
 
-  public async createChallange(profile: ProfileDto): Promise<string> {
-    if (this._queue.length === 0) {
-      const challenge = new Challenge(profile, challange => {
-        this._emitChallangeStart(challange);
-        this._removeChallangeFromQueue(challange);
-      });
-      challenge.addPlayer(profile);
-      this._queue.push(challenge);
-      return challenge.token;
+  public async findQuickmatch(userId: string, requiredPlayers?: number): Promise<string> {
+    if (userId == null || requiredPlayers > 4) return;
+
+    const criteria = { players: requiredPlayers, gameType: GamesType.Quickmatch };
+    const matchRequest = this._matchmakingFactory.createMatchRequest(userId, criteria);
+
+    if (this._matchmakings.length > 0) {
+      const quickmatch = this._matchmakings.find(room => room.register(matchRequest));
+      return quickmatch.id;
+    } else {
+      const quickmatch = this._matchmakingFactory.createMatchmakingHandler(criteria);
+      quickmatch.register(matchRequest);
+      this._matchmakings.push(quickmatch);
+      return quickmatch.id;
     }
-
-    const challange = this._queue.find(c => c.addPlayer(profile));
-    return challange.token;
   }
 
-  private _removeChallangeFromQueue(c: Challenge) {
-    this._queue = this._queue.filter(challenge => challenge.token != c.token);
+
+  private _removeMatchmakingRoom(room: string) {
+    this._matchmakings = this._matchmakings.filter(r => r.id === room);
   }
 
-  private _emitChallangeStart(c: Challenge): void {
-    setTimeout(() => {
-      this._gameSessionGateway.emitMessage(c.token, c.token);
-    }, 5000);
-  }
 }
 
-class Challenge {
-  public token: string;
 
-  private _requiredPlayers: number;
-  private _players: Array<ProfileDto> = [];
-  private _fullfilmentCb: Function;
+// process.nextTick(() => this._fullfilmentCb(this));
 
-  constructor(profile: ProfileDto, fullfilmentCb: Function) {
-    this._requiredPlayers = 2;
-    this.addPlayer(profile);
-    this._fullfilmentCb = fullfilmentCb;
-    this.token = 'asd';
-  }
 
-  public addPlayer(profile: ProfileDto): boolean {
-    if (this._players.length === this._requiredPlayers) return false;
 
-    this._players.push(profile);
-    if (this._players.length === this._requiredPlayers) {
-      process.nextTick(() => this._fullfilmentCb(this));
-    }
 
-    return true;
-  }
-}
+
+

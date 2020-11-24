@@ -51,4 +51,9 @@ export class LoginViewComponent implements OnInit {
     })
   }
 
+
+  public navigateToRegistration(): void {
+    this._routingService.navigateToRegistration();
+  }
+
 }

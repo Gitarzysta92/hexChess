@@ -4,12 +4,26 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+
     {
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "request": "attach",
       "type": "pwa-chrome",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "ng: serve",
+    },
+
+    
+    {
+      "name": "Launch Client App",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}"
+      "type": "chrome",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "preLaunchTask": "ng: serve",
+      "postDebugTask": "ng: kill-serve"
     }
   ]
 }

@@ -1,10 +1,12 @@
-import { Controller, Post, Body, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Req, UseGuards, Param, BadRequestException } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { MatchmakingService } from '../services/matchmaking.service';
 import { ProfilesService } from 'src/modules/users/services/profiles.service';
 
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GameSessionGateway } from '../gateway/game-session.gateway';
+import { SystemConfiguration } from 'src/core/system-configuration.service';
+import { TokenGenerator } from 'src/utils/token-generator/token-generator';
 
 export const LocalUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
@@ -16,22 +18,24 @@ export const LocalUser = createParamDecorator(
 @Controller('start')
 export class MatchmakingController {
   constructor(
-    private readonly _profilesService: ProfilesService,
     private readonly _matchmakingService: MatchmakingService,
-    private readonly _gameSessionGateway: GameSessionGateway
-  ) {
-
-    setInterval(() => {
-      this._gameSessionGateway.emitMessage('room','sdasd');
-    },3000);
-
-    
-  }
+    private readonly _systemConfiguration: SystemConfiguration,
+    private readonly _tokenGenerator: TokenGenerator
+  ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get('quickmatch')
-  async getRoomId(@LocalUser() user) {
-    const profile = await this._profilesService.getProfile(user.id);
-    return await this._matchmakingService.createChallange(profile);
+  @Get('quickmatch/:rp?')  
+  async customQuickmatch(@LocalUser() user, @Param('rp') requiredPlayers: number): Promise<string> {
+    const MAX_PLAYERS = this._systemConfiguration.playersLimit;
+    const MIN_PLAYERS = this._systemConfiguration.playersMinimum;
+
+    if (!isNaN(requiredPlayers) && requiredPlayers > MAX_PLAYERS) 
+      throw new BadRequestException('Post not found');
+
+    const playersNumber = requiredPlayers || MIN_PLAYERS;
+    const quickmatchId = await this._matchmakingService.findQuickmatch(user.id, playersNumber);
+
+    return await this._tokenGenerator.create({ roomId: quickmatchId });
   }
+
 }

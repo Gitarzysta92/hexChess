@@ -56,15 +56,29 @@ export class UserService {
         this.token = null;
         localStorage.removeItem('token');  
       })
-
   }
+
+  public register(userData: User) {
+    return this._httpClient.put('http://localhost:3000/user', userData , { headers, responseType: "text" })
+  }
+
+  public searchProfile(queryData: { [key: string]: string }): Observable<User> {
+    const query = Object.entries(queryData).reduce((acc, data) => {
+      const [ key, value ] = data;
+      return `${acc.length > 0 ? '&' + acc : acc }${key}=${value}`
+    }, "");
+    return this._httpClient.get<User>(`http://localhost:3000/profile?${query}`);
+  }
+
 }
 
 
 class User {
+  nickname: string;
   email: string;
   password: string;
-  constructor(userData: SigninCredentials) {
+  constructor(userData: SigninCredentials & { nickname: string }) {
+    this.nickname = userData.nickname
     this.email = userData.email;
     this.password = userData.password;
   }

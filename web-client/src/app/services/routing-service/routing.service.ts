@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class RoutingService {
-
   constructor(
     private _router: Router
   ) { }
@@ -16,5 +15,9 @@ export class RoutingService {
 
   nagivateToLogin() {
     this._router.navigate(['/login']);
+  }
+
+  navigateToRegistration() {
+    this._router.navigate(['/registration']);
   }
 }

@@ -1,1 +1,21 @@
-<p>registration-view works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  
+  <label>
+    Nickname:
+    <input type="text" formControlName="nickname">
+  </label>
+
+  <label>
+    Email:
+    <input type="text" formControlName="email">
+  </label>
+
+  <label>
+    Password:
+    <input type="text" formControlName="password">
+  </label>
+
+  <button type="submit">Register</button>
+
+</form>

@@ -11,10 +11,7 @@ export class GameSessionService {
     constructor(
         private readonly _socket: WrappedSocket,
         private readonly _httpClient: HttpClient
-    ) { 
-
-        this._socket.connect();
-    }
+    ) { }
  
     sendMessage(msg: string){
         this._socket.emit("message", msg);
@@ -26,7 +23,7 @@ export class GameSessionService {
              .pipe(map((data) => (data as any).msg));
     }
 
-    requestForQuickMatch() {
+    requestForQuickMatch(): Observable<string> {
         return this._httpClient.get('http://localhost:3000/start/quickmatch', { responseType: 'text'})
     }
 
@@ -36,4 +33,20 @@ export class GameSessionService {
         this._socket.changeRoom(roomName);
         return this._socket.fromEvent("players-matched");
     }
+
+    connectToRoom(token: string): void {
+        this._socket.connect(`http://localhost:8988/matchmaking?token=${token}`, {});
+        this._socket.fromEvent("matchmaking-resolved")
+            .subscribe(msg => {
+                console.log(msg);
+
+            });
+
+        this._socket.fromEvent("readiness-request")
+            .subscribe(msg => {
+                console.log(msg);
+            });
+    }
+
+
 }

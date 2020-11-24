@@ -19,9 +19,9 @@ export class WrappedSocket {
     ioSocket: any;
 
     constructor(@Inject(SOCKET_CONFIG_TOKEN) config: SocketIoConfig) {
-        const url: string = config.url || '';
-        const options: any = config.options || {};
-        this.ioSocket = io(url, options);
+        // const url: string = config.url || '';
+        // const options: any = config.options || {};
+        //this.ioSocket = io(url, options);
     }
 
     on(eventName: string, callback: Function) {
@@ -32,7 +32,8 @@ export class WrappedSocket {
         this.ioSocket.once(eventName, callback);
     }
 
-    connect() {
+    connect(url, options) {
+        this.ioSocket = io(url, options);
         return this.ioSocket.connect();
     }
 

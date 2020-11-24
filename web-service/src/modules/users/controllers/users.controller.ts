@@ -23,22 +23,23 @@ export class UsersController {
     private _profilesService: ProfilesService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
-  @Post('create')
+  
+  @Put()
   async createUser(@Body() body: UserDto) {
     const user = new UserDto({
       email: body.email,
       password: body.password,
+      nickname: body.nickname,
     });
 
     const { id: userId } = await this._usersService.createUser(user);
-    if (isNullOrUndefined(userId)) return;
+    if (!userId) return;
 
-    await this._profilesService.createProfile(userId);
+    return await this._profilesService.createProfile(userId, user.nickname);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(':userId')
+  @Post(':userId')
   async updateUser(@Param('userId') userId: number) {
     await this._profilesService.updateProfile(userId);
   }

@@ -21,13 +21,14 @@ export class UsersService {
       const transactionHost = { transaction: t };
 
       const hash = await bcrypt.hash(user.password, saltRounds);
-      const asd = new Date(Date.now()).toISOString();
 
       createdUser = await this.user.create(
         {
           email: user.email,
           password: hash,
           role: 'admin',
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         transactionHost,
       );
