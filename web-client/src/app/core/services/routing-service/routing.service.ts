@@ -14,7 +14,7 @@ export class RoutingService {
   }
 
   nagivateToLogin() {
-    this._router.navigate(['/account/login']);
+    this._router.navigate(['/account/log-in']);
   }
 
   navigateToRegistration() {
@@ -22,6 +22,22 @@ export class RoutingService {
   }
 
   navigateToPasswordRecovery() {
-    this._router.navigate(['/account/recovery'])
+    this._router.navigate(['/account/recovery']);
   }
+
+  navigateToMyProfile() {
+    this._router.navigate(['/profile/me']);
+  }
+
+  navigate(fragments: string[]): void {
+    const serializedFragments = fragments.reduce((acc, fragment) => `${acc}/${fragments}`, "");
+
+    const isAbsolute = serializedFragments.charAt(0) === '/';
+    const url = isAbsolute ? serializedFragments : (this._router.url + serializedFragments);
+    console.log(url);
+
+    const urlTree = this._router.parseUrl(url);
+    this._router.navigateByUrl(urlTree);
+  }
+
 }

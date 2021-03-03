@@ -6,6 +6,7 @@ import {
   BelongsTo,
   ForeignKey,
   BeforeCreate,
+  HasOne,
 } from 'sequelize-typescript';
 import { User } from './user.model';
 import { UUIDV4 } from 'sequelize';
@@ -33,4 +34,8 @@ export class Profile extends Model<Profile> implements IProfile {
   static setGuid(instance: Profile) {
     instance.id = uuid();
   }
+
+  @BelongsTo(() => User)  
+  user: User
 }
+

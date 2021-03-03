@@ -1,0 +1,15 @@
+<ng-container *ngIf="dataLoaded else loader">
+  <main [@routeAnimations]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </main>
+</ng-container>
+
+<ng-template #loader>
+  <div class="flex-container flex-center_center">
+    <div class="row">
+      <div class="column-10 flex-center_center">
+        <div circle-spinner></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

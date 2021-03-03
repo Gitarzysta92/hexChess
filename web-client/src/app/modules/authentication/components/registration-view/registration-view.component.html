@@ -1,21 +1,30 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  
-  
-  <label>
-    Nickname:
-    <input type="text" formControlName="nickname">
-  </label>
+<div class="flex-container_center_center fh ">
+  <div class="panel">
+    <div class="panel-header">
+      Hex chess
+    </div>
+    <div class="panel-menu">
+      <a class="btn-blank" routerLink="guest">Create account</a>
+    </div>
+    <div class="panel-content">
+      <registration-form (onSubmit)="registerUser($event)"></registration-form>
+      <div class="notifications-container">
+        <notification *ngFor="let notify of notifications" [apperance]="notify.apperance" [duration]="notifyDuration" (closed)="removeNotify(notify)">
+          <i slot="icon" name="{{ notify.icon }}"></i>
+          <p slot="content" [innerHTML]="notify.content"></p>
+        </notification>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <a class="link" routerLink="../log-in/user">Log-in</a>
+    <span class="separator">-</span>
+    <a class="link" >Terms and conditions</a>
+  </div>
+</div>
 
-  <label>
-    Email:
-    <input type="text" formControlName="email">
-  </label>
 
-  <label>
-    Password:
-    <input type="text" formControlName="password">
-  </label>
 
-  <button type="submit">Register</button>
 
-</form>
+
+

@@ -1,0 +1,38 @@
+ul.options-menu {
+  position: relative;
+  top: 20px;
+  list-style-type: none;
+  padding: 20px 10px;
+  background-color: #1b1a21;
+  border-radius: 5px;
+  margin: 0;
+  li {
+    padding: 5px 0;
+    border-radius: 5px;
+
+    &.active button {
+      color: greenyellow;
+    }
+
+    &:hover {
+      background-color: #292730;
+      
+      button {
+        color: #fff;
+      }
+    }
+
+
+
+    button {
+      color: #9c9c9c;
+      font-weight: 600;
+      padding: 0 0 0 15px;
+
+      
+      i {
+        margin-right: 10px;
+      }
+    }
+  }  
+}

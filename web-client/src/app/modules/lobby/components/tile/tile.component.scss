@@ -1,0 +1,51 @@
+:host {
+  display: block;
+
+  div:first-child {
+    position: relative;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    box-sizing: border-box;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform ease-in-out .2s;
+
+    .content-wrapper {
+      margin: 0 auto;
+      padding: 0 30px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    div:first-child {
+      position: absolute;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      transition: background-color ease-in-out .2s;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 1px 1px rgba(0,0,0,0.12), 
+      0 2px 2px rgba(0,0,0,0.12), 
+      0 4px 4px rgba(0,0,0,0.12), 
+      0 8px 8px rgba(0,0,0,0.12),
+      0 16px 16px rgba(0,0,0,0.12);
+
+      .content-wrapper {
+        background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0) 100%);
+      }
+    }
+  }
+
+  
+}
+

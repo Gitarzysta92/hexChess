@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import { SigninCredentials, User } from '../../models/user';
 
 
 const headers = new HttpHeaders();
@@ -10,10 +11,7 @@ headers.append('Content-Type', 'x-www-form-urlencoded');
 
 
 
-interface SigninCredentials {
-  email: string;
-  password: string;
-}
+
 
 
 @Injectable({
@@ -46,6 +44,14 @@ export class UserService {
     localStorage.removeItem('token');
   }
 
+  public authenticateGuest(nickname: string): Observable<string> {
+    return this._httpClient.post('http://localhost:3000/authenticate-guest', { nickname }, { headers, responseType: "text" })
+      .pipe(tap(result => {
+        this.token = result
+        localStorage.setItem('token', this.token);
+      }));
+  }
+
 
   public refreshToken() {
     return this._httpClient.get('http://localhost:3000/refresh-token', { headers, responseType: "text" })
@@ -70,16 +76,11 @@ export class UserService {
     return this._httpClient.get<User>(`http://localhost:3000/profile?${query}`);
   }
 
-}
-
-
-class User {
-  nickname: string;
-  email: string;
-  password: string;
-  constructor(userData: SigninCredentials & { nickname: string }) {
-    this.nickname = userData.nickname
-    this.email = userData.email;
-    this.password = userData.password;
+  public isProfileExists(queryData: { nickname: string } | { email: string }): Observable<boolean> {
+    const query = Object.entries(queryData).reduce((acc, data) => {
+      const [ key, value ] = data;
+      return `${acc.length > 0 ? '&' + acc : acc }${key}=${value}`
+    }, "");
+    return this._httpClient.get<boolean>(`http://localhost:3000/profile/exists?${query}`);
   }
 }

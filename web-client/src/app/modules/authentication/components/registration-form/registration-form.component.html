@@ -1,0 +1,34 @@
+<reactive-form #form (onSubmit)="submitForm($event)">
+
+  <text-input #nickname required name="nickname" placeholder="Nickname" [config]="formConfig.nickname">
+    <div class="icon-wrapper">
+      <i *ngIf="(nickname.status === 'VALID' && nickname.value)" name="approve"></i>
+      <div circle-spinner *ngIf="(nickname.status === 'PENDING' && nickname.value)"></div>
+      <i *ngIf="(nickname.status === 'INVALID' && nickname.value)" name="disapprove"></i>
+    </div>
+  </text-input>
+
+  <text-input #email required name="email" placeholder="Email" [config]="formConfig.email">
+    <div class="icon-wrapper">
+      <i *ngIf="email.control.status === 'VALID' && email.value" name="approve"></i>
+      <div circle-spinner *ngIf="email.control.status === 'PENDING' && email.value"></div>
+      <i *ngIf="email.control.status === 'INVALID' && email.value" name="disapprove"></i>
+    </div>
+  </text-input>
+
+  <text-input #password required text-hidden name="password" placeholder="Password" [config]="formConfig.password">
+    <button type="button" class="blank-btn" (click)="password.toggleTextVisibility();">
+      <i *ngIf="password.textHidden" name="reveal"></i>
+      <i *ngIf="!password.textHidden" name="hide"></i>
+    </button>
+  </text-input>
+
+  <checkbox-input required name="consent">
+    <span [innerHTML]="policies.login"></span>
+  </checkbox-input>
+
+  <button btn type="submit" [loader]="processing" [disabled]="!form.valid">
+    Register <i name="registration"></i>
+  </button>
+</reactive-form>
+

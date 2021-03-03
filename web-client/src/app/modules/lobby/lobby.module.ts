@@ -1,18 +1,27 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MainMenuViewComponent } from './components/main-menu-view/main-menu-view.component';
-import { LobbyRoutingModule } from './lobby.routing';
+import { LobbyRoutingModule, ROOT_PATH, routes } from './lobby.routing';
+import { LobbyViewComponent } from './components/lobby-view/lobby-view.component';
+import { TileComponent } from './components/tile/tile.component';
+import { GameSharedModule } from '../game/game.module';
+import { NotificationsSharedModule } from '../notifications/notifications.module';
 
 
 
 @NgModule({
   declarations: [
-    MainMenuViewComponent
+    LobbyViewComponent,
+    TileComponent,
   ],
   imports: [
     SharedModule,
-    LobbyRoutingModule
+    LobbyRoutingModule,
+    GameSharedModule,
+    NotificationsSharedModule
   ],
   providers: []
 })
-export class LobbyModule { }
+export class LobbyModule {
+  static path = ROOT_PATH;
+  static routes = routes;
+}

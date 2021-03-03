@@ -3,50 +3,63 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { LobbyModule } from './modules/lobby/lobby.module';
-import { GameModule } from './modules/game/game.module';
 import { MatchmakingModule } from './modules/matchmaking/matchmaking.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { NotFoundViewComponent } from './core/components/not-found-view.component';
+import { MainViewComponent } from './core/components/main-view/main-view.component';
+import { MenuService } from './core/services/menu-service/menu.service';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { CustomViewComponent } from './core/components/custom-view/custom-view.component';
+import { GameModesModule } from './modules/game-modes/game-modes.module';
+import { GameplayModule } from './modules/gameplay/gameplay.module';
+
 
 
 const routes: Routes = [
   { path: '', 
     canActivate: [AuthenticationGuard],
     data: {
-      onFailurePath: 'account'
+      onFailurePath: AuthenticationModule.path
     },
     children: [
-      { path: '', pathMatch:'full', redirectTo:'lobby' },
-      { path: 'lobby', loadChildren: () => LobbyModule },
-      { path: 'profile', loadChildren: () => ProfileModule },
-      { path: 'game', loadChildren: () => GameModule },
-      { path: 'matchmaking', loadChildren: () => MatchmakingModule }
+      { 
+        path: '', 
+        component: MainViewComponent,
+        children: [
+          { path: '', pathMatch:'full', redirectTo: LobbyModule.path },
+          { path: LobbyModule.path, loadChildren: () => LobbyModule },
+          { path: ProfileModule.path, loadChildren: () => ProfileModule },
+          { path: GameModesModule.path, loadChildren: () => GameModesModule },
+          { path: NotificationsModule.path, loadChildren: () => NotificationsModule }
+        ]
+      },
+      { path: MatchmakingModule.path, loadChildren: () => MatchmakingModule },
+      { path: GameplayModule.path, loadChildren: () => GameplayModule }
     ]
   },
-  { path: 'account', loadChildren: () => AuthenticationModule }
+  { path: AuthenticationModule.path, loadChildren: () => AuthenticationModule },
+  { path: '**', component: NotFoundViewComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, {
+    relativeLinkResolution: 'corrected',
+    paramsInheritanceStrategy: 'always'
+  })],
+  exports: [RouterModule],
+  providers: [MenuService]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+  constructor(
+    private readonly _menuService: MenuService
+  ) {
+    this._menuService.register([ 
+      LobbyModule, 
+      ProfileModule, 
+      MatchmakingModule,
+      AuthenticationModule,
+      NotificationsModule
+    ])
+  }
+}
 
-
-
-
-// const routes: Routes = [
-//   { path: '', 
-//     canActivate: [AuthenticationGuard],
-//     data: {
-//       onFailurePath: 'login'
-//     },
-//     children: [
-//       { path: '', pathMatch:'full', redirectTo:'main-menu' },
-//       { path: 'main-menu', component: MainMenuViewComponent },
-//       { path: 'searching', component: LoadingViewComponent },
-//       { path: 'play/:roomId', component: PlayViewComponent }
-//   ]},
-//   { path: 'account',  loadChildren: () => AuthenticationModule }
-//   { path: 'login', component: LoginViewComponent },
-//   { path: 'registration', component: RegistrationViewComponent }
-// ];

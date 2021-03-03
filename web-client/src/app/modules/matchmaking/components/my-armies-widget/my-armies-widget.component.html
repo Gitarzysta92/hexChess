@@ -1,0 +1,6 @@
+<armies-select 
+  [state]="(selectedArmies | async)" 
+  [armiesLimit]="armiesLimit" 
+  (selected)="updateSelectedArmies($event)">
+</armies-select>
+

@@ -1,32 +1,27 @@
-<div class="container">
-  <div class="row">
-    <div class="column">
-      <form [formGroup]="loginForm" (ngSubmit)="authenticate($event)">
-          <div class="input-wrapper">
-            <label for="login">Login</label>
-            <input type="text" name="login" formControlName="login" />
-            <span></span>
-          </div>
-          <div class="input-wrapper">
-            <label for="password">Password</label>
-            <input type="text" name="password" formControlName="password"/>
-          </div> 
-          <button class="login-form" type="submit" [disabled]="processing">Sign in</button>
-      </form>
+<div class="flex-container_center_center fh ">
+  <div class="panel">
+    <div class="panel-header">
+      Hex chess
+    </div>
+    <div class="panel-menu">
+      <a class="btn-blank" routerLinkActive="active" routerLink="user">User</a>
+      <a class="btn-blank" routerLinkActive="active" routerLink="guest">Guest</a>
+    </div>
+    <div class="panel-content" [@routeAnimations]="prepareRoute(outlet)">
+      <router-outlet #outlet="outlet" (activate)="onOutletLoaded($event)"></router-outlet>
+      <div class="notifications-container">
+        <notification *ngFor="let notify of notifications" [apperance]="notify.apperance" [duration]="5000" (closed)="removeNotify(notify)">
+          <i slot="icon" name="{{ notify.icon }}"></i>
+          <p slot="content" [innerHTML]="notify.content"></p>
+        </notification>
+      </div>
     </div>
   </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="column">
-      <button type="button" (click)="navigateToRegistration()">Sign up</button>
-    </div>
+  <div class="panel-footer">
+    <a class="link" routerLink="../sign-up">Sign-up</a>
+    <span class="separator">-</span>
+    <a class="link" routerLink="../recovery">Lost password?</a>
   </div>
 </div>
-<div class="container">
-  <div class="row">
-    <div class="column">
-      <button type="button" (click)="navigateToPasswordRecovery()">Lost password?</button>
-    </div>
-  </div>
-</div>
+
+

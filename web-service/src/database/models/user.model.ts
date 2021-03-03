@@ -5,6 +5,7 @@ import {
   PrimaryKey,
   HasMany,
   HasOne,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import { Profile } from './profile.model';
 
@@ -19,6 +20,8 @@ export interface IUser {
 
 @Table
 export class User extends Model<User> implements IUser {
+
+  @AutoIncrement
   @PrimaryKey
   @Column
   id: number;

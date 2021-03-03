@@ -1,0 +1,50 @@
+
+<div class="container-fluid game-modes tiles-wrapper">
+  <div class="row">
+    <div class="column-2">
+      <tile [backgroundImage]="'./assets/images/duel.jpg'" [delay]="0" (click)="startDuel()">
+        <h4>Duel <small>Quickmatch</small></h4>
+        <p>Suspendisse nunc velit, dictum a lacus non, facilisis pulvinar libero. Curabitur odio ante, consequat nec felis vitae, dapibus dictum ligula. Ut faucibus porta velit ut mollis.</p>
+      </tile>
+    </div>
+    <div class="column-2">
+      <tile [backgroundImage]="'./assets/images/triple.jpg'" [delay]="75" (click)="startDuel()">
+        <h4>Triple <small>Quickmatch</small></h4>
+        <p>Suspendisse nunc velit, dictum a lacus non, facilisis pulvinar libero. Curabitur odio ante, consequat nec felis vitae, dapibus dictum ligula. Ut faucibus porta velit ut mollis.</p>
+      </tile>
+    </div>
+    <div class="column-2">
+      <tile [backgroundImage]="'./assets/images/quad.jpg'" [delay]="150" (click)="startDuel()">
+        <h4>Quad <small>Quickmatch</small></h4>
+        <p>Suspendisse nunc velit, dictum a lacus non, facilisis pulvinar libero. Curabitur odio ante, consequat nec felis vitae, dapibus dictum ligula. Ut faucibus porta velit ut mollis.</p>
+      </tile>
+    </div>
+    <div class="column-4">
+      <tile [backgroundImage]="'./assets/images/custom.jpg'" [delay]="225" (click)="startDuel()">
+        <h4><small>Create</small>Custom Game</h4>
+        <p>Suspendisse nunc velit, dictum a lacus non, facilisis pulvinar libero. Curabitur odio ante, consequat nec felis vitae, dapibus dictum ligula. Ut faucibus porta velit ut mollis.</p>
+      </tile>
+    </div>
+  </div>
+</div>
+<div class="container-fluid widgets" [@slideIn] (@slideIn.done)="showGames = true">
+  <div class="row">
+    <div class="column-5">
+      <div class="toper">
+        <span>Games history</span> <div class="separator"></div>
+      </div>
+      <div class="played-games">
+        <my-games-widget *ngIf="showGames" (ready)="showNotifications = true"></my-games-widget>
+      </div>    
+    </div>
+    <div class="column-5">
+      <div class="toper">
+        <div class="separator"></div><span>Notifications</span> 
+      </div>
+      <div class="latest-notifications">
+        <notifications-widget *ngIf="showNotifications"></notifications-widget>
+      </div>   
+    </div>
+  </div>
+</div>
+

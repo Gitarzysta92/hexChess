@@ -46,7 +46,7 @@ export class MatchmakingRequest extends EventEmitter<MatchmakingRequestResolvedE
     this.gameType = criteria.gameType;
     this.playersNumber = criteria.players;
 
-    this._state = new StateContainer([CONFIRMATION, CONFIRMED, RESOLVED, REJECTED ], CONFIRMATION);
+    this._state = new StateContainer(CONFIRMATION, [CONFIRMATION, CONFIRMED, RESOLVED, REJECTED ]);
     this._emitReadinessCheck();
 
     this._state.changed.subscribe(state => {

@@ -34,7 +34,7 @@ export class MatchmakingHandler extends EventEmitter<MatchmakingSuccessEvent | M
   constructor(private readonly uuid: Function) {
     super();
     this._uuid = uuid;
-    this._state = new StateContainer([ SUCCESS, FAILURE, PENDING ], PENDING);
+    this._state = new StateContainer(PENDING, [ SUCCESS, FAILURE, PENDING ]);
   }
 
   public initialize(config: MatchmakingConfig): void {
@@ -66,6 +66,8 @@ export class MatchmakingHandler extends EventEmitter<MatchmakingSuccessEvent | M
     this._setSuccessOnAllRequestsMatched();
     this._setFailureOnTimeout();
   }
+
+  
 
 
   private _emitSuccess(): void {

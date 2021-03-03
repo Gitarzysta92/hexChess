@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "web-service"
+		},
+		{
+			"path": "web-client"
+		},
+		{
+			"path": "core"
+		},
+		{
+			"path": "libs"
+		}
+	],
+	"settings": {}
+}

@@ -44,7 +44,7 @@ export declare class StateContainer<T> {
     get value(): T;
     changed: Subject<T>;
     private _currentState;
-    private _states;
-    constructor(states: T[], initial: T);
+    private _states?;
+    constructor(initial: T, states?: T[]);
     set(value: T): void;
 }

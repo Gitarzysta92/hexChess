@@ -1,0 +1,14 @@
+<div class="notification {{ apperance }}">
+  <div class="row">
+    <div class="column-2 flex_center-center icon">
+      <ng-content select="[slot=icon]"></ng-content>
+    </div>
+    <div class="column-6">
+      <ng-content select="[slot=content]"></ng-content>
+    </div>
+  </div>
+  <button class="blank-btn crossbar" (click)="emitCloseEvent()">
+    <span class="oi" data-glyph="x"></span>
+  </button>
+  <div [@progressBar]="{ value: ':enter', params: { time: duration }}" class="progress-bar"></div>
+</div>

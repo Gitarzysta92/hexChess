@@ -1,0 +1,15 @@
+<reactive-form #form (onSubmit)="submitForm($event)">
+  <text-input #nickname required name="nickname" placeholder="Nickname">
+    <div class="icon-wrapper">
+      <i *ngIf="(nickname.status === 'VALID' && nickname.value)" name="approve"></i>
+      <div circle-spinner *ngIf="(nickname.status === 'PENDING' && nickname.value)"></div>
+      <i *ngIf="(nickname.status === 'INVALID' && nickname.value)" name="disapprove"></i>
+    </div>
+  </text-input>
+  <button btn type="submit" [loader]="processing" [disabled]="!form.valid">
+    Join <i name="login"></i>
+  </button>
+</reactive-form>
+  
+
+

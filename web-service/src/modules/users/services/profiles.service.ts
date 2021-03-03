@@ -2,9 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { User } from 'src/database/models/user.model';
-import { UserDto } from '../models/userDto';
 import { ProfileDto } from '../models/profileDto';
 import { Profile } from 'src/database/models/profile.model';
+
+
+export class ServiceException {
+  public status: string;
+  public error: Error;
+  constructor(data: ServiceException) {
+    this.status = data.status;
+    this.error = data.error;
+  }
+}
+
+
 
 @Injectable()
 export class ProfilesService {
@@ -15,8 +26,24 @@ export class ProfilesService {
   ) {}
 
 
-  public async search(profile: { [key: string]: string }) {
-    return await this.profile.findOne({ where: { ...profile } });
+  public async search(profile: { [key: string]: string }): Promise<ProfileDto> {
+
+    const validKeys = Object.keys(Profile.rawAttributes).concat(Object.keys(User.rawAttributes));
+    const isQueryValid = Object.keys(profile).every(key => validKeys.some(vk =>  vk === key));
+
+    if(!isQueryValid) throw new ServiceException({
+      status: 'dupa',
+      error: new Error()
+    })
+
+    const result = await this.profile.findOne({
+      having: { ...profile },
+      include: [
+        { model: User, required: true}
+      ]
+    });
+
+    return result ? new ProfileDto(result) : null;
   }
 
 

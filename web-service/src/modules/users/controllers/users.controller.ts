@@ -25,17 +25,16 @@ export class UsersController {
 
   
   @Put()
-  async createUser(@Body() body: UserDto) {
+  async createUser(@Body() body: UserDto & { nickname: string }) {
     const user = new UserDto({
       email: body.email,
       password: body.password,
-      nickname: body.nickname,
     });
 
     const { id: userId } = await this._usersService.createUser(user);
     if (!userId) return;
 
-    return await this._profilesService.createProfile(userId, user.nickname);
+    return await this._profilesService.createProfile(userId, body.nickname);
   }
 
   @UseGuards(JwtAuthGuard)

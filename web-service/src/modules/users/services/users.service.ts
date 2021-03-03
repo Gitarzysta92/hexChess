@@ -34,7 +34,7 @@ export class UsersService {
       );
     });
 
-    return createdUser;
+    return new UserDto(createdUser);
   }
 
   async createMany() {

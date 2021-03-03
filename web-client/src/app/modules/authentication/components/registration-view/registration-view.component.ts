@@ -1,40 +1,61 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { User } from 'src/app/core/models/user';
 import { RoutingService } from 'src/app/core/services/routing-service/routing.service';
 import { UserService } from 'src/app/core/services/user-service/user.service';
-import { ValidatrosAsync } from 'src/app/shared/validators/unique.validator';
+
+import { AuthNotifications, NotificationsToken } from '../../constants/notifications';
+import { AuthPolicies, PoliciesToken } from '../../constants/policies';
 
 
 @Component({
-  selector: 'app-registration-view',
   templateUrl: './registration-view.component.html',
   styleUrls: ['./registration-view.component.scss']
 })
 export class RegistrationViewComponent implements OnInit {
 
-   public form: FormGroup;
+  public notifications: Notification[] = [];
+  public notifyDuration: number = 5000;
 
   constructor(
     private readonly _user: UserService,
-    private readonly _formBuilder: FormBuilder,
-    private readonly _routing: RoutingService
-  ) { 
-    this.form = this._formBuilder.group({
-      nickname: ["", Validators.required, ValidatrosAsync.unique(nickname => this._user.searchProfile({nickname}))],
-      email: ["", Validators.required, ValidatrosAsync.unique(email => this._user.searchProfile({email}))],
-      password: ["", Validators.required]
-    });
-  }
+    private readonly _routing: RoutingService,
+    @Inject(NotificationsToken) private readonly _notification: AuthNotifications,
+    @Inject(PoliciesToken) public readonly policies: AuthPolicies,
+  ) { }
 
   ngOnInit(): void {
   }
 
-  public onSubmit(): void {
-    if (!this.form.valid) return;
-    this._user.register(this.form.value)
+  public registerUser(submission: any): void {
+    const newUser = new User(submission.value as any);
+    this._user.register(newUser)
       .subscribe(result => {
-        this._routing.nagivateToLogin();
+        setTimeout(() => this._routing.nagivateToLogin(), this.notifyDuration);     
+        this._showNotify('200');
+        submission.resolve();
+      }, err => {
+        this._showNotify('404');
+        submission.reject();
       })
+  }
+
+  private _showNotify(err: any): void {
+    let notify;
+
+    switch(err) {
+      case '404':
+        notify = this._notification.badCredentials;
+        break;
+      case '200':
+        notify = this._notification.success;
+        break;
+    };
+    
+    notify && this.notifications.push(notify);
+  }
+
+  public removeNotify(notify: Notification): void {
+    this.notifications = this.notifications.filter(n => n != notify);
   }
 
 }

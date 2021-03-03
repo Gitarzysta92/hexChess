@@ -1,0 +1,44 @@
+:host {
+  position: relative;
+  top: 20px;
+  border-radius: 5px;
+  background-color: #1b1a21;
+  padding: 15px 10px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  
+  .army-item {
+    position: relative;
+    width: 33%;
+    box-sizing: border-box;
+    padding: 5px;
+    font-size: 40px;
+    transition: opacity ease-in-out .2s;
+
+    &:not(.selected).disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    &:not(.selected) {
+      opacity: 0.5;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+  }
+}
+
+
+.example-list > li {
+  list-style-type: none;
+  padding: 8px 0;
+}
+
+
+.example-list > li:last-child {
+  border-bottom: none;
+}

@@ -1,0 +1,21 @@
+<reactive-form #form (onSubmit)="submitForm($event)">
+
+  <text-input #nickname required name="email" placeholder="Login"></text-input>
+
+  <text-input #password required text-hidden name="password" placeholder="Password">
+    <button type="button" class="blank-btn" (click)="password.toggleTextVisibility();">
+      <i *ngIf="password.textHidden" name="reveal"></i>
+      <i *ngIf="!password.textHidden" name="hide"></i>
+    </button>
+  </text-input>
+
+  <button btn type="submit" [loader]="processing" [disabled]="!form.valid">
+    Log in <i name="login"></i>
+  </button>
+</reactive-form>
+
+
+
+
+
+
