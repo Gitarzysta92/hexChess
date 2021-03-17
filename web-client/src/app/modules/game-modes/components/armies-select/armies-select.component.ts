@@ -1,10 +1,9 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { concatMap, distinct, map, pairwise, takeUntil, tap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
+import { distinct, map, pairwise } from 'rxjs/operators';
 import { ICONS, IconsToken } from 'src/app/constants/icons';
 import { Army } from 'src/app/core/models/army';
-import { UtilityService } from 'src/app/core/services/utility-service/utility.service';
 import { HexagonColors } from 'src/app/shared/components/hexagon/hexagon.component';
 import { PanelOverlayComponent } from 'src/app/shared/components/panel-overlay/panel-overlay.component';
 import { StateContainer } from 'utils';

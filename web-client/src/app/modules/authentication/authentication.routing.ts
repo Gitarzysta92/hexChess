@@ -4,6 +4,7 @@ import { ICONS } from 'src/app/constants/icons';
 import { MenuLocations } from 'src/app/constants/menu-locations.enum';
 import { GuestFormComponent } from './components/guest-form/guest-form.component';
 import { LoginViewComponent } from './components/login-view/login-view.component';
+import { LogoutViewComponent } from './components/logout-view/logout-view.component';
 import { PasswordRecoveryViewComponent } from './components/password-recovery-view/password-recovery-view.component';
 import { PasswordResetViewComponent } from './components/password-reset-view/password-reset-view.component';
 import { RegistrationViewComponent } from './components/registration-view/registration-view.component';
@@ -35,7 +36,7 @@ export const routes: Routes = [
     },
     
   ]},
-  { path: 'log-out', component: LoginViewComponent, data: { menu: { location: MenuLocations.SecondaryMenu, label: 'Logout', icon: ICONS.logout } } }  
+  { path: 'log-out', component: LogoutViewComponent, data: { menu: { location: MenuLocations.SecondaryMenu, label: 'Logout', icon: ICONS.logout } } }  
 ];
 
 @NgModule({

@@ -39,12 +39,15 @@ export class ExpandableListComponent implements OnInit {
     if (Array.isArray(this.data)) this.dataForView = this.data;
   }
 
-  public toggleItem(event: Event, item: ExpandableListItem, state?: boolean): void {
+  public toggleItem(event: Event, item: ExpandableListItem, forHoover?: boolean): void {
     event.preventDefault();
     if (item.settled === true) return;
-    item.expanded = state || !item.expanded;
+    if (forHoover) {
+      item.expanded = event.type === 'mouseenter';
+    } else {
+      item.expanded = !item.expanded;
+    }
   } 
-
 }
 
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RoutingService } from 'src/app/core/services/routing-service/routing.service';
 import { GameSessionService } from 'src/app/modules/matchmaking/services/game-session/game-session.service';
 
 
@@ -17,7 +18,8 @@ export class PlayViewComponent implements OnInit {
 
   constructor(
     private readonly _gameSession: GameSessionService,
-    private readonly _route: ActivatedRoute
+    private readonly _route: ActivatedRoute,
+    private readonly _routingService: RoutingService
   ) { }
 
   ngOnInit(): void {
@@ -26,6 +28,10 @@ export class PlayViewComponent implements OnInit {
 
   public sendMessage(): void {
     this._gameSession.sendMessage(this.roomId);
+  }
+
+  public navigateToLobby(): void {
+    this._routingService.navigateToLobby();
   }
 
 }

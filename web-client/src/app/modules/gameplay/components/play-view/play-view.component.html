@@ -1,10 +1,13 @@
 <button (click)="sendMessage()">test web socket</button>
+<button (click)="navigateToLobby()">leave game</button>
 
-<div class="container" cdkDropListGroup>
-  <div class="sidebar">
-    <player-board></player-board>
-  </div>
-  <div class="main">
-    <game-board></game-board>
-  </div>
+<div class="container-fluid" cdkDropListGroup>
+  <div class="row">
+    <div class="column-3">
+      <player-board></player-board>
+    </div>
+    <div class="column-7">
+      <game-board></game-board>
+    </div>
+  </div> 
 </div>

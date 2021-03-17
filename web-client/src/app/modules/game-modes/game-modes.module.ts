@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ArmiesSelectComponent } from './components/armies-select/armies-select.component';
 import { ArmyPickerComponent } from './components/army-picker/army-picker.component';
-import { LoadingViewComponent } from './components/loading-view/loading-view.component';
-import { MatchmakingRoutingModule, ROOT_PATH, routes } from './game-modes.routing';
-import { GameSessionService } from './services/game-session/game-session.service';
 import { MyArmiesWidgetComponent } from './components/my-armies-widget/my-armies-widget.component';
 import { SelectedArmyWidgetComponent } from './components/selected-army-widget/selected-army-widget.component';
-import { ArmyBadgeComponent } from './components/army-badge/army-badge.component';
-import { MatchmakingViewComponent } from './components/matchmaking-view/matchmaking-view.component';
-import { ArmiesSelectComponent } from './components/armies-select/armies-select.component'
+import { GameModesRoutingModule, ROOT_PATH, routes } from './game-modes.routing';
+import { GameModeTileComponent } from './components/game-mode-tile/game-mode-tile.component';
 
 
 
@@ -17,9 +14,8 @@ import { ArmiesSelectComponent } from './components/armies-select/armies-select.
     ArmyPickerComponent,
     MyArmiesWidgetComponent,
     SelectedArmyWidgetComponent,
-    ArmyBadgeComponent,
     ArmiesSelectComponent,
-    
+    GameModeTileComponent,
   ],
   imports: [
     SharedModule,
@@ -27,23 +23,22 @@ import { ArmiesSelectComponent } from './components/armies-select/armies-select.
   exports: [
     ArmyPickerComponent,
     MyArmiesWidgetComponent,
-    SelectedArmyWidgetComponent
+    SelectedArmyWidgetComponent,
+    GameModeTileComponent,
   ]
 })
 export class GameModesSharedModule { }
 
 @NgModule({
   declarations: [
-    LoadingViewComponent,
-    MatchmakingViewComponent,
+
   ],
   imports: [
-    MatchmakingRoutingModule,
+    GameModesRoutingModule,
     GameModesSharedModule,
     SharedModule,
   ],
   providers: [
-    GameSessionService
   ]
 })
 export class GameModesModule { 

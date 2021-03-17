@@ -1,11 +1,8 @@
 import { animate, animateChild, group, query, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { timeout } from 'rxjs/operators';
-import { Army } from '../../models/army';
 import { MyProfileStore } from '../../services/profile.store';
 import { RoutingService } from '../../services/routing-service/routing.service';
-import { UserService } from '../../services/user-service/user.service';
 
 @Component({
   selector: 'custom-view',

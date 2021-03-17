@@ -1,1 +1,32 @@
-<p>matchmaking-view works!</p>
+<div class="container flex_center-center fh">
+  <div class="row">
+    <div class="column-3" *ngIf="false">
+      <player-badge avatar="top"></player-badge>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column-3">
+      <player-badge avatar="left" [player]="myProfile"></player-badge>
+    </div>
+    <div class="column-4">
+      <ng-container *ngIf="!ready">
+        <h2>Duel <br><small>Quickmatch</small></h2>
+        <button btn class="blue">Abandon match</button>
+      </ng-container>
+      <ng-container *ngIf="ready">
+        <h2 *ngIf="ready">Starting game</h2>
+        <div circle-spinner></div>
+      </ng-container> 
+    </div>
+    <div class="column-3">
+      <player-badge avatar="right" [player]="oponent"></player-badge>
+    </div>  
+  </div>
+  <div class="row">
+    <div class="column-3" *ngIf="false">
+      <player-badge avatar="top"></player-badge>
+    </div>
+  </div>
+</div>
+
+

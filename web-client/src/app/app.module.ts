@@ -17,6 +17,7 @@ import { ProfileSharedModule } from './modules/profile/profile.module';
 import { MainMenuComponent } from './core/components/main-menu/main-menu.component';
 import { SecondaryMenuComponent } from './core/components/secondary-menu/secondary-menu.component';
 import { CustomViewComponent } from './core/components/custom-view/custom-view.component';
+import { GameModesSharedModule } from './modules/game-modes/game-modes.module';
 
 
 
@@ -42,6 +43,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {
     SharedModule,
     AppRoutingModule,
     MatchmakingSharedModule,
+    GameModesSharedModule,
     ProfileSharedModule,
     SocketIoModule.forRoot(config)
   ],

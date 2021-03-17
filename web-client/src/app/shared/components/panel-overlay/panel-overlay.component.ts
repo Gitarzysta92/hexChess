@@ -47,7 +47,7 @@ export class PanelOverlayComponent implements OnInit, OnDestroy {
 
   @Input() origin: PanelOrigin
 
-  @Input() hideOnMouseLeave: boolean =false
+  @Input() hideOnMouseLeave: boolean = false;
 
   constructor() { }
 

@@ -3,31 +3,31 @@ import { Observable, of } from 'rxjs';
 import { Army } from '../../models/army';
 
 
-const armies = [
+export const armies = [
   {
     id: 1,
     colors: {
-      primary: '#30c2ff',
-      secondary: '#1a406b',
-      tertiary: '#0578fa'
+      outer: '#30c2ff',
+      inner: '#1a406b',
+      stroke: '#0578fa'
     },
     icon: 'borgo'
   },
   {
     id: 2,
     colors: {
-      primary: '#edb316',
-      secondary: '#ab4a03',
-      tertiary: '#ff7404'
+      outer: '#edb316',
+      inner: '#ab4a03',
+      stroke: '#ff7404'
     },
     icon: 'hegemony'
   },
   {
     id: 3,
     colors: {
-      primary: "#bababa",
-      secondary: "#3d3d3d",
-      tertiary: "#767676"
+      outer: "#bababa",
+      inner: "#3d3d3d",
+      stroke: "#767676"
     },
     icon: 'random'
   }

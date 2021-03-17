@@ -3,13 +3,8 @@ import { NavigationEnd, Router, Routes } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuLocations } from '../../../constants/menu-locations.enum';
+import { AbstractModule } from '../../models/AbstractModule';
 import { Menu, MenuItem } from '../../models/menu';
-
-interface MenuDeclaration {
-  path: string;
-  routes: Routes
-}
-
 
 
 @Injectable({
@@ -27,6 +22,41 @@ export class MenuService {
     this._items = [];
     this._locations = MenuLocations;
 
+    this._initializeMenus();
+    this._startListeningForNavigationOccured();
+  }
+
+  public getMenuData(location: MenuLocations): Observable<Menu> {
+    const menu = this._menus[location]
+    if (!menu) throw new Error(`Menu for given location: ${this._locations[location]}, doesn't exists`);
+    return this._menus[location].provider
+  } 
+
+
+  public register(declarations: Array<typeof AbstractModule>): void {
+    declarations.forEach(d => {
+      d.routes.forEach(r => {
+        const menu = this._menus[r.data?.menu?.location];
+        if (!menu) return;
+
+        const item = this._createMenuItem(r, d.path);
+        this._items.push(item);
+        menu.data.items.push(item);
+      });
+    })
+  }
+
+  private _startListeningForNavigationOccured(): void {
+    this._router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        const items = this._matchItems(event.url);
+        this._setItemsAsActive(items);
+        this._emitChangesForItems(items);
+      });
+  }
+
+  private _initializeMenus(): void {
     Object.keys(this._locations).forEach(key => {
       if (isNaN(Number(key))) return;
       const menu = new Menu({
@@ -40,34 +70,6 @@ export class MenuService {
         provider: new BehaviorSubject(menu)
       }
     });
-
-    this._router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        const items = this._matchItems(event.url);
-        this._setItemsAsActive(items);
-        this._emitChangesForItems(items);
-      });
-  }
-
-  public getMenuData(location: MenuLocations): Observable<Menu> {
-    const menu = this._menus[location]
-    if (!menu) throw new Error(`Menu for given location: ${this._locations[location]}, doesn't exists`);
-    return this._menus[location].provider
-  } 
-
-
-  public register<T extends MenuDeclaration>(declarations: Array<T>): void {
-    declarations.forEach(d => {
-      d.routes.forEach(r => {
-        const menu = this._menus[r.data?.menu?.location];
-        if (!menu) return;
-
-        const item = this._createMenuItem(r, d.path);
-        this._items.push(item);
-        menu.data.items.push(item);
-      });
-    })
   }
 
   private _createMenuItem(route: any, rootPath: string = ''): StandaloneMenuItem {

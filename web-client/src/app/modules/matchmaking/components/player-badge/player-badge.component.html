@@ -1,0 +1,29 @@
+<ng-container *ngIf="player else waitingForPlayer">
+  <div class="badge" [ngClass]="avatar">
+    <div class="player-avatar flex_center-center">
+      <div>
+        <img src='{{ player.avatar }}' />
+      </div>
+    </div>
+    <army-badge class="badge" [setup]="player.army"></army-badge>
+  </div>
+  <div class="badge-label">
+    <strong>{{ player.name }}</strong><br>
+    <strong><small>Ready</small></strong>
+  </div>
+</ng-container>
+
+
+
+<ng-template #waitingForPlayer>
+  <div class="badge">
+    <hexagon>
+      <div class="badge-inner flex_center-center">
+        <div circle-spinner></div>
+      </div>
+    </hexagon>
+    <div class="badge-label">
+      <strong>waiting <br>for player</strong>
+    </div>
+  </div>
+</ng-template>

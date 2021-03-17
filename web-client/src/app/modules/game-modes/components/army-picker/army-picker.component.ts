@@ -1,7 +1,6 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Army, ArmyColors } from 'src/app/core/models/army';
-import { MyProfileService } from 'src/app/core/services/profile-service/profile.service';
+import { Army } from 'src/app/core/models/army';
 import { UtilityService } from 'src/app/core/services/utility-service/utility.service';
 
 @Component({

@@ -11,6 +11,7 @@ import { PasswordResetViewComponent } from './components/password-reset-view/pas
 import { SessionExpiredViewComponent } from './components/session-expired-view/session-expired-view.component';
 import { NotificationsToken, notifications } from './constants/notifications';
 import { policies, PoliciesToken } from './constants/policies';
+import { LogoutViewComponent } from './components/logout-view/logout-view.component';
 
 
 
@@ -25,7 +26,7 @@ import { policies, PoliciesToken } from './constants/policies';
     GuestFormComponent,
     RegistrationFormComponent,  
     PasswordResetViewComponent, 
-    SessionExpiredViewComponent
+    SessionExpiredViewComponent, LogoutViewComponent
   ],
   imports: [
     SharedModule,

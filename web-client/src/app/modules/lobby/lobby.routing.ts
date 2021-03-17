@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MenuLocations } from 'src/app/constants/menu-locations.enum';
+import { AbstractModule } from 'src/app/core/models/AbstractModule';
 import { LobbyViewComponent } from './components/lobby-view/lobby-view.component';
 
 

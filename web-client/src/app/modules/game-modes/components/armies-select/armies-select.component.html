@@ -5,7 +5,7 @@
   </hexagon>
 </div>
 
-<panel-overlay #panel [origin]="armyPanelOrigin">
+<panel-overlay #panel [origin]="armyPanelOrigin" [hideOnMouseLeave]="true">
   <army-picker 
     [selected]="panel.context ? [panel.context] : []"
     [disabled]="armies"

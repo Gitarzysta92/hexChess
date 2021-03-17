@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { ROOT_PATH, routes } from "./notifications.routing";
 import { NotificationsViewComponent } from './components/notifications-view/notifications-view.component';
-import { Route } from "@angular/compiler/src/core";
 import { NotificationWidgetComponent } from "./components/notification-widget/notification-widget.component";
 import { SharedModule } from "src/app/shared/shared.module";
+import { AbstractModule } from "src/app/core/models/AbstractModule";
 
 
 
@@ -31,7 +31,7 @@ export class NotificationsSharedModule { }
     NotificationsSharedModule 
   ]
 })
-export class NotificationsModule { 
+export class NotificationsModule extends AbstractModule { 
   static path = ROOT_PATH;
   static routes = routes;
 }

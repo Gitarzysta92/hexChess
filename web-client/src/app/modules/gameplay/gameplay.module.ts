@@ -5,8 +5,9 @@ import { BoardComponent } from './components/board/board.component';
 import { MyGamesWidgetComponent } from './components/my-games-widget/my-games-widget.component';
 import { PlayViewComponent } from './components/play-view/play-view.component';
 import { PlayerBoardComponent } from './components/player-board/player-board.component';
-import { GameplayRoutingModule } from './gameplay.routing';
+import { GameplayRoutingModule, ROOT_PATH, routes } from './gameplay.routing';
 import { BoardService } from './services/board-service/board.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -34,6 +35,7 @@ export class GameplaySharedModule { }
   ],
   imports: [
     SharedModule,
+    DragDropModule,
     GameplayRoutingModule
   ],
   providers: [
@@ -41,5 +43,6 @@ export class GameplaySharedModule { }
   ]
 })
 export class GameplayModule { 
-  static path = ''
+  static path = ROOT_PATH;
+  static routes = routes;
 }

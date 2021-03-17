@@ -1,19 +1,19 @@
 <ng-container *ngIf="dataLoaded else loader">
-  <div class="container">
+  <div class="container fh">
     <header>
       <div class="flex-container_center_center fh ">
         <div class="row">
           <div class="column-3 armies">
-            <my-armies-widget [@slideIn]="{ value: state ? 'visible' : 'hidden', params: { delay: 50 }}"></my-armies-widget>
+            <my-armies-widget [@slideIn]="{ value: dataLoaded, params: { delay: 50 }}"></my-armies-widget>
           </div>
           <div class="column-7 navigation">
-            <main-menu [@slideIn]="{ value: state ? 'visible' : 'hidden', params: { delay: 125 }}"></main-menu>
+            <main-menu [@slideIn]="{ value: dataLoaded, params: { delay: 125 }}"></main-menu>
             <my-profile-widget 
               #profilePanelOrigin="panel-origin" 
               panel-origin 
               onClick
               [active]="profilePanelOrigin.isOpen" 
-              [@slideIn]="{ value: state ? 'visible' : 'hidden', params: { delay: 200 }}">
+              [@slideIn]="{ value: dataLoaded, params: { delay: 200 }}">
             </my-profile-widget>      
             <panel-overlay [hideOnMouseLeave]="true" [origin]="profilePanelOrigin">
               <secondary-menu></secondary-menu>
@@ -22,7 +22,7 @@
         </div>
       </div>  
     </header>
-    <main [@routeAnimations]="prepareRoute(outlet)">
+    <main [@routeAnimations]="prepareRoute(outlet)" (@routeAnimations.done)="test($event)">
       <router-outlet #outlet="outlet"></router-outlet>
     </main>
     <footer>
@@ -32,9 +32,9 @@
 </ng-container>
 
 <ng-template #loader>
-  <div class="flex-container flex-center_center">
-    <div class="row">
-      <div class="column-10 flex-center_center">
+  <div class="fluid-container fh">
+    <div class="row fh">
+      <div class="column-10 flex_center-center">
         <div circle-spinner></div>
       </div>
     </div>

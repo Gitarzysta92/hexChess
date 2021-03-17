@@ -1,0 +1,75 @@
+
+// Containers
+
+.container {
+  width: 1400px;
+  margin: 0 auto;
+  @media only screen and (max-width: 1600px) { & { width: 1200px } };
+  @media only screen and (max-width: 1300px) { & { width: 100% } };
+}
+
+.fluid-container {
+  width: 100%;
+}
+
+
+// Rows
+.row {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+// Columns
+$columns-number: 10;
+@for $i from 1 through $columns-number {
+  .column-#{$i} {
+    width: $i * 10%;
+  }
+}
+
+
+// Modifiers
+.fh {
+  height: 100%;
+}
+
+
+.flex_center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.flex-container_center_center {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #131217;
+}
+
+
+
+
+
+
+
+
+
+
+
+// @for $i from 1 through $columns-number {
+//   @media only screen and (max-width: ($i*200)px) {
+//     .container {
+//       width: ($i*200 -200)px;
+//     }
+//   }
+// }
+
+

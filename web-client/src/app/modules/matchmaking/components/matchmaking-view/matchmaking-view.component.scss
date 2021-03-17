@@ -1,0 +1,56 @@
+@import './src/scss/colors.scss';
+
+:host { 
+  height: 100%;
+  display: block;
+  background-color: $primary-dark;
+  color: $text-secondary;
+
+  h2 {
+    text-align: center;
+  }
+
+  [class^='column-'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+.container {
+  width: 900px;
+
+  &.flex_center-center {
+    flex-direction: column;
+  }
+
+  .row:first-child {
+    margin-bottom: 10%;
+  }
+
+  .row:last-child {
+    margin-top: 10%;
+  }
+
+  .matchmaking-desc {
+    
+  }
+
+  .blue {
+    display: inline-block;
+    width: auto;
+    background-color: $secondary-dark;
+    color: $text-secondary;
+    padding: 0 30px;
+    font-size: .8em;
+
+    &:hover {
+      background-color: $orange;
+      color: $secondary-dark;
+    }
+  }
+}
+
+

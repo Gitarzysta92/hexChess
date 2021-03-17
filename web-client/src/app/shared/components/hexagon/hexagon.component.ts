@@ -7,7 +7,7 @@ export interface HexagonColors {
 }
 
 
-const defaultColors = {
+const defaultColors: HexagonColors = {
   stroke: '#131217', 
   outer: '#6d3495',
   inner: '#1d0536'

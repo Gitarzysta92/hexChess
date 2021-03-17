@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { map, tap } from 'rxjs/operators';
+import { delay, map, tap } from 'rxjs/operators';
 import { WrappedSocket } from 'src/app/utils/ng-web-sockets/ng-web-sockets.service';
 
  
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class GameSessionService {
  
     constructor(
@@ -25,7 +27,8 @@ export class GameSessionService {
     }
 
     requestForQuickMatch(): Observable<string> {
-        return this._httpClient.get('http://localhost:3000/start/quickmatch', { responseType: 'text'})
+        return of('test').pipe(delay(2000));
+        //return this._httpClient.get('http://localhost:3000/start/quickmatch', { responseType: 'text'})
     }
 
     

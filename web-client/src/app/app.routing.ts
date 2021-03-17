@@ -22,6 +22,8 @@ const routes: Routes = [
       onFailurePath: AuthenticationModule.path
     },
     children: [
+      { path: MatchmakingModule.path, loadChildren: () => MatchmakingModule },
+      { path: GameplayModule.path, loadChildren: () => GameplayModule },
       { 
         path: '', 
         component: MainViewComponent,
@@ -33,8 +35,7 @@ const routes: Routes = [
           { path: NotificationsModule.path, loadChildren: () => NotificationsModule }
         ]
       },
-      { path: MatchmakingModule.path, loadChildren: () => MatchmakingModule },
-      { path: GameplayModule.path, loadChildren: () => GameplayModule }
+      
     ]
   },
   { path: AuthenticationModule.path, loadChildren: () => AuthenticationModule },

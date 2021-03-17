@@ -1,10 +1,13 @@
+
 <div class="game-result" *ngIf="gameSummaries.length === 0">
   No gameSummaries to display
 </div>
 
-<div  *ngFor="let gameSummary of (gameSummaries | async); let i = index" class="game-result">
+<div *ngFor="let gameSummary of (gameSummaries | async); let i = index" class="game-result">
   <i name="{{ gameSummary.victory ? 'win' : 'loose' }}"></i>{{ result ? 'Win' : 'Lost' }}
 </div>
+
+
 
 
 

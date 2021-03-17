@@ -13,56 +13,53 @@
   box-sizing: border-box;
   padding: 10px 0 30px 0;
   height: 90%!important;
-  tile {
-    height: 100%;
-
-    h4 {
-      margin: 30px 0;
-      font-size: 60px;
-      line-height: 1;
-      small {
-        font-size: 0.5em;
-        display: block;
-      }
-    }
-    p {
-      margin: 0;
-      opacity: 0;
-      height: 0;
-      transition: all ease-in-out .2s;
-    }
   
-    &:hover p {
-      margin: 0 0 30px 0;
-      opacity: 1;
-      height: 10%;
-    }
-  }
-
-  [class^='column-'] {
-    box-sizing: border-box;
-    padding: 10px;
-  }
-
-  [class^='column-']:first-child {
-    padding-left: 0;
-  }
-  [class^='column-']:last-child {
-    padding-right: 0;
-  } 
+  // .column-2 {
+  //   box-sizing: border-box;
+  //   padding: 10px;
+  // }
+  // It not working with dynamic declared css class [ngClass], 
+  // but it should. Need to check is it a bug.
+  // [class^='column-'] {
+  //   box-sizing: border-box;
+  //   padding: 10px;
+  // }
+  // [class^='column-']:first-child {
+  //   padding-left: 0;
+  // }
+  // [class^='column-']:last-child {
+  //   padding-right: 0;
+  // } 
 }
+
 
 .tiles-wrapper {
-  pointer-events: none;
-}
+  pointer-events: none;  
+  .tile {
+    box-sizing: border-box;
+    margin: 10px;
+    pointer-events: auto;
+    transition: transform ease-in-out .2s;
 
-tile {
-  pointer-events: auto;
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 1px 1px rgba(0,0,0,0.12), 
+      0 2px 2px rgba(0,0,0,0.12), 
+      0 4px 4px rgba(0,0,0,0.12), 
+      0 8px 8px rgba(0,0,0,0.12),
+      0 16px 16px rgba(0,0,0,0.12);
+    }
+  }
+  .tile:first-child {
+    margin-left: 0;
+  }
+  .tile:last-child {
+    margin-right: 0;
+  }
 }
-
 
 ::ng-deep.tiles-wrapper:hover {
-  tile:not(:hover) div:first-child {
+  .tile:not(:hover) div:first-child {
     background-color: rgba(0,0,0,0.5);
   }
 }

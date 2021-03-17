@@ -28,8 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/styles.scss",
-              "src/scss/hex-font.scss"
+              "src/scss/colors.scss",
+              "src/scss/grid.scss",
+              "src/scss/hex-font.scss",
+              "src/scss/styles.scss"
             ],
             "scripts": []
           },

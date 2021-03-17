@@ -17,6 +17,10 @@ import { PanelOverlayComponent } from './components/panel-overlay/panel-overlay.
 import { PanelOriginComponent } from './components/panel-origin/panel-origin.component';
 import { PanelOriginDirective } from './directives/panel-origin.directive';
 import { HexagonComponent } from './components/hexagon/hexagon.component';
+import { TileComponent } from './components/tile/tile.component';
+import { HoverDirective } from './directives/hover/hover.directive';
+import { ArmyBadgeComponent } from './components/army-badge/army-badge.component';
+import { CircleComponent } from './components/circle/circle.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,11 @@ import { HexagonComponent } from './components/hexagon/hexagon.component';
     PanelOverlayComponent,  
     PanelOriginDirective,
     PanelOriginComponent,
-    HexagonComponent
+    HexagonComponent,
+    TileComponent,
+    HoverDirective,
+    ArmyBadgeComponent,
+    CircleComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +68,10 @@ import { HexagonComponent } from './components/hexagon/hexagon.component';
     PanelOverlayComponent,
     PanelOriginDirective,
     PanelOriginComponent,
-    HexagonComponent
+    HexagonComponent,
+    TileComponent,
+    ArmyBadgeComponent,
+    CircleComponent
   ]
 })
 export class SharedModule { }

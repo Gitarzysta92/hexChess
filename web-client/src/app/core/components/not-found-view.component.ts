@@ -1,18 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, timer } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { RoutingService } from '../services/routing-service/routing.service';
 
 @Component({
   template: `
-    <p>
-      not-found works!
-    </p>
+  <div class="fluid-container fh">
+    <div class="row fh">
+      <div class="column-10 flex_center-center">
+        Page doesn't exists
+      </div>
+    </div>
+  </div>
   `,
   styleUrls: ['./not-found-view.component.scss']
 })
-export class NotFoundViewComponent implements OnInit {
+export class NotFoundViewComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  private _destroyed: Subject<void> = new Subject();
+
+  constructor(
+    private readonly _routingService: RoutingService
+  ) { }
 
   ngOnInit(): void {
+    timer(2000)
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(() => {
+        this._routingService.navigateToLobby();
+      })
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
   }
 
 }
