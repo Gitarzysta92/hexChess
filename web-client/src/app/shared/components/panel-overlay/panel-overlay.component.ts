@@ -19,6 +19,7 @@ export interface PanelOrigin {
     cdkConnectedOverlay 
     [cdkConnectedOverlayOrigin]="origin" 
     [cdkConnectedOverlayOpen]="isOpen"
+    [cdkConnectedOverlayWidth]="width"
     (overlayOutsideClick)="hidePanelByClick($event)">
       <div @slideIns class="panel-content" (mouseleave)="hidePanelByMouseLeave($event)">
         <ng-content></ng-content> 
@@ -48,6 +49,7 @@ export class PanelOverlayComponent implements OnInit, OnDestroy {
   @Input() origin: PanelOrigin
 
   @Input() hideOnMouseLeave: boolean = false;
+  width: any;
 
   constructor() { }
 
@@ -57,6 +59,7 @@ export class PanelOverlayComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(data => {
           this.isOpen = data.open;
+          this.width = this.origin.elementRef.nativeElement.offsetWidth;
           this.context = data.context;
         })
     }
@@ -71,13 +74,13 @@ export class PanelOverlayComponent implements OnInit, OnDestroy {
     this.hidePanel();
   }
 
-  protected hidePanelByMouseLeave(event: MouseEvent) {
+  protected hidePanelByMouseLeave(event: MouseEvent): void {
     if (!this.hideOnMouseLeave) return;
     this.hidePanel(); 
   }
 
-  public hidePanel() {
-    this.origin.setState(false);
+  public hidePanel(): void {
+    this.origin && this.origin.setState(false);
   }
 
 }

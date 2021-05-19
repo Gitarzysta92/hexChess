@@ -1,9 +1,14 @@
 import { animate, animateChild, group, query, sequence, state, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { timer } from 'rxjs';
+import { Subject, timer } from 'rxjs';
+import { delay, takeUntil } from 'rxjs/operators';
+import { MenuLocations } from 'src/app/constants/menu-locations.enum';
+import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
+import { MenuService } from '../../services/menu-service/menu.service';
 import { MyProfileStore } from '../../services/profile.store';
 import { RoutingService } from '../../services/routing-service/routing.service';
+import { UserService } from '../../services/user-service/user.service';
 sequence([
   
   animateChild()
@@ -59,32 +64,54 @@ sequence([
     ])
   ]
 })
-export class MainViewComponent implements OnInit {
+export class MainViewComponent implements OnInit, OnDestroy {
+
+  @ViewChild('modal', { static: true }) _mobileMenuModal: ModalComponent
 
 
   public dataLoaded: boolean = false;
   public selectedArmies: string[] = [];
+  private _onDestroy: Subject<void> = new Subject();
+  mainMenu: any;
+  secondaryMenu: any;
+  mobileMenu: any;
 
   constructor(
     public readonly routing: RoutingService,
     private readonly _myProfileStore: MyProfileStore,
-    private readonly _changeDetector: ChangeDetectorRef
-  ) { }
+    private readonly _changeDetector: ChangeDetectorRef,
+    private readonly _userService: UserService,
+    private readonly _menuService: MenuService
+  ) { 
+    this.mainMenu = this._menuService.getMenuData(MenuLocations.MainMenu),
+    this.secondaryMenu = this._menuService.getMenuData(MenuLocations.SecondaryMenu),
+    this.mobileMenu = this._menuService.getMenuData(MenuLocations.MobileMenu) 
+  }
 
   ngOnInit(): void {
+    
+    //this._userService.asd().subscribe(console.log);
 
     timer(2000)
       .subscribe(() => {
         this.dataLoaded = true;
         this._changeDetector.markForCheck();
       });
+
+    this.routing.onNavigationEnd
+      .pipe(takeUntil(this._onDestroy))
+      .pipe(delay(150))
+      .subscribe(event => {
+        this._mobileMenuModal.close();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._onDestroy.next();
   }
 
   public prepareRoute(outlet: RouterOutlet) {
     if(!outlet.isActivated) return;
     return outlet && outlet.component?.constructor?.name;
-  }
-  test(event) {
-   // console.log(event);
   }
 }

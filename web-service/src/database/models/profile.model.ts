@@ -7,10 +7,12 @@ import {
   ForeignKey,
   BeforeCreate,
   HasOne,
+  HasMany,
 } from 'sequelize-typescript';
 import { User } from './user.model';
 import { UUIDV4 } from 'sequelize';
 import { v4 as uuid } from 'uuid';
+import { AssignedArmy } from './assigned-army.model';
 
 export interface IProfile {
   id: string;
@@ -30,6 +32,9 @@ export class Profile extends Model<Profile> implements IProfile {
   @Column
   nickname: string;
 
+  @Column
+  avatarUrl: string;
+
   @BeforeCreate
   static setGuid(instance: Profile) {
     instance.id = uuid();
@@ -37,5 +42,12 @@ export class Profile extends Model<Profile> implements IProfile {
 
   @BelongsTo(() => User)  
   user: User
+
+  
+  @HasMany(() => AssignedArmy, {
+    foreignKey: 'profileId',
+    onDelete: 'CASCADE',
+  })
+  assignedArmies: AssignedArmy[];
 }
 

@@ -23,7 +23,8 @@
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
       "preLaunchTask": "ng: serve",
-      "postDebugTask": "ng: kill-serve"
+      "postDebugTask": "ng: kill-serve",
+      "userDataDir": "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
     }
   ]
 }

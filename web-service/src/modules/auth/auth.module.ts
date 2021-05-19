@@ -7,21 +7,24 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './controllers/auth.controller';
 import { SessionSerializer } from './session.serialize';
+import { MailSenderModule } from 'src/utils/mail-sender/mail-sender.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtAuthTokenConfig, jwtAuthTokenConfig, JWT_AUTH_TOKEN_CONFIG } from 'src/configs/jwt-auth-token.config';
 
-const jwtConstants = {
-  secret: 'secretKey',
-};
 
 @Module({
   imports: [
     UsersModule,
+    MailSenderModule.forFeature(),
     PassportModule.register({
       defaultStrategy: 'jwt',
       session: false,
+      
     }),
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule.forFeature(jwtAuthTokenConfig)],
+      useFactory: (configService: ConfigService) => configService.get<JwtAuthTokenConfig>(JWT_AUTH_TOKEN_CONFIG) as any,
+      inject: [ConfigService]
     }),
   ],
   controllers: [AuthController],

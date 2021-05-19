@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { GameModeType } from 'src/app/constants/game-mode-type.enum';
 
 
@@ -7,9 +9,19 @@ import { GameModeType } from 'src/app/constants/game-mode-type.enum';
   providedIn: 'root'
 })
 export class RoutingService {
+  public onNavigationStart: Observable<NavigationStart>;
+  public onNavigationEnd: Observable<NavigationEnd>;
+
   constructor(
     private _router: Router
-  ) { }
+  ) { 
+    this.onNavigationStart = this._router.events
+      .pipe(filter(event => event instanceof NavigationStart)) as any;
+
+    this.onNavigationEnd = this._router.events
+      .pipe(filter(event => event instanceof NavigationEnd)) as any;  
+
+  }
 
   navigateBack() {
     this._router.navigate(['/lobby']);

@@ -6,7 +6,9 @@ import { Component, ElementRef, HostBinding, Input, OnInit, Renderer2 } from '@a
   template: `<div>
               <div></div>
               <div class="content-wrapper">
-                <ng-content></ng-content>
+                <div>
+                  <ng-content></ng-content>
+                </div>
               </div>
             </div>`,
   styleUrls: ['./tile.component.scss']

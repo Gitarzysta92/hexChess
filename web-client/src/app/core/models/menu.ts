@@ -1,5 +1,6 @@
 import { Icons } from "src/app/constants/icons";
 import { MenuLocations } from "src/app/constants/menu-locations.enum";
+import { ExpandableListItem } from "src/app/shared/components/expandable-list/expandable-list.component";
 
 export class Menu {
   public location: MenuLocations;

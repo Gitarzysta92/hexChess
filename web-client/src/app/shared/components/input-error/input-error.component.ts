@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormErrors, FormErrorsToken, FORM_ERRORS } from 'src/app/constants/form-errors';
 
 
@@ -10,7 +10,7 @@ export interface InputError {
 
 @Component({
   selector: 'input-error',
-  template: `<small>{{ text }}</small>`,
+  template: `<small *ngFor="let error of errorDescriptions">{{ error }}</small>`,
   styles: [
     `:host {
       padding: 5px 20px 0px 20px;
@@ -23,36 +23,46 @@ export interface InputError {
     { provide: FormErrorsToken, useValue: FORM_ERRORS }
   ]
 })
-export class InputErrorComponent implements OnInit {
+export class InputErrorComponent implements OnInit, OnChanges {
 
   @Input() name: string;
 
   @Input() data: { name: string, value: any };  
-  public text: string = null
+  public errorDescriptions: string[] = [];
   constructor(
     @Inject(FormErrorsToken) private readonly _formErrors: FormErrors
   ) { }
 
-  ngOnInit(): void {
-    console.log(this.data);
+  ngOnInit(): void { }
 
-
-    this.text = this._parse();
-
-    this.text = this.text.charAt(0).toUpperCase() + this.text.slice(1);
-    
-    
-    this._formErrors[this.data.name];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.data) return;
+    this.errorDescriptions = Object.keys(this.data).map(key => {
+      return this._getErrorText(key);
+    });
   }
 
-  private _parse(): string {
-    const text = this._formErrors[this.data.name];
-    if (this.name) {
-      return text.replace(/(%fieldname%)/gi, this.name).replace(/(%content%)/gi, this.data.value.content );
+  private _capitalizeFirstLetter(text: string) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+
+  private _getErrorText(value: string | InputError): string {
+    let result = '';
+    if (value === null) return result;
+    if (typeof value === 'string') {
+      const text = this._formErrors[value];
+      result = text.replace(/(%fieldname%)/gi, this.name).replace(/(%content%)/gi, value );
     } else {
-      return text
+      const text = this._formErrors[Object.keys(value)[0]];
+      result = text.replace(/(%fieldname%)/gi, this.name)
     }
+
+    return this._capitalizeFirstLetter(result);
   };
+
+
+
 
 
 

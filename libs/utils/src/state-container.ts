@@ -1,4 +1,4 @@
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 //
 // TODO -> use BehaviourSubject instead of plain Subject and set initial state for subject.
@@ -11,15 +11,15 @@ export class StateContainer<T> {
     return this._currentState;
   }
 
-  public changed: Subject<T>;
+  public changed: BehaviorSubject<T>;
   
   private _currentState: T;
   private _states?: T[];
 
   constructor(initial: T, states?: T[]) {
-    this.changed = new Subject();
     this._states = states;
     this._currentState = initial;
+    this.changed = new BehaviorSubject(this._currentState);
   }
 
   public set(value: T) {

@@ -3,6 +3,7 @@ import { Component, EventEmitter, HostBinding, HostListener, OnInit, Output } fr
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GameSummary } from '../../models/game-summary';
+import { GamesService } from '../../services/games-service/games.service';
 import { GamesSummaryStore } from '../../services/games-summary.store';
 
 
@@ -17,7 +18,8 @@ export class MyGamesWidgetComponent implements OnInit {
   public gameSummaries: Observable<GameSummary[]>;
 
   constructor(
-    private readonly _gamesSummaryStore: GamesSummaryStore
+    private readonly _gamesSummaryStore: GamesSummaryStore,
+    private readonly _gamesService: GamesService
   ) { }
 
   ngOnInit(): void {

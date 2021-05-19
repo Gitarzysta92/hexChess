@@ -56,7 +56,6 @@ export class ArmiesSelectComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this._state = new StateContainer([]);
-
     this._state.changed
       .pipe(distinct(), pairwise())
       .pipe(map(value => {
@@ -75,27 +74,29 @@ export class ArmiesSelectComponent implements OnInit, OnChanges, OnDestroy {
         if (selectedArmies.length === this.armiesLimit || selectedArmies.length === 0) {
           this.panel.hidePanel();
         } 
-        
-        this.selected.next(this._state.value);     
+        //this.selected.next(this._state.value);     
       });
-      this._state.set([]);
   }
 
   ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.state && changes.state.isFirstChange()) {
-      this._state.set(this.state);
-    }  
+    // const prevState = changes.state?.previousValue;
+    // const currState = changes.state?.currentValue;
+
+    // if (prevState == null && currState != null) {
+    //   this._state.set(changes.state.currentValue);
+    // }
+
+    this._state.set(changes.state?.currentValue);
   }
 
   ngOnDestroy(): void {
     this._onDestroy.next();
   }
 
-  public setPlayerSelectedArmy(armies: Army[], armyToReplace: Army): void {
+  public setSelectedArmy(armies: Army[], armyToReplace: Army): void {
     let selectedArmies: Army[] = [];
-
     if (!armyToReplace) {
       selectedArmies = this.armies.concat(armies);
     } else {
@@ -106,12 +107,13 @@ export class ArmiesSelectComponent implements OnInit, OnChanges, OnDestroy {
       }, []);
     }
 
-
-    this._state.set(selectedArmies);
+   
+    //this._state.set(selectedArmies);
+    this.selected.next(selectedArmies);   
   }
 
   public removeSelectedArmy(toRemove: Army): void {
-    this._state.set(this.armies.filter(army => army.id !== toRemove.id));
+    this.selected.next(this.armies.filter(army => army.id !== toRemove.id));
   }
 
   private _setPanelContext(army: Army): void {

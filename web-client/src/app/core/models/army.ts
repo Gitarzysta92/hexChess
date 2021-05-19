@@ -12,3 +12,20 @@ export class Army implements ArmyBadgeSetup {
     this.colors = data.colors;
   }
 }
+
+
+export class AssignedArmy {
+  id: number;
+  profileId: string;
+  armyId: number;
+  priority: number;
+
+  constructor(data: Partial<AssignedArmy>) {
+    this.id = data.id;
+    this.profileId = data.profileId;
+    this.armyId = data.armyId;
+    this.priority = data.priority;
+  }
+
+
+}

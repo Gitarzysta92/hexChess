@@ -9,7 +9,6 @@ import { NotFoundViewComponent } from './core/components/not-found-view.componen
 import { MainViewComponent } from './core/components/main-view/main-view.component';
 import { MenuService } from './core/services/menu-service/menu.service';
 import { NotificationsModule } from './modules/notifications/notifications.module';
-import { CustomViewComponent } from './core/components/custom-view/custom-view.component';
 import { GameModesModule } from './modules/game-modes/game-modes.module';
 import { GameplayModule } from './modules/gameplay/gameplay.module';
 

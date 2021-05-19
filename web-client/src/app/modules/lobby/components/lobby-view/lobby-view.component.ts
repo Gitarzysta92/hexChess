@@ -22,7 +22,7 @@ const lobbyItems = [
   }),
   new LobbyItem({
     type: 'gameMode',
-    size: '6',
+    size: '4',
     config: { modeId: 4 }
   }),
 ]

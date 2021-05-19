@@ -31,9 +31,18 @@
       }
     }
 
-    img {
+    .img-wrapper {
+      display: inline-block;
       height: 50px;
+      width: 50px;
+      overflow: hidden;
+      border-radius: 100%;
       vertical-align: middle;
+    }
+
+    img {
+      width: 100%;
+      
     }
   }
 

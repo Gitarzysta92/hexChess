@@ -21,6 +21,15 @@ import { TileComponent } from './components/tile/tile.component';
 import { HoverDirective } from './directives/hover/hover.directive';
 import { ArmyBadgeComponent } from './components/army-badge/army-badge.component';
 import { CircleComponent } from './components/circle/circle.component';
+import { OutsideClickDirective } from './directives/outside-click/outside-click.directive';
+import { UniqueNicknameValidatorDirective } from './directives/unique-nickname-validator/unique-nickname-validator.directive';
+import { BurgerButtonComponent } from './components/burger-button/burger-button.component';
+import { CrossButtonComponent } from './components/cross-button/cross-button.component';
+
+import { TooltipComponent } from './components/tooltip/tooltip.component';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { UniqueEmailValidatorDirective } from './directives/unique-email-validator/unique-email-validator.directive';
+import { AttachedOverlayDirective } from './directives/attached-overlay/attached-overlay.directive';
 
 @NgModule({
   declarations: [
@@ -41,13 +50,21 @@ import { CircleComponent } from './components/circle/circle.component';
     TileComponent,
     HoverDirective,
     ArmyBadgeComponent,
-    CircleComponent
+    CircleComponent,
+    OutsideClickDirective,
+    UniqueNicknameValidatorDirective,
+    BurgerButtonComponent,
+    CrossButtonComponent,
+    TooltipComponent,
+    UniqueEmailValidatorDirective,
+    AttachedOverlayDirective
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     OverlayModule,
+    NgScrollbarModule
   ],
   providers: [],
   exports: [
@@ -71,7 +88,16 @@ import { CircleComponent } from './components/circle/circle.component';
     HexagonComponent,
     TileComponent,
     ArmyBadgeComponent,
-    CircleComponent
+    CircleComponent,
+    HoverDirective,
+    OutsideClickDirective,
+    UniqueNicknameValidatorDirective,
+    BurgerButtonComponent,
+    CrossButtonComponent,
+    TooltipComponent,
+    NgScrollbarModule,
+    UniqueEmailValidatorDirective,
+    AttachedOverlayDirective
   ]
 })
 export class SharedModule { }

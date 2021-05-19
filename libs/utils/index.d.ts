@@ -1,4 +1,4 @@
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 export declare class List<T> {
     get length(): number;
     listChanged: Subject<number>;
@@ -42,7 +42,7 @@ export {};
 
 export declare class StateContainer<T> {
     get value(): T;
-    changed: Subject<T>;
+    changed: BehaviorSubject<T>;
     private _currentState;
     private _states?;
     constructor(initial: T, states?: T[]);

@@ -14,10 +14,11 @@ import { ICONS, IconsToken } from './constants/icons';
 import { MainViewComponent } from './core/components/main-view/main-view.component';
 import { MatchmakingSharedModule } from './modules/matchmaking/matchmaking.module';
 import { ProfileSharedModule } from './modules/profile/profile.module';
-import { MainMenuComponent } from './core/components/main-menu/main-menu.component';
-import { SecondaryMenuComponent } from './core/components/secondary-menu/secondary-menu.component';
 import { CustomViewComponent } from './core/components/custom-view/custom-view.component';
 import { GameModesSharedModule } from './modules/game-modes/game-modes.module';
+import { ResourcesInterceptor } from './core/interceptors/http.interceptor';
+import { NavigationalMenuComponent } from './core/components/navigational-menu/navigational-menu.component';
+
 
 
 
@@ -32,8 +33,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {
     AppComponent,
     MainViewComponent,
     CustomViewComponent,
-    MainMenuComponent,
-    SecondaryMenuComponent
+    NavigationalMenuComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +51,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {
     { provide: Window, useValue: window },
     { provide: Document, useValue: document },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ResourcesInterceptor, multi: true },
     { provide: IconsToken, useValue: ICONS }
   ],
   bootstrap: [AppComponent]

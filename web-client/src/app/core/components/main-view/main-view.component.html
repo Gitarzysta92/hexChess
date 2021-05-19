@@ -1,13 +1,16 @@
 <ng-container *ngIf="dataLoaded else loader">
   <div class="container fh">
     <header>
-      <div class="flex-container_center_center fh ">
+      <div class="fluid-container flex_center-center fh">
         <div class="row">
           <div class="column-3 armies">
             <my-armies-widget [@slideIn]="{ value: dataLoaded, params: { delay: 50 }}"></my-armies-widget>
           </div>
           <div class="column-7 navigation">
-            <main-menu [@slideIn]="{ value: dataLoaded, params: { delay: 125 }}"></main-menu>
+            <navigational-menu
+              [locations]="mainMenu"
+              [@slideIn]="{ value: dataLoaded, params: { delay: 125 }}">
+            </navigational-menu>
             <my-profile-widget 
               #profilePanelOrigin="panel-origin" 
               panel-origin 
@@ -16,13 +19,24 @@
               [@slideIn]="{ value: dataLoaded, params: { delay: 200 }}">
             </my-profile-widget>      
             <panel-overlay [hideOnMouseLeave]="true" [origin]="profilePanelOrigin">
-              <secondary-menu></secondary-menu>
+              <navigational-menu
+                class="secondary-menu" 
+                vertical
+                showIcons
+                [locations]="secondaryMenu">
+              </navigational-menu>
             </panel-overlay>
           </div>
         </div>
-      </div>  
+      </div>
+      <div class="fluid-container mobile">
+        <my-armies-widget [@slideIn]="{ value: dataLoaded, params: { delay: 50 }}"></my-armies-widget>
+        <div class="mobile-menu-toggle">
+          <burger-button (click)="modal.open()"></burger-button>
+        </div>
+      </div>
     </header>
-    <main [@routeAnimations]="prepareRoute(outlet)" (@routeAnimations.done)="test($event)">
+    <main [@routeAnimations]="prepareRoute(outlet)">
       <router-outlet #outlet="outlet"></router-outlet>
     </main>
     <footer>
@@ -40,3 +54,16 @@
     </div>
   </div>
 </ng-template>
+
+
+<modal #modal>
+  <div class="modal-inner">
+    <my-avatar-widget class="avatar"></my-avatar-widget>
+    <navigational-menu
+      class="mobile-menu"
+      vertical
+      [locations]="[mainMenu, secondaryMenu, mobileMenu]" 
+      [@slideIn]="{ value: dataLoaded, params: { delay: 125 }}">
+    </navigational-menu>
+  </div>
+</modal>

@@ -1,9 +1,9 @@
 <div class="container-fluid game-modes tiles-wrapper" [@slideInTop]>
-  <div class="row">
+  <div class="row" >
     <div *ngFor="let item of lobbyItems" [ngClass]="'column-' + item.size" class="tile" [ngSwitch]="item.type" >
       
       <ng-container *ngSwitchCase="'gameMode'">
-        <game-mode-tile [id]="item.config.modeId" ></game-mode-tile>
+        <game-mode-tile [id]="item.config.modeId"></game-mode-tile>
       </ng-container>
 
     </div>

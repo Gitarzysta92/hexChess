@@ -69,13 +69,13 @@ export class ArmyPickerComponent implements OnInit, OnChanges {
 
   private _setSelected(selectedArmies: Army[]): void {
     this.armies.forEach(army => {
-      army.selected = selectedArmies.some(sa => sa?.id === army.id);  
+      army.selected = (selectedArmies || []).some(sa => sa?.id === army.id);  
     });
   }
 
   private _setDisabled(disabledArmies: Army[]): void {
     this.armies.forEach(army => {
-      army.disabled = disabledArmies.some(sa => sa?.id === army.id);  
+      army.disabled = (disabledArmies || []).some(sa => sa?.id === army.id);  
     });
   }
 }

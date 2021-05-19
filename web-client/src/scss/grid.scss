@@ -1,3 +1,5 @@
+@import './breakpoints.scss';
+
 
 // Containers
 
@@ -19,16 +21,29 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  //@media only screen and (max-width: 1600px) {  }
 }
 
+.column {
+  width: 100%;
+}
 
 // Columns
 $columns-number: 10;
 @for $i from 1 through $columns-number {
   .column-#{$i} {
     width: $i * 10%;
+    @media only screen and (max-width: $tablet) { width: 100% }
+  }
+
+  .passive_column-#{$i} {
+    width: $i * 10%;
   }
 }
+
+
+
 
 
 // Modifiers

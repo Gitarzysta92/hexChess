@@ -16,7 +16,7 @@ export class NotificationsStore {
 
   public get state() { return this._collection.state };
 
-  private _collection: Collection<Notification[]>;
+  private _collection: Collection<SystemNotification[]>;
 
   constructor(
     private readonly _store: StoreService,
@@ -25,16 +25,16 @@ export class NotificationsStore {
     this._registerStore();
   }
 
-  public add(notification: Notification): void {
-    this._collection.dispatch<Notification>(addNotification, notification);
+  public add(notification: SystemNotification): void {
+    this._collection.dispatch<SystemNotification>(addNotification, notification);
   }
 
-  public markAsReaded(notification: Notification): void {
-    this._collection.dispatch<Notification>(markAsReaded, notification);
+  public markAsReaded(notification: SystemNotification): void {
+    this._collection.dispatch<SystemNotification>(markAsReaded, notification);
   }
  
   private _registerStore() {
-    this._collection = this._store.register<Notification[]>(Symbol('notifications'), () => {
+    this._collection = this._store.register<SystemNotification[]>(Symbol('notifications'), () => {
       return {
         initialState: this._provider.getMyNotifications(),
         isLazyLoaded: true,

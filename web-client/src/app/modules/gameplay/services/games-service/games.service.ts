@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { MyProfileService } from 'src/app/core/services/profile-service/profile.service';
+import { ProfileService } from 'src/app/core/services/profile-service/profile.service';
 
 
 @Injectable({
@@ -14,7 +14,7 @@ export class GamesService {
   private _myProfile
 
   constructor(
-    private readonly _myProfileService: MyProfileService,
+    private readonly _profileService: ProfileService,
   ) { 
 
   }

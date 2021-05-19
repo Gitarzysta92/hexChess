@@ -1,7 +1,7 @@
-import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SystemNotification } from '../../models/notification';
 import { NotificationsStore } from '../../services/notifications.store';
 
 @Component({
@@ -12,7 +12,7 @@ import { NotificationsStore } from '../../services/notifications.store';
 export class NotificationWidgetComponent implements OnInit {
 
 
-  public notifications: Observable<Notification[]>;
+  public notifications: Observable<SystemNotification[]>;
 
 
   constructor(

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { concatMap, map, takeUntil } from 'rxjs/operators';
+import { concatMap, map, takeUntil, tap } from 'rxjs/operators';
 import { Army } from 'src/app/core/models/army';
 import { MyProfileStore } from 'src/app/core/services/profile.store';
 import { UtilityService } from 'src/app/core/services/utility-service/utility.service';
@@ -36,14 +36,14 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
   }
 
   public updateSelectedArmies(armies: Army[]): void {
-    this._myProfileStore.update({ selectedArmies: armies.map(a => a.id) })
+    this._myProfileStore.updateSelectedArmies(armies.map(a => a.id));
   }
 
   private _getSelectedArmies(armies: Army[]): Observable<Army[]> {
     return this._myProfileStore.state
       .pipe(map(profile => profile.selectedArmies))
       .pipe(map(selected => selected.reduce((acc, id) => {
-        const army = armies.find(a => a.id == id);
+        const army = armies.find(a => a.id === id);
         return army ? [...acc, army] : acc; 
       }, [])))
   }

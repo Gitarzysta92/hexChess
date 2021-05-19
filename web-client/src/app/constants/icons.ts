@@ -21,6 +21,8 @@ const ICONS_NAMES = {
   profiles: { class: "oi oi-people", glyph: "people" },
   remove: { class: "oi oi-trash", glyph: "trash" },
   add: { class: "oi oi-plus", glyph: "plus" },
+  save: { class: "oi oi-cloud-upload", glyph: "cloud-upload" },
+  'cartet-bottom': { class: "oi oi-caret-bottom", glyph: "caret-bottom" },
 
 
   // armies icons

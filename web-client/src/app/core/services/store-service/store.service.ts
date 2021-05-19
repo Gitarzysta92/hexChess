@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, ObjectUnsubscribedError, Observable, Subject } from 'rxjs';
+import { filter, first, map, mergeMap, takeUntil } from 'rxjs/operators';
 
 
 
-interface CollectionConfig  {
+
+
+interface CollectionConfig<T>  {
   initialState: any,
   isLazyLoaded?: boolean,
   actions?: {
     [key: string]: {
-      before: Function[],
+      before: Array<(p: any, state: T) => any>,
       action: Function,
       after: Function[]
     },
@@ -25,13 +27,16 @@ export class StoreService {
   constructor(
     private readonly _httpClient: HttpClient,
     private readonly _store: Store
-  ) { }
+  ) { 
+    this._store.state.subscribe(v => console.log(v));
+  }
 
-  register<T>(key: symbol, cb: (store) => CollectionConfig): Collection<T> {
+  public register<T>(key: symbol, cb: (store) => CollectionConfig<T>): Collection<T> {
     const config = cb(this._store);
     return this._store.createCollection(key, config);
-
   }
+
+
 }
 
 
@@ -40,52 +45,85 @@ export class StoreService {
 
 @Injectable({ providedIn: 'root' })
 export class Store {
-  private _collections: { [key: string]: Collection<any> }
+
+  public state: Observable<Observable<any>[]>;
+  private _state: BehaviorSubject<Observable<any>[]>;
+
+  private _collections: { [key: string]: Collection<any> };
+  private _collectionAdded = new Subject();
+
   constructor() { 
     this._collections = {};
+    this._initializeGlobalStream();
   }
 
-  public createCollection<T>(key: any, config: CollectionConfig): Collection<T> {
+  public createCollection<T>(key: any, config: CollectionConfig<T>): Collection<T> {
     Object.defineProperty(this._collections, key, {
       value: new Collection<T>({key, ...config}),
       enumerable: true    
     });
+
+    this._updateCollectionsInGlobalStream(this._collections);
     return this._collections[key];
   }
 
-  dispatch<T>(collectionKey: any, notification: Notification) {
+  public stateChanged(): void {
     
   }
 
-  hook() {
+  public dispatch<T>(collectionKey: any, notification: Notification) {
+    
+  }
+
+  public hook() {
 
   }
 
+  private _initializeGlobalStream(): void {
+    this._state = new BehaviorSubject([]);
+    this.state = this._state.pipe(mergeMap(c => combineLatest(c).pipe(takeUntil(this._collectionAdded))));
+  }
 
+  private _updateCollectionsInGlobalStream(collections: { [key: string]: Collection<any> }): void {
+    //this._collectionAdded.next();
+    this._state.next(Object.getOwnPropertySymbols(collections)
+      .map(key => {
+        //return collections[key as any].initialized.pipe(map(value => ({ key, value })))
+        return collections[key as any].changed.pipe(map(value => ({ key: (key as any).description, value })))
+      }));
+  }
 
-}
+} 
 
 
 
 
 
 export class Collection<T> {
+ 
+  public get state(): Observable<T> {
+    this._initializeState();
+    return this._state
+      .pipe(filter(s => s != null));
+  }
+  public get currentState(): T { return this._state.value };
+
+  public changed: Subject<any> = new Subject();
+
+  // public get initialized(): Observable<any>  {
+  //   return this._initialized.pipe(filter(c => c != null)).pipe(mergeMap(c => c));
+  // } 
+  // private _initialized: BehaviorSubject<any> = new BehaviorSubject(null);
+
+  private _actionsQueue: ActionsQueue;
+  private _actions: { [key: string]:  any }
   private _key: Symbol;
   private _prevState: any;
   private _state: BehaviorSubject<T>;
 
-  public get state() {
-    this._initializeState();
-    return this._state.pipe(filter(v => v !== null)); 
-  }
-  public get currentState() { return this._state.value }
-
-  private _actionsQueue: ActionsQueue;
-  private _actions: { [key: string]:  any }
-
   private _isLazyLoaded: boolean;
 
-  constructor(data: CollectionConfig & { key: Symbol }) {
+  constructor(data: CollectionConfig<T> & { key: Symbol }) {
     this._key = data.key;
     this._actions = {};
 
@@ -115,12 +153,14 @@ export class Collection<T> {
   }
 
 
-  public dispatch<K>(action: any, payload: K): void {
+  public dispatch<K>(action: any, payload: K): Observable<void> {
     this._initializeState();
 
     this._prevState = this.state;
-    this._dispatchAction(action, payload)
+    return this._dispatchAction(action, payload)
   }
+
+
 
   public filter(action: any, cb: (payload: any) => any): void {
     if (this._actions[action]) {
@@ -135,24 +175,34 @@ export class Collection<T> {
   }
 
 
-  private _dispatchAction(actionKey: any, payload: any): void {
-    this._actionsQueue.dispatch([
-      ...this._actions[actionKey].before.map(a => () => a(payload, this.currentState)),
-      () => this._state.next(this._actions[actionKey].action(payload, this.currentState)),
-      ...this._actions[actionKey].after.map(a => () => a(payload, this.currentState))
+  private _dispatchAction(actionKey: any, payload: any): Observable<void> {
+    const currentStateCopy = this._makeObjectDeepCopy(this.currentState);
+    const context = {};
+    return this._actionsQueue.enqueue([
+      ...this._actions[actionKey].before.map(a => () => a(payload, currentStateCopy, context)),
+      () => { this._setState(this._actions[actionKey].action(payload, currentStateCopy, context)); return true },
+      ...this._actions[actionKey].after.map(a => () => a(payload, currentStateCopy, context)),
+      () => this.changed.next(this.currentState)
     ]);
   }
 
 
-
-
+  private _setState(data: T): void {
+    const freezedData = this._freezeObjectRecursively(data);
+    this._state.next(freezedData);
+  }
 
   //
   // Initial state management
   //
   private _initializeState(initialData?: any): void {
-    if (!this._state) this._state = new BehaviorSubject<T>(initialData);
-    if (this['_lazyLoadProvider']) this['_lazyLoadProvider']()
+    const freezedData = this._freezeObjectRecursively(initialData);
+    if (!this._state) {
+      this._state = new BehaviorSubject<T>(freezedData);
+      //this._initialized.next(this._state);
+    }
+    if (this['_lazyLoadProvider']) this['_lazyLoadProvider']();
+    
   }
 
   private _provideStateData(stateProvider: Function | Observable<any>): void {
@@ -161,93 +211,91 @@ export class Collection<T> {
     };
     if (!(stateProvider instanceof Observable)) throw new Error();
 
-    stateProvider.subscribe(result => this._state.next(result));
+    stateProvider.subscribe(result => this._setState(result));
   }
 
+  //
+  // Utils
+  //
+
+  private _freezeObjectRecursively<T>(object: T): T {
+    if (!(object instanceof Object) || object === null || object === undefined) return object;
+    Object.keys(object).forEach(key => this._freezeObjectRecursively(object[key]));
+    Object.freeze(object);
+    return object;
+  }
+
+  private _makeObjectDeepCopy<T>(object: T): T {
+    if (Array.isArray(object)) {
+      return [...object].map(o => this._makeObjectDeepCopy(o)) as unknown as T
+    } else if (typeof object === 'object' && object !== null) {
+      const newObject = Object.assign({}, object);
+      Object.keys(newObject).forEach(key => {
+        newObject[key] = this._makeObjectDeepCopy(newObject[key]);
+      }); 
+      return newObject; 
+    } else {
+      return object;
+    }
+  }
 }
 
 class ActionsQueue {
-  private _stack: Array<Function[] | Function>;
+  private _stack: ActionWrapper[];
 
   constructor() {
     this._stack = [];
 
   }
-  public dispatch(action): void {
+  public enqueue(functionsSet: Function[] | Function): Observable<void> {
+    const action = new ActionWrapper(functionsSet); 
     this._stack.push(action);
-    this._proceed(this._stack.shift());
+    if (this._stack.length === 1) {
+      this._dequeue();
+    }
+    return action.finished
   }
 
-  private _proceed(action: Function[] | Function): void {
-    if (!action) return;
-    if (!Array.isArray(action)) action = [action];
-    action.forEach(a => a());
+  private async _dequeue(): Promise<void> {
+    if (this._stack.length === 0) return;
+    const action = this._stack.shift();
+    await action.execute();
+    await this._dequeue();
   }
 }
 
 
+class ActionWrapper {
 
+  public get finished() {
+    return this._finished.pipe(first());
+  }
 
+  private _fns: Function[];
+  private _finished: Subject<void>;
 
+  constructor(fns: Function | Function[]) {
+    this._fns = Array.isArray(fns) ? fns : [fns];
+    this._finished = new Subject();
+  }
 
+  public async execute(): Promise<void> {
+    if (this._fns.length === 0) {
+      return this._finished.next();
+    };
+    const fn = this._fns.shift();    
+    let result = fn();
 
+    try {
+      if (result instanceof Promise) {
+        await result;
+      } else if (result instanceof Observable) {
+        await result.toPromise()
+      }
+    } catch (error) {
+      return this._finished.thrownError();
+    }
 
-
-// const gamesSummaries = Symbol('gamesSummaries');
-// const addGameSummaryAction = Symbol('addGame');
-// this._store.register(gamesSummaries, store => {
-//   return {
-//     initialState: store.games.slice(0, 3) || [],
-//     actions: {
-//       [addGameSummaryAction]: (state, gameSummary) => [gameSummary, ...state.slice(0,2)],
-//     }
-//   }
-// })
-
-
-// this._store.gamesSummaries.dispatch(addGameSummaryAction, action => new GameSummary());
-
-// this._store.filter(addGameSummaryAction, payload => payload);
-
-// this._store.hook(addGameSummaryAction)
-//   .dispatch(addNotification, action => new Notification(action.prev.value))
-
-
-
-// this._store.gamesSummaries.pipe(filter()).subscribe(state => this.state = state);
-// this._store.notifications
-//   .pipe(filter(value => value.slice(0,3)))
-//   .subscribe(value => this.notifications)
-
-// this._store.notifications.dispatch<MarkAsReaded>(MarkAsReaded, Object.assign(notification, { readed: true }))
-
-
-// return this._myProfileService.getMyProfile();
-
-
-
-// const app = {
-//   myProfile: { },
-//   system: {
-//     menu: {
-//       primary: {},
-//       secondary: {},
-//     },
-//     routing: {},
-    
-//   },
-//   chat: {
-//     conversations: []
-//   }
-
-//   armies: { }
-//   profiles: { }
-//   gamesSummary: { }
-
-
-
-//   matchmaking: {
-    
-//   }
-
-// }
+    this.execute();
+  }
+}

@@ -14,16 +14,16 @@ export class AuthenticationGuard implements CanActivate {
     private _router: Router
   ) { }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
+  canActivate(
+    next: ActivatedRouteSnapshot, 
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isAuth = this._userService.isAuthenticated();
 
     if (!isAuth) {
       const path = next.data.onFailurePath;
       this._router.navigate([path]);
     };
-
-    console.log('Is authenticated:', isAuth);
     
     return isAuth;
   }

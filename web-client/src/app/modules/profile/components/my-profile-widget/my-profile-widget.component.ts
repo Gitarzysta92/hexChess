@@ -1,7 +1,9 @@
-import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 import { MyProfile } from 'src/app/core/models/profile';
-import { MyProfileService } from 'src/app/core/services/profile-service/profile.service';
+import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
+import { MyProfileStore } from 'src/app/core/services/profile.store';
 import { RoutingService } from 'src/app/core/services/routing-service/routing.service';
 import { UserService } from 'src/app/core/services/user-service/user.service';
 
@@ -12,7 +14,7 @@ import { UserService } from 'src/app/core/services/user-service/user.service';
 })
 export class MyProfileWidgetComponent implements OnInit {
 
-  public profile: MyProfile
+  public profile: Observable<MyProfile>
 
   @Input() active: boolean = false;
 
@@ -21,21 +23,20 @@ export class MyProfileWidgetComponent implements OnInit {
   }
 
   constructor(
-    private readonly _myProfileService: MyProfileService,
+    private readonly _myProfileStore: MyProfileStore,
     private readonly _userService: UserService,
-    private readonly _routingService: RoutingService
-  ) { }
+    private readonly _routingService: RoutingService,
+    private readonly _configService: ConfigurationService
+  ) { 
+    this.profile = this._myProfileStore.state
+      .pipe(map(p => {
+        const pCopy = Object.assign({}, p);
+        if (pCopy.avatar)
+          pCopy.avatar = `${this._configService.avatarsBlobStorageUrl}/${pCopy.avatar}`;
+        return pCopy;
+      }));
+  }
 
   ngOnInit(): void {
-    this._myProfileService.getMyProfile()
-      .subscribe(profile => {
-        this.profile = profile;
-      });
   }
-
-  public logout(): void {
-    this._userService.unauthenticate();
-    this._routingService.nagivateToLogin();
-  }
-
 }

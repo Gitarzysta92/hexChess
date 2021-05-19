@@ -1,0 +1,35 @@
+<div class="input-container"  
+  [class.focus]="isFocused" 
+  (click)="toggleFocus($event, input)" 
+  (outsideClick)="toggleFocus($event, input)"> 
+  <div class="input-wrapper" (click)="selectInput(input);">
+    <span>{{ name }}:</span>
+    <input #nicknameInput="ngModel" #input
+      type="text"
+      [name]="name"
+      [ngModel]="value"
+      [ngModelOptions]="{ standalone: true }">
+  </div>
+  <div #controls class="save-wrapper flex_center-center" *ngIf="isFocused" >
+    <ng-container [ngSwitch]="(state | async)">
+      <button *ngSwitchCase="'focused'"  class="btn-blank" (click)="submitData(input.value)">
+        <i name="save"></i>
+      </button>
+      <i *ngSwitchCase="'validationError'" name="disapprove" class="faulure"></i>
+
+
+      <div *ngSwitchCase="'submitted'" circle-spinner ></div>
+
+      <i *ngSwitchCase="'success'" name="approve" class="success"></i>
+      <i *ngSwitchCase="'failure'" name="disapprove" class="faulure"></i>
+    </ng-container>
+  </div>
+</div>
+
+
+<ng-template #tooltip let-error>
+  <tooltip>
+    <input-error [data]="nicknameInput.control.errors" [name]="name"></input-error>
+  </tooltip>
+</ng-template>
+

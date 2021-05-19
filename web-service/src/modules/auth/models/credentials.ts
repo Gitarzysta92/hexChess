@@ -1,6 +1,11 @@
 export class Credentials {
-  email: string;
+  username: string;
   password: string;
+
+  constructor(data: Partial<Credentials>) {
+    this.username = data?.username;
+    this.password = data?.password
+  }
 }
 
 export class GuestCredentials {

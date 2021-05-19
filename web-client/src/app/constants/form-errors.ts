@@ -7,50 +7,12 @@ export const FORM_ERRORS = {
   minlength: '%fieldName% too short',
   maxlength: '%fieldName% too long',
   notEmail: '%content% is not a valid email',
+  email: 'Email is not a valid email',
   connectionError: 'Connection error',
   //specialCharacters: 'Your password must contains at least on of this characters: !@#$%^'
   pattern: 'Your password must contains at least on of this characters: !@#$%^'
 }
 
 
-export type FormErrors = typeof FORM_ERRORS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
+export type FormErrors = typeof FORM_ERRORS;
 export const FormErrorsToken = new InjectionToken<FormErrors>('form-errors');

@@ -1,55 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { MyProfile } from 'src/app/core/models/profile';
-import { MyProfileService } from 'src/app/core/services/profile-service/profile.service';
+import { delay } from 'rxjs/operators';
+import { MyAccount } from 'src/app/core/models/my-account';
+import { MyProfile, Profile } from 'src/app/core/models/profile';
+import { MyAccountStore } from 'src/app/core/services/account.store';
+import { MyProfileStore } from 'src/app/core/services/profile.store';
 import { TextInputConfig } from 'src/app/shared/components/text-input/text-input.component';
+import { AccountValidators } from 'src/app/shared/validators/account.validator';
 import { CustomValidators } from 'src/app/shared/validators/custom.validator';
 import { ProfileValidators } from 'src/app/shared/validators/unique-profile.validator';
+import { IntegratedInputComponent } from '../integrated-input/integrated-input.component';
 
 @Component({
   selector: 'app-my-profile-view',
   templateUrl: './my-profile-view.component.html',
   styleUrls: ['./my-profile-view.component.scss'],
-  providers: [ ProfileValidators ]
+  providers: [ ProfileValidators, AccountValidators ]
 })
 export class MyProfileViewComponent implements OnInit {
 
   public profile: MyProfile;
+  public account: MyAccount;
 
-  public formConfig: { [key: string]: TextInputConfig };
+
 
   constructor(
-    private readonly _profileValidators: ProfileValidators,
-    private readonly _myProfileService: MyProfileService
+    private readonly _myProfileStore: MyProfileStore,
+    private readonly _myAccountStore: MyAccountStore,
+    private readonly _changeDetector: ChangeDetectorRef
   ) {
-    
-    this._myProfileService.getMyProfile()
+    this.profile = new MyProfile();
+    this._myProfileStore.state
       .subscribe(profile => {
-        this.profile = profile;
+        this.profile = profile
       });
     
-
-    this.formConfig = {
-      nickname: {
-        asyncValidators: [ this._profileValidators.unique('nickname') ],
-        validators: [ Validators.minLength(4), Validators.maxLength(16) ]
-      },
-      email: {
-        asyncValidators: [ this._profileValidators.unique('email') ],
-        validators: [ CustomValidators.email ]
-      },
-      password: {
-        validators: [
-          Validators.minLength(8),
-          Validators.maxLength(24)
-          //Validators.pattern(/[A-Z]/g), 
-          //Validators.pattern(/[!@#]/gi)
-        ]
-      }
-    };
+    this.account = new MyAccount();
+    this._myAccountStore.state
+      .subscribe(account => {
+        this.account = account;
+        this._changeDetector.markForCheck();
+      })
   }
 
   ngOnInit(): void {
+  }
+
+  public updateAccount(account: MyAccount, input: IntegratedInputComponent): void {
+    this._myAccountStore.update(account)
+      .pipe(delay(2000))
+      .subscribe(
+        () => input.setSuccessState(), 
+        () => input.setFailureState()
+      )
+  }
+
+  public updateProfile(nickname: string, input: IntegratedInputComponent): void {
+    const newProfile = Object.assign({}, this.profile);
+    newProfile.nickname = nickname;
+
+    this._myProfileStore.update(newProfile)
+      .pipe(delay(2000))
+      .subscribe(
+        () => input.setSuccessState(), 
+        () => input.setFailureState()
+      )
+  }
+
+  public updateAvatar(file: File): void {
+    this._myProfileStore.updateAvatar(file);
   }
 
 }

@@ -1,4 +1,7 @@
 <div>
-  <span>{{ profile.name }}</span> <img src="{{ profile.avatar }}"/>
+  <span>{{ (profile | async)?.nickname }}</span> 
+  <div class="img-wrapper">
+    <img src="{{ (profile | async)?.avatar || 'assets/images/avatar.png' }}"/>
+  </div>
 </div>
 
