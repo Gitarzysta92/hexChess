@@ -12,9 +12,13 @@
       [ngModel]="value"
       [ngModelOptions]="{ standalone: true }">
   </div>
-  <div #controls class="save-wrapper flex_center-center" *ngIf="(state | async)?.isFocused" >
+  <div #controls
+    *ngIf="(state | async)?.isFocused"
+    class="save-wrapper flex_center-center"  
+    [@slideIn]="(state | async)?.name"
+    [class.disabled]="value === input.value && (state | async)?.name === 'focused'">
     <ng-container [ngSwitch]="(state | async)?.name">
-      <button *ngSwitchCase="'focused'"  class="btn-blank" (click)="submitData(input.value)">
+      <button *ngSwitchCase="'focused'"  class="btn-blank" (click)="submitData(input.value)" [disabled]="value === input.value">
         <i name="save"></i>
       </button>
       <i *ngSwitchCase="'invalid'" name="disapprove" class="faulure"></i>
@@ -25,7 +29,6 @@
   </div>
 </div>
 </div>
-
 
 
 <ng-template #tooltip let-error>

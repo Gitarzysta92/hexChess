@@ -1,9 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef, Optional, Self, Inject, ViewContainerRef, ElementRef, ViewChild, TemplateRef, EventEmitter, Input, Output } from "@angular/core";
+import { group, query, style, transition, trigger, useAnimation } from "@angular/animations";
+import { Component, OnInit, ChangeDetectorRef, Optional, Self, Inject, ViewChild,EventEmitter, Input, Output } from "@angular/core";
 import { NG_VALIDATORS, Validator, NG_ASYNC_VALIDATORS, AsyncValidator, NgModel, FormControl } from "@angular/forms";
 import { Observable, Subject } from "rxjs";
-import { BehaviorSubject } from "rxjs";
-import { takeUntil, filter, delay, map, distinct, skip, tap } from "rxjs/operators";
+import { takeUntil, filter, delay } from "rxjs/operators";
+import { fadeInAnimation } from "src/app/shared/animations/animations/fade-in.animation";
+import { fadeOutAnimation } from "src/app/shared/animations/animations/fade-out.animation";
+import { slideInAnimation } from "src/app/shared/animations/animations/slide-in.animation";
+import { slideOutAnimation } from "src/app/shared/animations/animations/slide-out.animation";
+import { slideInFromTopMultipleElements, slideOut } from "src/app/shared/animations/predefined-animations";
 import { AttachedOverlayDirective } from "src/app/shared/directives/attached-overlay/attached-overlay.directive";
+import { State, StateController } from "src/app/utils/state-controller/state-controller";
 
 
 const STATE = {
@@ -16,103 +22,26 @@ const STATE = {
 };
 
 
-class State {
-  name: string;
-  isFocused: boolean = false;
-  submitted: boolean = false;
-  validationError: boolean = null;
-  submitSuccess: boolean = null;
-  nextStates: string[] = [];
-
-  stateChanger: (stateName: string) => void = () => null;
-
-  constructor(data: Partial<State>) {
-    this._setProperties(data);
-  }
-
-  public setName(value: string): void {
-    this.name = value;
-  }
-
-  public is(name: string): boolean {
-    return this.name === name;
-  }
-
-  public next(stateName?: string): void {
-    if (this.nextStates.length === 1) {
-      stateName = this.nextStates[0];
-    }
-    this.stateChanger(stateName);
-  }
-
-
-  private _setProperties(data: Partial<State>): void {
-    Object.keys(data).forEach(key => {
-      if (key in this) this[key] = data[key];    
-    });
-  }
-
-
-}
-
-class StateController<T extends State> {
-
-  public get onChange() { 
-    return this._state.pipe(map(s => Object.freeze(s))) 
-  }
-
-  public get currentState() {
-    return this._state.value;
-  }
-  private _state: BehaviorSubject<T>;
-  private _predefinedStates: { [key: string]: T } = {};
-  
-  constructor(
-    stateName: string, 
-    states: { [key: string]: T }, 
-  ) {
-    this._initializePredefinedStates(states);
-    this._state = new BehaviorSubject(this._predefinedStates[stateName]);
-  }
-
-
-  public next(stateName: string): void {
-    if (!this._isNextStateIsAvailable(stateName)) return;
-    this.set(stateName);
-  }
-
-  public set(stateName: string): void {
-    if (this._state.value.name === stateName) return;
-    this._state.next(this._predefinedStates[stateName]);
-  }
-
-  public is(stateName: string): boolean {
-    return this._state.value.is(stateName);
-  }
-
-  private _isNextStateIsAvailable(stateName: string): boolean {
-    return this._state.value.nextStates.includes(stateName);
-  }
-
-  private _initializePredefinedStates(states: { [key: string]: any }): void {
-    Object.keys(states).forEach(key => {
-      const state = states[key];
-      state.name = key;
-      state.stateChanger = value => this.next(value);
-      this._predefinedStates[key] = states[key];
-    })
-  }
-}
-
-
-
-
-
-
 @Component({
   selector: 'integrated-input',
   templateUrl: './integrated-input.component.html',
   styleUrls: ['./integrated-input.component.scss'],
+  animations: [
+    trigger('slideIn', [
+      transition('* <=> *', [
+        group([
+          query(':enter', [
+            style({ position: 'absolute'}),
+            useAnimation(slideInAnimation('fromTop'), { params: { duration: '200ms', delay: '200ms' } })
+          ], { optional: true }), 
+          query(':leave', [
+            style({ position: 'absolute'}),
+            useAnimation(slideOutAnimation('toBottom'), { params: { duration: '200ms', delay: '0ms' } }),
+          ], { optional: true })   
+        ]) 
+      ])
+    ])
+  ]
 })
 export class IntegratedInputComponent implements OnInit {
 
@@ -161,13 +90,17 @@ export class IntegratedInputComponent implements OnInit {
 
   ngOnInit(): void {        
     this._control = this._nicknameInput.control;
-    this._setValidators(this._control, this._validators, this._asyncValidators);
     this._listenForValidationStatus(this._control);
     this._toggleTooltipOnValidationStateChange();
 
     this.state.pipe(filter(s => s.is(STATE.initial)))
       .subscribe(() => this._resetComponent())
-    
+
+    this.state.pipe(filter(s => s.is(STATE.focused)))
+      .subscribe(() => this._setValidators(this._control, this._validators, this._asyncValidators));
+
+
+
     this.state.subscribe(state => {
       this._changeDetector.markForCheck();
     });
@@ -202,6 +135,10 @@ export class IntegratedInputComponent implements OnInit {
 
   private _resetComponent(): void {
     this._nicknameInput.control.reset(this.value);
+    this._nicknameInput.control.clearAsyncValidators();
+    this._nicknameInput.control.clearValidators();
+    this._nicknameInput.control.updateValueAndValidity();
+    this._changeDetector.markForCheck();
   }
 
   private _setValidators(
@@ -209,6 +146,7 @@ export class IntegratedInputComponent implements OnInit {
     validators: Validator | Validator[], 
     asyncValidators: AsyncValidator | AsyncValidator[]
   ): void {
+
         
     if (!!validators) {
       validators = Array.isArray(validators) ? validators : [ validators ]; 
@@ -232,7 +170,7 @@ export class IntegratedInputComponent implements OnInit {
         } else if (status === 'INVALID') {
           this._stateController.next(STATE.invalid);
         }
-        this._changeDetector.markForCheck();
+        this._changeDetector.markForCheck()
       });
   }
 

@@ -1,9 +1,12 @@
+import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, Input, OnInit } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { CounterBadgeComponent } from 'src/app/shared/components/counter-badge/counter-badge.component';
 import { ExpandableListItem } from 'src/app/shared/components/expandable-list/expandable-list.component';
 import { Menu, MenuItem } from '../../models/menu';
 import { RoutingService } from '../../services/routing-service/routing.service';
+import { StoreService } from '../../services/store-service/store.service';
 
 
 @Component({
@@ -26,8 +29,11 @@ export class NavigationalMenuComponent implements OnInit {
   public type: 'vertical' | 'horizontal' = 'horizontal';
   public icons: boolean = false;
 
+  private _destroyed: Subject<void> = new Subject()
+
   constructor(
     private readonly routing: RoutingService,
+    private readonly _store: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -39,14 +45,38 @@ export class NavigationalMenuComponent implements OnInit {
     combineLatest(this.locations || [of(null)])
     .pipe(map(menus => menus.reduce((acc, curr) => curr?.items ? acc.concat(curr?.items) : [] ,[])))
       .subscribe(items => {
-        this.data = items.map(i => new ExpendableMenuItem(i));
+        this.data = items.map(i => this._createMenuItem(i));
       });
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
   }
 
   public navigateTo(url): void {
     this.routing.navigate(url);
   }
 
+  // public bindCounterValue(componentRef, menuItem: MenuItem): void { 
+  //   if (menuItem.counterDataProvider) {
+  //     const data = menuItem.counterDataProvider(this._store);
+  //     data.pipe(takeUntil(this._destroyed))
+  //       .subscribe(value => {
+  //         console.log(value)
+  //         componentRef.instance.number = value;
+  //       });
+  //   }
+  // }
+
+  private _createMenuItem(item: MenuItem): ExpendableMenuItem {
+    const expendableItem = new ExpendableMenuItem({
+      ...item,
+      // portal: !!item.counterComponent ? new ComponentPortal(item.counterComponent): new ComponentPortal(CounterBadgeComponent),
+      counterData: !!item.counterDataProvider ? item.counterDataProvider(this._store) : null
+    });
+
+    return expendableItem
+  }
 }
 
 
@@ -54,11 +84,16 @@ export class ExpendableMenuItem extends MenuItem implements ExpandableListItem {
   expanded: boolean;
   settled: boolean;
   childrens: ExpendableMenuItem[];
+  portal: ComponentPortal<any>;
+  counterData: Observable<number>;
 
   constructor(data: Partial<ExpendableMenuItem>) {
     super(data as MenuItem);
     this.expanded = !!data.expanded;
     this.settled = !!data.settled;
     this.childrens = data.childrens || [];
+    this.portal = data.portal;
+    this.counterData = data.counterData;
   }
+
 }

@@ -12,7 +12,7 @@
       [required]="isRequired" 
     />
   </div>
-  <input-error *ngFor="let error of errors" [data]="error" [name]="name"></input-error>
+  <input-error *ngFor="let error of errors" [data]="error" [name]="name" @slideIn></input-error>
 </div>
 
 

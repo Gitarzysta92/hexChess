@@ -16,6 +16,7 @@
   }
 
   ::ng-deep ul > li {
+    position: relative;
     display: inline-block;
     height: 100%;
     a {
@@ -35,6 +36,15 @@
 
       &:hover {
         color: #fff;
+      }
+
+      span {
+        position: relative;
+        .appendix {
+          position: absolute;
+          top: -15px;
+          right: -15px;
+        }
       }
     }
   }

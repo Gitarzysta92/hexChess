@@ -2,11 +2,15 @@
   <div class="row">
     <div class="column-4 profile-info">
       <div class="row">
-        <div class="column avatar">
-          <avatar-upload [fileName]="profile.avatar" (newFile)="updateAvatar($event)"></avatar-upload>
+        <div class="column avatar" style="position: relative;">
+          <avatar-upload
+            [@slideIn]="{ value: true, params: { delay: '50ms' }}" 
+            [fileName]="profile.avatar" 
+            (newFile)="updateAvatar($event)">
+          </avatar-upload>
         </div>
         <div class="column signin-date">
-          <div class="row">
+          <div class="row" [@slideIn]="{ value: true, params: { delay: '150ms' }}">
             <div class="passive_column-4 title">
               <h5>Joined:</h5>
             </div>
@@ -21,13 +25,17 @@
           <hr>
         </div>
         <div class="column language-picker">
-          <language-picker [selectedLanguage]="account.languageId" (onChange)="updateAccount($event)"></language-picker>
+          <language-picker
+            [@slideIn]="{ value: true, params: { delay: '250ms' }}" 
+            [selectedLanguage]="account.languageId" 
+            (onChange)="updateAccount($event)">
+          </language-picker>
         </div>
       </div>      
     </div>
     <div class="column-6">
       <div class="container profile-form">
-        <div class="row">
+        <div class="row" [@slideIn]="{ value: true, params: { delay: '100ms' }}" >
           <div class="column">
             <h5>Profile</h5><hr class="with-title">
             <integrated-input #nickname
@@ -45,7 +53,7 @@
             </integrated-input>
           </div> 
         </div>
-        <div class="row">
+        <div class="row" [@slideIn]="{ value: true, params: { delay: '250ms' }}">
           <div class="column">
             <h5>Account</h5><hr class="with-title">
             <integrated-input #email
@@ -60,7 +68,7 @@
               [value]="account.email"
               (onChange)="updateAccount({ email: $event }, email)">
             </integrated-input>
-            <integrated-input #password
+            <integrated-input #password    
               style="margin-top: 25px;"
               ngModel
               ngDefaultControl
@@ -75,10 +83,6 @@
           </div> 
         </div>
       </div>
-
-
     </div>
   </div>
 </div>
-
-<!-- <standalone-text-input [value]="profile.nickname" (onChange)="updateProfile($event)"></standalone-text-input> -->

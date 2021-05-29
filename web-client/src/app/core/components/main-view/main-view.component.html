@@ -1,22 +1,22 @@
 <ng-container *ngIf="dataLoaded else loader">
   <div class="container fh">
-    <header>
-      <div class="fluid-container flex_center-center fh">
+    <header [@slideOut]>
+      <div class="fluid-container flex_center-center fh header">
         <div class="row">
           <div class="column-3 armies">
-            <my-armies-widget [@slideIn]="{ value: dataLoaded, params: { delay: 50 }}"></my-armies-widget>
+            <my-armies-widget [@slideIn]="{ value: true, params: { delay: '50ms' }}"></my-armies-widget>
           </div>
           <div class="column-7 navigation">
             <navigational-menu
               [locations]="mainMenu"
-              [@slideIn]="{ value: dataLoaded, params: { delay: 125 }}">
+              [@slideIn]="{ value: true, params: { delay: '125ms' }}">
             </navigational-menu>
             <my-profile-widget 
               #profilePanelOrigin="panel-origin" 
               panel-origin 
               onClick
               [active]="profilePanelOrigin.isOpen" 
-              [@slideIn]="{ value: dataLoaded, params: { delay: 200 }}">
+              [@slideIn]="{ value: true, params: { delay: '200ms' }}">
             </my-profile-widget>      
             <panel-overlay [hideOnMouseLeave]="true" [origin]="profilePanelOrigin">
               <navigational-menu
@@ -29,14 +29,18 @@
           </div>
         </div>
       </div>
-      <div class="fluid-container mobile">
-        <my-armies-widget [@slideIn]="{ value: dataLoaded, params: { delay: 50 }}"></my-armies-widget>
-        <div class="mobile-menu-toggle">
-          <burger-button (click)="modal.open()"></burger-button>
-        </div>
+      <div class="fluid-container header mobile">
+        <my-armies-widget [@slideIn]="{ value: true, params: { delay: '50ms' }}"></my-armies-widget> 
+        <mobile-menu-button 
+          (click)="modal.open()"
+          [@slideIn]="{ value: true, params: { delay: '150ms' }}"
+          [locations]="[mainMenu, secondaryMenu, mobileMenu]">
+        </mobile-menu-button>
       </div>
     </header>
-    <main [@routeAnimations]="prepareRoute(outlet)">
+    <main 
+      [@routeAnimations]="prepareRoute(outlet)" 
+      [@triggerChilds]="{ value: dataLoaded ? 'loaded' : 'void' }">
       <router-outlet #outlet="outlet"></router-outlet>
     </main>
     <footer>
@@ -62,8 +66,7 @@
     <navigational-menu
       class="mobile-menu"
       vertical
-      [locations]="[mainMenu, secondaryMenu, mobileMenu]" 
-      [@slideIn]="{ value: dataLoaded, params: { delay: 125 }}">
+      [locations]="[mainMenu, secondaryMenu, mobileMenu]">
     </navigational-menu>
   </div>
 </modal>

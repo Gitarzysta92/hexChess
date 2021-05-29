@@ -22,9 +22,7 @@
 .container {
   width: 900px;
 
-  &.flex_center-center {
-    flex-direction: column;
-  }
+ 
 
   .row:first-child {
     margin-bottom: 10%;
@@ -51,6 +49,10 @@
       color: $secondary-dark;
     }
   }
+}
+
+.flex_center-center {
+  flex-direction: column;
 }
 
 

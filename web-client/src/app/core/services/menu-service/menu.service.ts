@@ -1,3 +1,4 @@
+import { Portal } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router, Routes } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -5,6 +6,8 @@ import { filter } from 'rxjs/operators';
 import { MenuLocations } from '../../../constants/menu-locations.enum';
 import { AbstractModule } from '../../models/AbstractModule';
 import { Menu, MenuItem } from '../../models/menu';
+import { SystemRoute } from '../../models/system-routes';
+import { StoreService } from '../store-service/store.service';
 
 
 @Injectable({
@@ -16,7 +19,7 @@ export class MenuService {
   private _items: StandaloneMenuItem[];
 
   constructor(
-    private readonly _router: Router
+    private readonly _router: Router,
   ) {
     this._menus = {};
     this._items = [];
@@ -72,7 +75,7 @@ export class MenuService {
     });
   }
 
-  private _createMenuItem(route: any, rootPath: string = ''): StandaloneMenuItem {
+  private _createMenuItem(route: SystemRoute, rootPath: string = ''): StandaloneMenuItem {
     const url = `${rootPath?.length > 0 ? '/' + rootPath : ''}${route.path?.length > 0 ? '/' + route.path : '' }`
 
     return new StandaloneMenuItem({
@@ -81,7 +84,9 @@ export class MenuService {
       fragments: [url],
       icon: route.data.menu.icon,
       location: route.data.menu.location,
-      isActive: false
+      isActive: false,
+      counterComponent: route.data?.appendix?.component,
+      counterDataProvider: route.data?.appendix?.data
       // children: route.children?.map(ci => 
       //   this._createMenuItem(Object.assign(ci, { rootPath: route.rootPath })))
     });

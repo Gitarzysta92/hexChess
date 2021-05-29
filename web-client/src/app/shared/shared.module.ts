@@ -30,6 +30,9 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { UniqueEmailValidatorDirective } from './directives/unique-email-validator/unique-email-validator.directive';
 import { AttachedOverlayDirective } from './directives/attached-overlay/attached-overlay.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PortalModule } from '@angular/cdk/portal';
+import { CounterBadgeComponent } from './components/counter-badge/counter-badge.component';
 
 @NgModule({
   declarations: [
@@ -57,14 +60,16 @@ import { AttachedOverlayDirective } from './directives/attached-overlay/attached
     CrossButtonComponent,
     TooltipComponent,
     UniqueEmailValidatorDirective,
-    AttachedOverlayDirective
+    AttachedOverlayDirective,
+    CounterBadgeComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     OverlayModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+    PortalModule
   ],
   providers: [],
   exports: [
@@ -97,7 +102,9 @@ import { AttachedOverlayDirective } from './directives/attached-overlay/attached
     TooltipComponent,
     NgScrollbarModule,
     UniqueEmailValidatorDirective,
-    AttachedOverlayDirective
+    AttachedOverlayDirective,
+    PortalModule,
+    CounterBadgeComponent
   ]
 })
 export class SharedModule { }

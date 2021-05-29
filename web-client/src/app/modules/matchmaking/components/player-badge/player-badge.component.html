@@ -1,6 +1,6 @@
 <ng-container *ngIf="player else waitingForPlayer">
   <div class="badge" [ngClass]="avatar">
-    <div class="player-avatar flex_center-center">
+    <div class="player-avatar flex_center-center" @fadeIn>
       <div>
         <img src='{{ player.avatar }}' />
       </div>

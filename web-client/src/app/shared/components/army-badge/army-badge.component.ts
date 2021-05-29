@@ -17,11 +17,15 @@ export interface ArmyBadgeSetup {
     `:host { display: flex; }`,
     `hexagon i::before {
         position: absolute;
+        top: 0;
         left: -50%;
         right: -50%;
         margin: 0 auto;
         font-size: 0.85em;
         z-index: 4444;
+    }`,
+    `hexagon i {
+      position: initial;
     }`
   ]
 })

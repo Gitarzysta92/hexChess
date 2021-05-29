@@ -1,11 +1,15 @@
 <div #armyPanelOrigin="panel-origin" panel-origin>
   <army-badge *ngFor="let army of armies; let i = index" [setup]="army" (click)="armyPanelOrigin.openPanel(army)"></army-badge>
-  <hexagon *ngIf="armies?.length < armiesLimit" [colors]="addArmySlotButtonSetup" (click)="armyPanelOrigin.openPanel()">
+  <hexagon *ngIf="armies?.length < armiesLimit" [colors]="addArmySlotButtonSetup" (click)="armyPanelOrigin.openPanel()" class="add-army">
     <i name="add"></i>
   </hexagon>
 </div>
 
-<panel-overlay #panel [origin]="armyPanelOrigin" [hideOnMouseLeave]="true">
+<panel-overlay 
+  #panel
+  flexible
+  [origin]="armyPanelOrigin" 
+  [hideOnMouseLeave]="true">
   <army-picker 
     [selected]="panel.context ? [panel.context] : []"
     [disabled]="armies"

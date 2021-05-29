@@ -2,7 +2,10 @@
   No results to display
 </div>
 
-<div  *ngFor="let notification of (notifications | async); let i = index" class="game-result">
-  <i name="{{ result ? 'win' : 'loose' }}"></i>{{ result ? 'Win' : 'Lost' }}
+<div *ngFor="let n of (notifications | async);trackBy:trackItem" 
+  class="game-result"
+  ngClass="{{ n.apperance }}"
+  (click)="navigateToNotifications(n)">
+    <cross-button (click)="markAsReaded(n)"></cross-button>
+    <i [name]="n.icon"></i><span>{{ isMobile ? n.title : (n.title | slice:0:15) + '...'  }}</span>
 </div>
-

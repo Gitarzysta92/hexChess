@@ -1,5 +1,5 @@
 import { notificationApperance } from 'src/app/shared/components/notification/notification.component';
-
+import { v4 as uuid } from 'uuid';
 export enum NotificationType {
   Default,
   Error,
@@ -7,18 +7,26 @@ export enum NotificationType {
   Warning
 }
 
+type TextWithHtml = string;
+
 export class SystemNotification {
-  public id: number;
+  public id: string;
   public type: NotificationType;
   public icon: string;
-  public content: string;
+  public title: string;
+  public content: TextWithHtml;
+  public readed: boolean;
+  public createdAt: Date;
   public apperance: string;
+  
 
   constructor(data: Partial<SystemNotification>) {
-    this.id = data.id;
+    this.id = uuid()
     this.type = data.type;
     this.icon = data.icon;
+    this.title = data.title;
     this.content = data.content;
+    this.readed = data.readed;
     this.apperance = this._setApperance(this.type);
   }
 

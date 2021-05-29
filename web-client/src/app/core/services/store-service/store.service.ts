@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, combineLatest, from, ObjectUnsubscribedError, Observable, Subject } from 'rxjs';
-import { filter, first, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, ObjectUnsubscribedError, Observable, ReplaySubject, Subject } from 'rxjs';
+import { filter, first, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 
 
@@ -36,11 +36,12 @@ export class StoreService {
     return this._store.createCollection(key, config);
   }
 
+  public get<T>(key: symbol): Collection<T> {
+    return this._store.getCollection<T>(key);
+  }
+
 
 }
-
-
-
 
 
 @Injectable({ providedIn: 'root' })
@@ -50,7 +51,6 @@ export class Store {
   private _state: BehaviorSubject<Observable<any>[]>;
 
   private _collections: { [key: string]: Collection<any> };
-  private _collectionAdded = new Subject();
 
   constructor() { 
     this._collections = {};
@@ -64,6 +64,10 @@ export class Store {
     });
 
     this._updateCollectionsInGlobalStream(this._collections);
+    return this._collections[key];
+  }
+
+  public getCollection<T>(key: any): Collection<T> {
     return this._collections[key];
   }
 
@@ -81,14 +85,14 @@ export class Store {
 
   private _initializeGlobalStream(): void {
     this._state = new BehaviorSubject([]);
-    this.state = this._state.pipe(mergeMap(c => combineLatest(c).pipe(takeUntil(this._collectionAdded))));
+    this.state = this._state
+      .pipe(switchMap(c => combineLatest(c)))
+      .pipe(filter(c => c.every(c => c.value)))
   }
 
   private _updateCollectionsInGlobalStream(collections: { [key: string]: Collection<any> }): void {
-    //this._collectionAdded.next();
     this._state.next(Object.getOwnPropertySymbols(collections)
       .map(key => {
-        //return collections[key as any].initialized.pipe(map(value => ({ key, value })))
         return collections[key as any].changed.pipe(map(value => ({ key: (key as any).description, value })))
       }));
   }
@@ -108,12 +112,8 @@ export class Collection<T> {
   }
   public get currentState(): T { return this._state.value };
 
-  public changed: Subject<any> = new Subject();
+  public changed: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  // public get initialized(): Observable<any>  {
-  //   return this._initialized.pipe(filter(c => c != null)).pipe(mergeMap(c => c));
-  // } 
-  // private _initialized: BehaviorSubject<any> = new BehaviorSubject(null);
 
   private _actionsQueue: ActionsQueue;
   private _actions: { [key: string]:  any }
@@ -153,7 +153,7 @@ export class Collection<T> {
   }
 
 
-  public dispatch<K>(action: any, payload: K): Observable<void> {
+  public dispatch<K>(action: any, payload?: K): Observable<void> {
     this._initializeState();
 
     this._prevState = this.state;
@@ -199,7 +199,6 @@ export class Collection<T> {
     const freezedData = this._freezeObjectRecursively(initialData);
     if (!this._state) {
       this._state = new BehaviorSubject<T>(freezedData);
-      //this._initialized.next(this._state);
     }
     if (this['_lazyLoadProvider']) this['_lazyLoadProvider']();
     
@@ -211,7 +210,10 @@ export class Collection<T> {
     };
     if (!(stateProvider instanceof Observable)) throw new Error();
 
-    stateProvider.subscribe(result => this._setState(result));
+    stateProvider.subscribe(result => {
+      this._setState(result)
+      this.changed.next(this.currentState);
+    });
   }
 
   //

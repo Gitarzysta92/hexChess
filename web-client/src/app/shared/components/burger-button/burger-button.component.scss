@@ -47,14 +47,14 @@ $hover-color: $text-primary;
   &:hover {
     div {
       background-color: $hover-color;
-      transform: translate(5px, 0);
+      transform: translate(-2px, 0);
       &::before { 
         background-color: $hover-color;
-        transform: translate(5px, 0);
+        transform: translate(4px, 0);
       };
       &::after { 
         background-color: $hover-color;
-        transform: translate(5px, 0);
+        transform: translate(4px, 0);
       };
     } 
   }

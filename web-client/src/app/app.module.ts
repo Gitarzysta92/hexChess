@@ -18,6 +18,7 @@ import { CustomViewComponent } from './core/components/custom-view/custom-view.c
 import { GameModesSharedModule } from './modules/game-modes/game-modes.module';
 import { ResourcesInterceptor } from './core/interceptors/http.interceptor';
 import { NavigationalMenuComponent } from './core/components/navigational-menu/navigational-menu.component';
+import { MobileMenuButtonComponent } from './core/components/mobile-menu-button/mobile-menu-button.component';
 
 
 
@@ -34,6 +35,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {
     MainViewComponent,
     CustomViewComponent,
     NavigationalMenuComponent,
+    MobileMenuButtonComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {
     { provide: Document, useValue: document },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResourcesInterceptor, multi: true },
-    { provide: IconsToken, useValue: ICONS }
+    { provide: IconsToken, useValue: ICONS },
+    
   ],
   bootstrap: [AppComponent]
 })

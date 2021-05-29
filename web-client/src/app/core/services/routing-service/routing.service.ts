@@ -20,7 +20,6 @@ export class RoutingService {
 
     this.onNavigationEnd = this._router.events
       .pipe(filter(event => event instanceof NavigationEnd)) as any;  
-
   }
 
   navigateBack() {
@@ -53,6 +52,10 @@ export class RoutingService {
 
   navigateToGame(gameId: string): void {
     this._routerNavigate(['/game', gameId])
+  }
+
+  navigateToNotifications(): void {
+    this._routerNavigate(['/notifications'])
   }
 
   navigate(fragments: string[]): void {

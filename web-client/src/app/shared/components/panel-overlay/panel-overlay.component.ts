@@ -49,6 +49,10 @@ export class PanelOverlayComponent implements OnInit, OnDestroy {
   @Input() origin: PanelOrigin
 
   @Input() hideOnMouseLeave: boolean = false;
+
+  @Input() set flexible(_) { this._flexible = true }
+  private _flexible: boolean;
+
   width: any;
 
   constructor() { }
@@ -59,7 +63,11 @@ export class PanelOverlayComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(data => {
           this.isOpen = data.open;
-          this.width = this.origin.elementRef.nativeElement.offsetWidth;
+
+          if (!this._flexible) {
+            this.width = this.origin.elementRef.nativeElement.offsetWidth;
+          }
+          
           this.context = data.context;
         })
     }

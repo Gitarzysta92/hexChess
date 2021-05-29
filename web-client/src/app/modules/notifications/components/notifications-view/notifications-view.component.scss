@@ -1,0 +1,21 @@
+@import './../../../../../scss/colors.scss';
+
+:host {
+  display: block;
+  width: 100%;
+  
+  .utility-bar {
+    color: $text-secondary;
+    box-sizing: border-box;
+    padding: 20px;
+  
+    button {
+      color: inherit;
+    }
+  }
+
+  .notification {
+    margin-bottom: 20px;
+  }
+}
+

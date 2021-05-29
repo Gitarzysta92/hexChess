@@ -1,9 +1,22 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { NotificationsToken } from "../../authentication/constants/notifications";
-import { AuthNotifications } from "../constants/notifications";
+import { AuthNotifications, notifications } from "../constants/notifications";
 import { NotificationType, SystemNotification } from "../models/notification";
+
+
+const sampleNotifications = [
+  notifications.warning,
+  notifications.error,
+  notifications.badCredentials,
+  notifications.success,
+  notifications.information
+]
+
+
+
+
+
 
 
 @Injectable({ providedIn: 'root'})
@@ -15,13 +28,11 @@ export class NotificationsProvider {
 
   getMyNotifications(): Observable<SystemNotification[]> {
     //console.log('get data');
-    return of([new SystemNotification({
-      type: NotificationType.Success
-    })]);
+    return of(sampleNotifications);
   }
   updateNotification(n: Notification): Observable<boolean> {
     //console.log('update data')
-    throw of(true);
+    return of(true);
   }
 
   addNotification(n: Notification): Observable<boolean> {

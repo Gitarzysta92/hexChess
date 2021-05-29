@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Collection, StoreService } from 'src/app/core/services/store-service/store.service';
 import { SystemNotification } from '../models/notification';
 import { NotificationsProvider } from './notifications.provider';
 
 
-
-const addNotification = Symbol('addNotification');
-const markAsReaded = Symbol('markAsReaded');
+export const notificationsStore = Symbol('notifications');
+export const addNotification = Symbol('addNotification');
+export const markAsReaded = Symbol('markAsReaded');
+export const markAllAsReaded = Symbol('markAllAsReaded');
 
 
 
@@ -32,9 +32,13 @@ export class NotificationsStore {
   public markAsReaded(notification: SystemNotification): void {
     this._collection.dispatch<SystemNotification>(markAsReaded, notification);
   }
+
+  public markAllAsReaded(): void {
+    this._collection.dispatch<SystemNotification>(markAllAsReaded);
+  }
  
   private _registerStore() {
-    this._collection = this._store.register<SystemNotification[]>(Symbol('notifications'), () => {
+    this._collection = this._store.register<SystemNotification[]>(notificationsStore, () => {
       return {
         initialState: this._provider.getMyNotifications(),
         isLazyLoaded: true,
@@ -44,8 +48,11 @@ export class NotificationsStore {
             action: this._addNotification,
           },
           [markAsReaded]: {
-            before: [n => this._provider.updateNotification(n)],
+            //before: [n => this._provider.updateNotification(n)],
             action: this._markAsReaded
+          },
+          [markAllAsReaded]: {
+            action: this._markAllAsReaded
           }
         } 
       }
@@ -57,6 +64,8 @@ export class NotificationsStore {
 
   private _addNotification = (n: SystemNotification, state: SystemNotification[]): SystemNotification[] => [n, ...state];
 
-  private _markAsReaded = (nr: SystemNotification, state: SystemNotification[]): SystemNotification[] => state.map(n => 
-    n.id === nr.id ? Object.assign(n, { readed: true }) : n);
+  private _markAsReaded = (nr: SystemNotification, state: SystemNotification[]): SystemNotification[] => 
+    state.map(n => n.id === nr.id ? Object.assign(n, { readed: true }) : n);
+  
+  private _markAllAsReaded = (_, state: SystemNotification[]) => state.map(n => Object.assign(n, { readed: true }))
 }

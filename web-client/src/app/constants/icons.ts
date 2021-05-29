@@ -6,7 +6,8 @@ type IconsTypes =  { [key in keyof typeof ICONS_NAMES]: string };
 const ICONS_NAMES = {
 
   // system icons
-  warning: { class: "oi oi-circle-x", glyph: "circle-x" },
+  error: { class: "oi oi-circle-x", glyph: "circle-x" },
+  warning: { class: "oi oi-warning", glyph: "warning" },
   success: { class: "oi oi-circle-check", glyph: "circle-check" },
   login: { class: "oi oi-account-login", glyph: "account-login" },
   registration: { class: "oi oi-check", glyph: "check" },
@@ -23,7 +24,7 @@ const ICONS_NAMES = {
   add: { class: "oi oi-plus", glyph: "plus" },
   save: { class: "oi oi-cloud-upload", glyph: "cloud-upload" },
   'cartet-bottom': { class: "oi oi-caret-bottom", glyph: "caret-bottom" },
-
+  comment: { class: "oi oi-comment-square", glyph: "comment-square" },
 
   // armies icons
   borgo: { class: "", glyph: "borgo" },

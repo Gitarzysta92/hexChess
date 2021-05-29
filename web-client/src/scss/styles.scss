@@ -14,7 +14,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   overflow: hidden;
   @media screen and (max-width: $tablet) {
-    overflow: initial;
+    overflow-y: initial;
+    overflow-x: hidden;
   }
 }
 

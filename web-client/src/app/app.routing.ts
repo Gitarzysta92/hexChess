@@ -11,6 +11,7 @@ import { MenuService } from './core/services/menu-service/menu.service';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { GameModesModule } from './modules/game-modes/game-modes.module';
 import { GameplayModule } from './modules/gameplay/gameplay.module';
+import { StoreResolver } from './core/services/store.resolver';
 
 
 
@@ -20,6 +21,7 @@ const routes: Routes = [
     data: {
       onFailurePath: AuthenticationModule.path
     },
+    resolve: { void: StoreResolver } ,
     children: [
       { path: MatchmakingModule.path, loadChildren: () => MatchmakingModule },
       { path: GameplayModule.path, loadChildren: () => GameplayModule },

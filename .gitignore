@@ -62,3 +62,8 @@ Thumbs.db
 # Azurite
 ./azurite
 azurite
+
+
+**/*.env
+*.env
+

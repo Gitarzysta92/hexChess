@@ -9,7 +9,8 @@
   box-sizing: border-box;
 
   @media screen and (max-width: $tablet) {
-    height: auto; 
+    min-height: 100%;
+    height: auto;
   }
 }
 
@@ -19,8 +20,9 @@ header {
   padding: 60px 0;
 
   @media screen and (max-width: $tablet) {
+    height: 60px;
     padding: 0;
-    height: auto;
+    margin-bottom: 50px;
   }
 
   my-profile-widget {
@@ -29,7 +31,12 @@ header {
 }
 
 main {
+  position: relative;
   height: calc(100% - 140px);
+  @media screen and (max-width: $tablet) {
+    height: auto;
+    min-height: 100%;
+  }
 }
 
 footer {
@@ -48,17 +55,28 @@ footer {
 
 
 
-.fluid-container { 
-  @media screen and (max-width: $tablet) {
-    &:not(.mobile) { display: none; }
+.fluid-container {
+  height: 100%; 
+
+  &.header {
+    @media screen and (max-width: $tablet) {
+      &:not(.mobile) { display: none; }
+    }
+    &.mobile {
+      display: none;
+      @media screen and (max-width: $tablet) { 
+        & { 
+          display: flex;
+          justify-content:space-between;
+          align-items: center;
+        }  
+      }
+    }
   }
-  &.mobile {
-    display: none;
-    @media screen and (max-width: $tablet) { 
-      & { 
-        display: flex;
-        justify-content:space-between;
-      }  
+
+  &.fh {
+    @media screen and (max-width: $tablet) {
+     padding: 50% 0;
     }
   }
 }
@@ -84,14 +102,6 @@ footer {
       background-color: #292730;       
     }
   } 
-}
-
-.mobile-menu-toggle {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 10px 15px;
-  background-color: #1b1a21;
-  border-radius: 5px;
 }
 
 .modal-inner {

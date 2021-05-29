@@ -1,14 +1,16 @@
-import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
-import { timer } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { Army } from 'src/app/core/models/army';
-import { armies } from 'src/app/core/services/utility-service/utility.service';
+import { fadeIn } from 'src/app/shared/animations/predefined-animations';
 
 
 
 @Component({
   selector: 'player-badge',
   templateUrl: './player-badge.component.html',
-  styleUrls: ['./player-badge.component.scss']
+  styleUrls: ['./player-badge.component.scss'],
+  animations: [
+    fadeIn('fadeIn')
+  ]
 })
 export class PlayerBadgeComponent implements OnInit {
 

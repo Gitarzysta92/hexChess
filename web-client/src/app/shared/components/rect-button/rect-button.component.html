@@ -1,34 +1,11 @@
-<span @routeAnimations *ngIf="!loader; else spinner" >
+<div *ngIf="!loader; else spinner" class="wrapper">
   <ng-content></ng-content>
-</span>
+</div>
 
 <ng-template #spinner>
-  <div class="spinner-wrapper">
+  <div class="wrapper">
     <div circle-spinner></div>
   </div>
 </ng-template>
-
-<!-- <ng-template #spinner>
-  <span @routeAnimations>
-    <svg width="20" height="20" viewBox="0 0 20 20" stroke="#000">
-      <g fill="none" fill-rule="evenodd">
-        <g transform="translate(1 1)" stroke-width="2">
-          <circle stroke-opacity=".5" cx="9" cy="9" r="9"/>
-          <path d="M36 9c0-.50-8.06-9-9-9">
-            <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from="0 10 10"
-                to="360 10 10"
-                dur="1s"
-                repeatCount="indefinite"/>
-          </path>
-        </g>
-      </g>
-    </svg>
-  </span>
-</ng-template> -->
-
-
 
   

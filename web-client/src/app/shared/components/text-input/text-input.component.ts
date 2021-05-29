@@ -1,6 +1,7 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy, Optional } from '@angular/core';
 import { Component } from '@angular/core';
+import { fadeInMultipleElements, slideInFromTopMultipleElements } from '../../animations/predefined-animations';
 import { ReactiveFormComponent } from '../reactive-form/reactive-form.component';
 import { ReactiveInput, ReactiveInputConfig } from '../reactive-form/reactive-input';
 
@@ -11,6 +12,9 @@ export interface TextInputConfig extends ReactiveInputConfig { }
   selector: 'text-input',
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss'],
+  animations: [
+    fadeInMultipleElements('slideIn')
+  ]
 })
 export class TextInputComponent extends ReactiveInput {
 
