@@ -1,0 +1,28 @@
+
+<div #armyPanelOrigin="panel-origin" panel-origin>
+  <army-badge *ngFor="let army of (selectedArmies | async); let i = index" [setup]="army" (click)="armyPanelOrigin.openPanel(army)"></army-badge>
+  <hexagon *ngIf="(selectedArmies | async)?.length < armiesLimit" [colors]="addArmySlotButtonSetup" (click)="armyPanelOrigin.openPanel()" class="add-army">
+    <i name="add"></i>
+  </hexagon>
+</div>
+
+<panel-overlay 
+  #panel
+  flexible
+  [origin]="armyPanelOrigin" 
+  [hideOnMouseLeave]="true">
+  <army-picker 
+    [selected]="panel.context ? [panel.context] : []"
+    [disabled]="(selectedArmies | async)"
+    [selectionLimit]="1" 
+    (select)="setSelectedArmy($event[0], panel.context)">
+
+    <div *ngIf="panel.context" class="remove-button" (click)="removeSelectedArmy(panel.context)">
+      <button class="btn-blank circle">
+        <i name="remove"></i>
+      </button>
+      <div class="stroke circle"></div>
+    </div>
+  
+  </army-picker>
+</panel-overlay>

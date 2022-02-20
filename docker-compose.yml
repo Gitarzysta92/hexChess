@@ -1,0 +1,99 @@
+# docker-compose --env-file ./web-service/.env up
+# docker-compose --profile debug --env-file ./web-service/.env up 
+# docker run -d -p 3306:3306 -e MYSQL_DATABASE=hex -e MYSQL_ROOT_PASSWORD=Qwer1234 --platform linux/x86_64 mysql
+# docker run -d -p 10000:10000
+
+version: '3'
+
+services:
+
+  shared-container:
+    profiles: 
+      - debug
+      - app
+    build:
+      context: .
+    container_name: shared-container
+      
+  hex-db:
+    profiles: 
+      - debug
+      - app
+    platform: linux/x86_64
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    expose:  
+      - 3306  
+    environment: 
+      - MYSQL_ROOT_PASSWORD=${MYSQL_DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE_NAME}
+    volumes:
+      - datastorage:/var/database
+
+  db-seeder:
+    profiles: 
+      - debug
+      - app
+    build: 
+      context: ./web-service/src/database
+      dockerfile: db-seeder.dockerfile
+    depends_on:
+      - hex-db
+      - shared-container  
+    entrypoint: [
+      "./wait-for-it.sh",  "hex-db:3306", "-t", "120", "--", 
+      "bash", "-c", 
+      "sequelize db:migrate --url mysql://${MYSQL_DATABASE_USER}:${MYSQL_DATABASE_PASSWORD}@hex-db:3306/${MYSQL_DATABASE_NAME} 
+      && sequelize db:seed:all --url mysql://${MYSQL_DATABASE_USER}:${MYSQL_DATABASE_PASSWORD}@hex-db:3306/${MYSQL_DATABASE_NAME}"
+    ]
+  
+  blob-storage:
+    profiles: 
+      - debug
+      - app
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports: 
+      - 10000:10000
+    expose:
+      - 10000
+    environment: 
+      - BLOB_HOST=0.0.0.0
+    volumes:
+      - datastorage:/var/azurite
+  
+  web-service:
+    profiles: 
+      - app
+    build:
+      context: ./web-service
+      dockerfile: web-service.dockerfile
+    ports:
+      - 3000:3000
+    expose:
+      - 3000  
+    depends_on:
+      - hex-db
+      - blob-storage 
+    entrypoint: [
+      "./wait-for-it.sh",  "hex-db:3306", "-t", "120", "--", 
+      "ash", "-c", 
+      "BLOB_CONNECTION_STRING='DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1' MYSQL_DATABASE_HOST=hex-db WEB_SERVICE_HOST=0.0.0.0 npm run start:dev"
+    ]
+
+  web-client:
+    profiles: 
+      - app
+    build:
+      context: ./web-client
+      dockerfile: web-client.dockerfile
+    ports:
+      - 4200:4200
+    expose:
+      - 4200
+    depends_on:
+      - web-service
+    entrypoint: ["./wait-for-it.sh",  "web-service:3000", "-t", "120", "--", "ash", "-c", "npm run start-in-docker"]
+
+volumes:
+  datastorage: 
