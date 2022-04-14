@@ -4,7 +4,8 @@
 
 trigger:
   branches:
-    - master
+   exclude:
+     - master
   paths:
       include:
         - projects/web-client
@@ -14,8 +15,8 @@ trigger:
 resources:
 - repo: self
 
-# Agent VM image name
-vmImageName: 'ubuntu-latest'
+pool:
+  vmImage: ubuntu-latest
 
 variables:
   # Container registry service connection established during pipeline creation
