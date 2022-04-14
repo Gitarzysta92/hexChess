@@ -35,9 +35,11 @@ steps:
       'registry=https://pkgs.dev.azure.com/michallukasiewicz/HexChess/_packaging/HexChess/npm/registry/' 
       >> .npmrc
     workingDirectory: $(root)
+
 - task: npmAuthenticate@0
   inputs:
     workingFile: '$(root)/.npmrc'
+
 - task: Docker@2
   displayName: Build and push an image to container registry
   inputs:
@@ -47,3 +49,15 @@ steps:
     Dockerfile: '**/Dockerfile'
     buildContext: $(root)
     tags: $(tag)
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(root)/deployment'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'WebClient-Deployment'
+    publishLocation: 'Container'
