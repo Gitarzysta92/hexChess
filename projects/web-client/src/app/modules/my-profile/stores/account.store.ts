@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { Collection, StoreService } from 'src/app/core';
 import { MyAccount } from '../models/my-account';
 import { ProfileService } from '../providers/profile-service/profile.service';
@@ -31,7 +31,7 @@ export class MyAccountStore {
   private _registerStore() {
     this._collection = this._store.register<MyAccount>(Symbol('my-account'), () => {
       return {
-        initialState: this._profileService.getMyAccount(),
+        initialState: this._profileService.getMyAccount().pipe(catchError(() => of(new MyAccount()))),
         actions: { 
           [updateMyAccount]: {
             before: [account => this._profileService.updateMyAccount(account)], 

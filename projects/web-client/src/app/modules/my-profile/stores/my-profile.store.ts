@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+import { LocalStorageService } from 'src/app/aspects/services/local-storage.service';
 import { Collection, StoreService } from 'src/app/core';
 import { MyProfile } from '../models/profile';
 import { ProfileService } from '../providers/profile-service/profile.service';
@@ -19,9 +20,12 @@ export class MyProfileStore {
 
   private _collection: Collection<MyProfile>;
 
+  private _localStorageKey: string = 'my-profile';
+
   constructor(
     private readonly _store: StoreService,
     private readonly _profileService: ProfileService,
+    private readonly _localStorage: LocalStorageService
   ) {
     this._registerStore();
   }
@@ -38,17 +42,19 @@ export class MyProfileStore {
   private _registerStore() {
     this._collection = this._store.register<MyProfile>(myProfile, () => {
       return {
-        initialState: this._profileService.getMyProfile(),
+        initialState: this._localStorage.get(this._localStorageKey).pipe(catchError(() => this._profileService.getMyProfile())),
         actions: { 
           [updateMyProfile]: {
             before: [profile => this._profileService.updateMyProfile(profile)], 
-            action: this._updateProfile 
+            action: this._updateProfile,
+            after: [profile => this._localStorage.update(this._localStorageKey, profile)]
           },
           [updateAvatar]: {
             before: [
               (file, profile, ctx) => this._profileService.updateMyAvatar(file).pipe(tap(r => ctx.fileName = r)),
             ],
-            action: this._updateAvatar
+            action: this._updateAvatar,
+            after: [profile => this._localStorage.update(this._localStorageKey, profile)]
           }
         } 
       }

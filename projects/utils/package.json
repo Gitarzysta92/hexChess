@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watchAll --runInBand",
+    "build": "tsc",
     "compile": "npx tsc --watch",
     "export": "npm pack"
   },

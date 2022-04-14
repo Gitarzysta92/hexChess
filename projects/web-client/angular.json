@@ -21,7 +21,8 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "tsconfig.app-prod.json",
+            "sourceMap": true,
             "aot": true,
             "assets": [
               "src/favicon.ico",

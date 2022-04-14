@@ -71,7 +71,7 @@ export class ProfileService {
     //   return this._localDb.get<MyAccount>('MyAccount'); 
     // }
     return this._httpClient.get<MyAccount>(this._config.apiUrl + '/account')
-      .pipe(map(ma => new MyAccount(ma)))
+      .pipe(map(a => new MyAccount(a)))
       // .pipe(tap(ma => {
       //   this._localDb.store('MyAccount', ma);
       // }));

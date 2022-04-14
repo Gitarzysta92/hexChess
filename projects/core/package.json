@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.ts"
+    "test": "jest --watchAll --runInBand",
+    "build": "tsc",
+    "compile": "npx tsc --watch",
+    "export": "npm pack"
   },
   "author": "",
   "license": "ISC",

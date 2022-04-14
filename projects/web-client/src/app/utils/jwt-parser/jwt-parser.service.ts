@@ -12,7 +12,7 @@ export class JwtParser {
         try {
             return jwt_decode(token);
         } catch(e) {
-            console.log(e);
+            console.log('asd', e);
             return;
         }
         

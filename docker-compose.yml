@@ -5,63 +5,7 @@
 
 version: '3'
 
-services:
-
-  shared-container:
-    profiles: 
-      - debug
-      - app
-    build:
-      context: .
-    container_name: shared-container
-      
-  hex-db:
-    profiles: 
-      - debug
-      - app
-    platform: linux/x86_64
-    image: mysql:latest
-    ports:
-      - 3306:3306
-    expose:  
-      - 3306  
-    environment: 
-      - MYSQL_ROOT_PASSWORD=${MYSQL_DATABASE_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE_NAME}
-    volumes:
-      - datastorage:/var/database
-
-  db-seeder:
-    profiles: 
-      - debug
-      - app
-    build: 
-      context: ./web-service/src/database
-      dockerfile: db-seeder.dockerfile
-    depends_on:
-      - hex-db
-      - shared-container  
-    entrypoint: [
-      "./wait-for-it.sh",  "hex-db:3306", "-t", "120", "--", 
-      "bash", "-c", 
-      "sequelize db:migrate --url mysql://${MYSQL_DATABASE_USER}:${MYSQL_DATABASE_PASSWORD}@hex-db:3306/${MYSQL_DATABASE_NAME} 
-      && sequelize db:seed:all --url mysql://${MYSQL_DATABASE_USER}:${MYSQL_DATABASE_PASSWORD}@hex-db:3306/${MYSQL_DATABASE_NAME}"
-    ]
-  
-  blob-storage:
-    profiles: 
-      - debug
-      - app
-    image: mcr.microsoft.com/azure-storage/azurite
-    ports: 
-      - 10000:10000
-    expose:
-      - 10000
-    environment: 
-      - BLOB_HOST=0.0.0.0
-    volumes:
-      - datastorage:/var/azurite
-  
+services:  
   web-service:
     profiles: 
       - app
