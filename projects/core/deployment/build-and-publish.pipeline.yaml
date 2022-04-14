@@ -1,6 +1,7 @@
 trigger:
   branches:
-    - master
+    include:
+      - master
   paths:
       include:
         - projects/core
@@ -8,6 +9,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+  root: '$(System.DefaultWorkingDirectory)/projects/utils'
   source: '$(System.DefaultWorkingDirectory)/projects/utils/src'
   target: '$(System.DefaultWorkingDirectory)/projects/utils/dist'
 
@@ -21,7 +23,7 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
-  workingDirectory: $(source)
+  workingDirectory: $(root)
 
 - task: CopyFiles@2
   inputs:
