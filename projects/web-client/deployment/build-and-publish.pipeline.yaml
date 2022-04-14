@@ -27,6 +27,14 @@ variables:
   root: '$(System.DefaultWorkingDirectory)/projects/web-client'
 
 steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: echo 'always-auth=true' >> .npmrc
+    workingDirectory: $(root)
+- task: npmAuthenticate@0
+  inputs:
+    workingFile: '$(root)/.npmrc'
 - task: Docker@2
   displayName: Build and push an image to container registry
   inputs:
