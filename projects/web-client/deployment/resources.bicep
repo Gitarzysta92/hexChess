@@ -1,5 +1,5 @@
 @description('Name for the container group')
-param name string = 'acilinuxpublicipcontainergroup'
+param name string = 'web-client'
 
 @description('Location for all resources.')
 param location string = resourceGroup().location
