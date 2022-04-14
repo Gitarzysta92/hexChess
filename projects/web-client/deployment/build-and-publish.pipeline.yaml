@@ -4,7 +4,8 @@
 
 trigger:
   branches:
-    - master
+   exclude:
+     - master
   paths:
       include:
         - projects/web-client
@@ -14,32 +15,24 @@ trigger:
 resources:
 - repo: self
 
-# Agent VM image name
-vmImageName: 'ubuntu-latest'
+pool:
+  vmImage: ubuntu-latest
 
 variables:
-  # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'a312dcf7-69ea-4b41-ba8d-4d52e4e9eaa6'
   imageRepository: 'webclient'
   containerRegistry: 'hexhchess.azurecr.io'
   dockerfilePath: 'projects/web-client/Dockerfile'
   tag: '$(Build.BuildId)'
+  root: '$(System.DefaultWorkingDirectory)/projects/web-client'
 
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+steps:
+- task: Docker@2
+  displayName: Build and push an image to container registry
+  inputs:
+    containerRegistry: $(dockerRegistryServiceConnection)
+    repository: $(imageRepository)
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    buildContext: $(root)
+    tags: $(tag)
