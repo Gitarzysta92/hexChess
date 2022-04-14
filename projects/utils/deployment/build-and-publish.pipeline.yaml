@@ -1,9 +1,10 @@
 trigger:
   branches:
-    - master
+    include:
+      - master
   paths:
-      include:
-        - projects/utils
+    include:
+      - projects/utils
 pool:
   vmImage: ubuntu-latest
 
