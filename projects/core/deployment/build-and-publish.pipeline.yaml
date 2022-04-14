@@ -27,7 +27,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(source)
+    SourceFolder: $(root)
     Contents: 'package.json'
     TargetFolder: $(target)
 
