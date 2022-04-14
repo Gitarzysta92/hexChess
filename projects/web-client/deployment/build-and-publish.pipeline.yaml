@@ -30,7 +30,11 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: echo 'always-auth=true' >> .npmrc
+    script: |
+      echo
+      'registry=https://pkgs.dev.azure.com/michallukasiewicz/HexChess/_packaging/HexChess/npm/registry/  
+      always-auth=true' 
+      >> .npmrc
     workingDirectory: $(root)
 - task: npmAuthenticate@0
   inputs:
