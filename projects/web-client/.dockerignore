@@ -18,3 +18,5 @@ hex-chess.solution.bat
 ./web-service
 ./web-client
 ./core
+
+package-lock.json
