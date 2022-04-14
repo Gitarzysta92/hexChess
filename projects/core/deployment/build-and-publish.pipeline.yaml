@@ -9,8 +9,8 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  root: '$(System.DefaultWorkingDirectory)/projects/utils'
-  target: '$(System.DefaultWorkingDirectory)/projects/utils/dist'
+  root: '$(System.DefaultWorkingDirectory)/projects/core'
+  target: '$(System.DefaultWorkingDirectory)/projects/core/dist'
 
 steps:
 - task: NodeTool@0
