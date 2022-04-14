@@ -10,7 +10,6 @@ pool:
 
 variables:
   root: '$(System.DefaultWorkingDirectory)/projects/utils'
-  source: '$(System.DefaultWorkingDirectory)/projects/utils/src'
   target: '$(System.DefaultWorkingDirectory)/projects/utils/dist'
 
 steps:
