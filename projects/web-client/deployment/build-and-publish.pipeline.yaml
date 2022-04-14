@@ -22,7 +22,7 @@ variables:
   dockerRegistryServiceConnection: 'a312dcf7-69ea-4b41-ba8d-4d52e4e9eaa6'
   imageRepository: 'webclient'
   containerRegistry: 'hexhchess.azurecr.io'
-  dockerfilePath: 'projects/web-client/Dockerfile'
+  dockerfilePath: '$(System.DefaultWorkingDirectory)/projects/web-client/Dockerfile'
   tag: '$(Build.BuildId)'
   root: '$(System.DefaultWorkingDirectory)/projects/web-client'
 
