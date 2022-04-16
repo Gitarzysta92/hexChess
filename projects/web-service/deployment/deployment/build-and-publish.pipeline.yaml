@@ -4,7 +4,8 @@
 
 trigger:
   branches:
-    - master
+    include:
+     - master
   paths:
       include:
         - projects/web-client
@@ -14,32 +15,48 @@ trigger:
 resources:
 - repo: self
 
-# Agent VM image name
 vmImageName: 'ubuntu-latest'
 
 variables:
-  # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'a312dcf7-69ea-4b41-ba8d-4d52e4e9eaa6'
-  imageRepository: 'webclient'
+  imageRepository: 'webservice'
   containerRegistry: 'hexhchess.azurecr.io'
-  dockerfilePath: 'projects/web-client/Dockerfile'
+  dockerfilePath: '$(System.DefaultWorkingDirectory)/projects/web-service/Dockerfile'
   tag: '$(Build.BuildId)'
+  root: '$(System.DefaultWorkingDirectory)/projects/web-service'
 
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: >
+      echo
+      'registry=https://pkgs.dev.azure.com/michallukasiewicz/HexChess/_packaging/HexChess/npm/registry/' 
+      >> .npmrc
+    workingDirectory: $(root)
+
+- task: npmAuthenticate@0
+  inputs:
+    workingFile: '$(root)/.npmrc'
+
+- task: Docker@2
+  displayName: Build and push an image to container registry
+  inputs:
+    containerRegistry: $(dockerRegistryServiceConnection)
+    repository: $(imageRepository)
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    buildContext: $(root)
+    tags: $(tag)
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(root)/deployment'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'WebClient-Deployment'
+    publishLocation: 'Container'
