@@ -6,7 +6,8 @@ RUN npm install
 RUN npm run build
 
 FROM nginx:1.21.6-alpine as prod
-COPY --from=build /dist /usr/share/nginx/html
+COPY --from=build app/dist/web-client /usr/share/nginx/html
 EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
+ 
