@@ -1,5 +1,5 @@
 @description('Name for the container group')
-param name string = 'acilinuxpublicipcontainergroup'
+param name string = 'webservice'
 
 @description('Location for all resources.')
 param location string = resourceGroup().location
@@ -19,15 +19,32 @@ param memoryInGb int = 2
 @description('The behavior of Azure runtime if container has stopped.')
 @allowed([
   'Always'
-  'Never'
+  'Never' 
   'OnFailure'
 ])
 param restartPolicy string = 'Always'
+
+
+@secure()
+param password string = ''
+
+@secure()
+param server string = ''
+
+@secure()
+param username string = ''
 
 resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01' = {
   name: name
   location: location
   properties: {
+    imageRegistryCredentials: [
+      {
+        password: password
+        server: server
+        username: username
+      }
+    ]
     containers: [
       {
         name: name

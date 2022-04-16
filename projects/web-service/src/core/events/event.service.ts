@@ -17,7 +17,7 @@ export class EventService {
     const targetsList = Array.isArray(targetEvents) ? targetEvents : [targetEvents];
 
     return this._mainStream
-      .pipe(mergeAll<T>())
+      .pipe(mergeAll())
       .pipe(tap(value => {
 
         console.log('event:', value);

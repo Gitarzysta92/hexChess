@@ -4,7 +4,7 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
+  WebSocketServer
 } from '@nestjs/websockets';
 import { Subject } from 'rxjs';
 import { Server, Socket } from 'socket.io';
@@ -51,14 +51,14 @@ export class GameSessionGateway implements OnGatewayConnection, OnGatewayDisconn
 
   public onApplicationBootstrap(): void  {
     this.server.use(async (socket, next) => {
-      const tokenPayload = await this._tokenGenerator.checkToken(socket.handshake.query.token)
+      const tokenPayload = await this._tokenGenerator.checkToken(socket.handshake.query.token as string)
       socket.handshake.query.token = tokenPayload;
       next();
     })
   }
   
   public handleConnection(socket: Socket) {
-    const { roomId } = socket.handshake.query.token;
+    const { roomId } = socket.handshake.query.token as unknown as any;
     this._sockets.push(socket);
     socket.join(roomId);
 
@@ -66,13 +66,13 @@ export class GameSessionGateway implements OnGatewayConnection, OnGatewayDisconn
   }
 
   public handleDisconnect(socket: Socket) {
-    const { roomId } = socket.handshake.query.token;
+    const { roomId } = socket.handshake.query.token as unknown as any;
     this._eventService.emit(new MatchmakingRequestDetachedEvent({ id: roomId }));
   }
 
   @SubscribeMessage('confirm-readiness')
   confirmReadiness(socket: Socket): void {
-    const { roomId } = socket.handshake.query.token;
+    const { roomId } = socket.handshake.query.token as unknown as any;
 
     if (socket.rooms[roomId]) {
       this._eventService.emit(new MatchmakingRequestConfirmationEvent({ id: roomId }));
@@ -90,8 +90,8 @@ export class GameSessionGateway implements OnGatewayConnection, OnGatewayDisconn
   }
 
   private _closeSocket(roomId: string): void {
-    const socket = this.server.sockets.connected[roomId];
-    socket.disconnect(false);
+    // const socket = this.server.sockets.;
+    // socket.disconnect(false);
   }
    
 }

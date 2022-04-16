@@ -51,3 +51,6 @@ lerna-debug.log*
 **/.documentation
 ./documentation
 ./docker
+
+# Npm
+.npmrc

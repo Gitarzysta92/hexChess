@@ -42,8 +42,8 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('authenticate')
-  async authenticate(@Req() req: Request, @Res() res: Response) {
-    const token = await this._authService.getToken(req.user as UserDto);
+  async authenticate(@Req() req: Request & { user: UserDto }, @Res() res: Response) {
+    const token = await this._authService.getToken(req.user);
 
     if (!token) {
       res.status(401).send();
@@ -60,7 +60,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logout(@Req() req: Request) {
+  async logout(@Req() req: Request & { logOut: () => void  }) {
     req.logOut();
   }
 

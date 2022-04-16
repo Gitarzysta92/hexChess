@@ -82,7 +82,7 @@ export class UsersService {
 
     });
 
-    return new QueryResult(QueryAction.Update, result);
+    return new QueryResult(QueryAction.Update, result as any);
   }
 
   public async deleteUser(userId: number): Promise<number> {

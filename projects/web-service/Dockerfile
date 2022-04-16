@@ -1,14 +1,48 @@
-FROM node:12-alpine
+FROM node:17-alpine3.14 as build
 
-RUN apk update && apk add bash
-COPY . ./web-service
-RUN chmod -R 777 ./web-service
-COPY --from=hex-chess_shared-container . .
-RUN chmod +x ./wait-for-it.sh
-RUN apk update && apk add vim
-RUN vim /wait-for-it.sh -c "set ff=unix" -c ":wq"
-RUN mv ./wait-for-it.sh ./web-service
-WORKDIR /web-service
+WORKDIR /app
+COPY . .
 RUN npm install
+RUN npm run build
 
-ENTRYPOINT ["npm run start"]
+FROM node:17-alpine3.14 as prod
+WORKDIR /app
+COPY --from=build app/dist/ .
+ENV MYSQL_DATABASE_DIALECT = 'mysql'
+ENV MYSQL_DATABASE_HOST = 'localhost'
+ENV MYSQL_DATABASE_PORT = '3306'
+ENV MYSQL_DATABASE_NAME = 'hex'
+ENV MYSQL_DATABASE_USER = 'root'
+ENV MYSQL_DATABASE_PASSWORD = '0000'
+
+ENV SMTP_HOST='mich002.webd.pl'
+ENV SMTP_PORT='465'
+ENV SMTP_USERNAME='hex@mich002.webd.pl'
+ENV SMTP_PASSWORD='OCFdiEccn0Fb'
+
+ENV BLOB_PROTOCOL='http'
+ENV BLOB_ENDPOINT='127.0.0.1:10000'
+ENV BLOB_ACCOUNT_NAME='devstoreaccount1'
+ENV BLOB_ACCOUNT_KEY='Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=='
+ENV BLOB_CONNECTION_STRING='DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;'
+
+ENV AUTH_TOKEN_SECRET='secretKey'
+EXPOSE 8080
+
+ENTRYPOINT \
+MYSQL_DATABASE_DIALECT = $MYSQL_DATABASE_DIALECT \
+MYSQL_DATABASE_HOST = $MYSQL_DATABASE_HOST \
+MYSQL_DATABASE_PORT = $MYSQL_DATABASE_PORT \
+MYSQL_DATABASE_NAME = $MYSQL_DATABASE_NAME \
+MYSQL_DATABASE_USER = $MYSQL_DATABASE_USER \
+MYSQL_DATABASE_PASSWORD = $MYSQL_DATABASE_PASSWORD \
+SMTP_HOST = $SMTP_HOST \
+SMTP_PORT = $SMTP_PORT \
+SMTP_USERNAME = $SMTP_USERNAME \
+SMTP_PASSWORD = $SMTP_PASSWORD \
+BLOB_PROTOCOL = $BLOB_PROTOCOL \
+BLOB_ENDPOINT = $BLOB_ENDPOINT \
+BLOB_ACCOUNT_NAME = $BLOB_ACCOUNT_NAME \
+BLOB_ACCOUNT_KEY = $BLOB_ACCOUNT_KEY \
+BLOB_CONNECTION_STRING = $BLOB_CONNECTION_STRING \
+node index.js

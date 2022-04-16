@@ -12,7 +12,7 @@ export class TokenGenerator {
     return jwt.sign(payload, this._secret);
   };
 
-  public async checkToken(token: string) {
+  public async checkToken(token: string): Promise<string> {
     return new Promise((resolved,rejected) => {
 
       jwt.verify(token, this._secret, function(err, decoded) {

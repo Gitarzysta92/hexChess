@@ -67,7 +67,7 @@ export class IncomingEventsHandler extends EventsHandler {
   private _listenForAction(action: Observable<any>) {
     action.pipe(takeUntil(this._destructor))
       .subscribe(() => {
-        this._sub.next();
+        this._sub.next(null);
       })
   }
 }
