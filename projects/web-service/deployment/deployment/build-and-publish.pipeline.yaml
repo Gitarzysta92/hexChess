@@ -8,7 +8,7 @@ trigger:
      - master
   paths:
       include:
-        - projects/web-client
+        - projects/web-service
       exclude:
         - projects/docs
 
