@@ -15,7 +15,8 @@ trigger:
 resources:
 - repo: self
 
-vmImageName: 'ubuntu-latest'
+pool:
+  vmImage: ubuntu-latest
 
 variables:
   dockerRegistryServiceConnection: 'a312dcf7-69ea-4b41-ba8d-4d52e4e9eaa6'
