@@ -1,0 +1,43 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - projects/database/src/migrations
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  root: '$(System.DefaultWorkingDirectory)/projects/database/'
+  source: '$(System.DefaultWorkingDirectory)/projects/database/management/seeders'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+  workingDirectory: $(root)
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(root)
+    Contents: 'package.json'
+    TargetFolder: $(source)
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(source)
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Database-Migrations'
+    publishLocation: 'Container'
