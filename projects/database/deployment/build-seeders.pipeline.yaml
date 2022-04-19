@@ -10,19 +10,13 @@ pool:
 
 variables:
   root: '$(System.DefaultWorkingDirectory)/projects/database/'
-  source: '$(System.DefaultWorkingDirectory)/projects/database/src/management/seeders'
+  source: '$(System.DefaultWorkingDirectory)/projects/database/src/management'
 
 steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-  workingDirectory: $(root)
 
 - task: CopyFiles@2
   inputs:
