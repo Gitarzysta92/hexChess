@@ -7,7 +7,9 @@
     "test": "jest --watchAll --runInBand",
     "build": "tsc",
     "compile": "npx tsc --watch",
-    "export": "npm pack"
+    "export": "npm pack",
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed"
   },
   "author": "",
   "license": "ISC",
