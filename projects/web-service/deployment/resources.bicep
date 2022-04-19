@@ -24,7 +24,6 @@ param memoryInGb int = 2
 ])
 param restartPolicy string = 'Always'
 
-
 @secure()
 param password string = ''
 
@@ -33,6 +32,22 @@ param server string = ''
 
 @secure()
 param username string = ''
+
+@secure()
+param databaseUsername string = ''
+
+@secure()
+param databasePassword string = ''
+
+@secure()
+param smtpUsername string = ''
+
+@secure()
+param smtpPassword string = ''
+
+@secure()
+param blobConnectionString string = ''
+
 
 resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01' = {
   name: name
@@ -50,6 +65,56 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
         name: name
         properties: {
           image: image
+          environmentVariables: [
+            {
+              name: 'MYSQL_DATABASE_DIALECT'
+              secureValue: 'mysql'
+            }
+            {
+              name: 'MYSQL_DATABASE_HOST'
+              secureValue: 'mn26.webd.pl'
+            }
+            {
+              name: 'MYSQL_DATABASE_PORT'
+              secureValue: '3306'
+            }
+            {
+              name: 'MYSQL_DATABASE_NAME'
+              secureValue: databaseUsername
+            }
+            {
+              name: 'MYSQL_DATABASE_USER'
+              secureValue: databaseUsername
+            }
+            {
+              name: 'MYSQL_DATABASE_PASSWORD'
+              secureValue: databasePassword
+            }
+            {
+              name: 'SMTP_HOST'
+              secureValue: 'mich002.webd.pl'
+            }
+            {
+              name: 'SMTP_PORT'
+              secureValue: '465'
+            }
+            {
+              name: 'SMTP_USERNAME'
+              secureValue: smtpUsername
+            }
+            {
+              name: 'SMTP_PASSWORD'
+              secureValue: smtpPassword
+            }
+            {
+              name: 'BLOB_CONNECTION_STRING'
+              secureString: blobConnectionString
+            }
+            {
+              name: 'AUTH_TOKEN_SECRET'
+              secureString: 'asd'
+            }
+          ]
           ports: [
             {
               port: port

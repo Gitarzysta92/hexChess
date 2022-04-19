@@ -11,7 +11,7 @@ import { MailSenderModule } from 'src/utils/mail-sender/mail-sender.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtAuthTokenConfig, jwtAuthTokenConfig, JWT_AUTH_TOKEN_CONFIG } from 'src/configs/jwt-auth-token.config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { User } from 'hexchess-database';
+import { User } from 'src/db-models/user';
 
 
 

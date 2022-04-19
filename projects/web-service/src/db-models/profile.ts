@@ -11,7 +11,8 @@ import {
 import { User } from './user';
 import { v4 as uuid } from 'uuid';
 import { AssignedArmy } from './assigned-army';
-import { IProfile } from '../interfaces/i-profile';
+import { IProfile } from 'hexchess-database';
+
 
 
 @Table

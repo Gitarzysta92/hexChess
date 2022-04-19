@@ -1,3 +1,4 @@
+import { ArmyType, AssignedArmyPriority, IAssignedArmy } from 'hexchess-database';
 import {
   Column,
   Model,
@@ -7,9 +8,7 @@ import {
   BelongsTo,
   ForeignKey,
 } from 'sequelize-typescript';
-import { ArmyType } from '../consts/army-type';
-import { AssignedArmyPriority } from '../consts/assigned-army-priority';
-import { IAssignedArmy } from '../interfaces/i-assigned-army';
+
 import { Profile } from './profile';
 
 

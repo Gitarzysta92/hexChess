@@ -7,3 +7,19 @@ npx sequelize-cli seed:generate --name demo-user
 npx sequelize-cli db:seed:all
 npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-dat
 npx sequelize-cli db:seed:undo:all
+
+
+
+
+
+
+
+
+
+
+
+### Local Development
+
+If you want to use changes from this module across others instantaneously, you need to build package manually after particular change. For this purpose use:
+
+npm run build

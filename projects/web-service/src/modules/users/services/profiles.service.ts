@@ -5,7 +5,10 @@ import { ProfileDto } from '../models/profileDto';
 import { Op } from 'sequelize';
 import { AssignedArmyDto } from '../models/assigned-army.dto';
 import { BlobStorageClient } from 'src/utils/blob-storage-client/blob-storage-client';
-import { AssignedArmy, Profile, User } from 'hexchess-database';
+import { AssignedArmy } from 'src/db-models/assigned-army';
+import { Profile } from 'src/db-models/profile';
+import { User } from 'src/db-models/user';
+
 
 
 export class ServiceException {

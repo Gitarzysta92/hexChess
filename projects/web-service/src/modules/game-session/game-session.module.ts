@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { User } from 'hexchess-database';
+
 import { CoreModule } from 'src/core/core.module';
 import { SystemConfiguration } from 'src/core/system-configuration.service';
+import { User } from 'src/db-models/user';
 
 import { TokenGenerator } from 'src/utils/token-generator/token-generator';
 import { UtilityModule } from 'src/utils/utility.module';

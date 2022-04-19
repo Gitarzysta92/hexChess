@@ -6,7 +6,8 @@ import * as bcrypt from 'bcrypt';
 import { UserDto } from '../models/userDto';
 import { QueryAction, QueryResult, Update } from 'src/core/models/query-result';
 import { Op } from 'sequelize';
-import { User } from 'hexchess-database';
+import { User } from 'src/db-models/user';
+
 
 const saltRounds = 10;
 

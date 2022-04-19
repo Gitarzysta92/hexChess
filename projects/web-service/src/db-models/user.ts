@@ -1,3 +1,4 @@
+import { IUser } from 'hexchess-database';
 import {
   Column,
   Model,
@@ -7,7 +8,7 @@ import {
   HasOne,
   AutoIncrement,
 } from 'sequelize-typescript';
-import { IUser } from '../interfaces/i-user';
+
 import { Profile } from './profile';
 
 @Table

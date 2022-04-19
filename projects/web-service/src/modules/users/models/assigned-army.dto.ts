@@ -1,5 +1,7 @@
 import { IsEnum, IsString } from "class-validator";
-import { ArmyType, AssignedArmyPriority, IAssignedArmy, Profile } from "hexchess-database";
+import { IAssignedArmy, ArmyType, AssignedArmyPriority } from "hexchess-database";
+import { Profile } from "src/db-models/profile";
+
 
 
 export class AssignedArmyDto implements IAssignedArmy {

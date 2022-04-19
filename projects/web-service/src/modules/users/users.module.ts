@@ -7,7 +7,10 @@ import { ProfilesService } from './services/profiles.service';
 import { ProfilesController } from './controllers/profiles.controller';
 import { BlobStorageModule } from 'src/utils/blob-storage-client/blob-storage-client.module';
 import { AccountController } from './controllers/my-account.controller';
-import { AssignedArmy, Profile, User } from 'hexchess-database';
+import { AssignedArmy } from 'src/db-models/assigned-army';
+import { Profile } from 'src/db-models/profile';
+import { User } from 'src/db-models/user';
+
 
 
 @Module({
