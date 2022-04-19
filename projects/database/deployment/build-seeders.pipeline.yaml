@@ -4,7 +4,7 @@ trigger:
       - master
   paths:
     include:
-      - projects/database/src/migrations
+      - projects/database/src/seeders
 pool:
   vmImage: ubuntu-latest
 
