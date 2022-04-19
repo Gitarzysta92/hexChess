@@ -11,6 +11,10 @@
     //"inlineSourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "src/typings"
+    ]
   }
 }

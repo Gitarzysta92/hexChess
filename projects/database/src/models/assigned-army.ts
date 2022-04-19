@@ -3,32 +3,16 @@ import {
   Model,
   Table,
   PrimaryKey,
-  HasMany,
-  HasOne,
   AutoIncrement,
   BelongsTo,
   ForeignKey,
 } from 'sequelize-typescript';
-import { IProfile, Profile } from './profile.model';
+import { ArmyType } from '../consts/army-type';
+import { AssignedArmyPriority } from '../consts/assigned-army-priority';
+import { IAssignedArmy } from '../interfaces/i-assigned-army';
+import { Profile } from './profile';
 
-export enum ArmyType {
-  Borgo = 1,
-  Hegemony,
-  Outpost
-}
 
-export enum AssignedArmyPriority {
-  Primary = 1,
-  Secondary,
-  Tertiary
-}
-
-export interface IAssignedArmy {
-  id: number;
-  profileId: IProfile['id'];
-  armyId: ArmyType,
-  priority: AssignedArmyPriority
-}
 
 @Table
 export class AssignedArmy extends Model<AssignedArmy> implements IAssignedArmy {

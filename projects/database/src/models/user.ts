@@ -7,16 +7,8 @@ import {
   HasOne,
   AutoIncrement,
 } from 'sequelize-typescript';
-import { Profile } from './profile.model';
-
-export interface IUser {
-  id: number;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IUser } from '../interfaces/i-user';
+import { Profile } from './profile';
 
 @Table
 export class User extends Model<User> implements IUser {

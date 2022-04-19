@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { EventEmitter } from "src/core/events/event-emitter";
-import { StateContainer } from "utils";
+import { StateContainer } from "hexchess-utils";
 import { GamesType, MatchmakingRequestReadinessCheckEvent, MatchmakingRequestRejectedEvent, MatchmakingRequestResolvedEvent } from "../models/events";
 
 

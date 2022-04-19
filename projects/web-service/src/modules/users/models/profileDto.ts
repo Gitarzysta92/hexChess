@@ -1,7 +1,9 @@
-import { IProfile } from 'src/database/models/profile.model';
+import { IProfile } from "hexchess-database";
+
 
 export class ProfileDto implements IProfile {
   id: string;
+  userId: number;
   nickname: string;
   avatarUrl: string;
   selectedArmies: any[];

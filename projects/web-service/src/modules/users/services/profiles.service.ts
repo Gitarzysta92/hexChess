@@ -1,13 +1,11 @@
-import { Injectable, Query } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { User } from 'src/database/models/user.model';
 import { ProfileDto } from '../models/profileDto';
-import { Profile } from 'src/database/models/profile.model';
-import { AssignedArmy } from 'src/database/models/assigned-army.model';
 import { Op } from 'sequelize';
 import { AssignedArmyDto } from '../models/assigned-army.dto';
 import { BlobStorageClient } from 'src/utils/blob-storage-client/blob-storage-client';
+import { AssignedArmy, Profile, User } from 'hexchess-database';
 
 
 export class ServiceException {
@@ -20,10 +18,8 @@ export class ServiceException {
 }
 
 
-
 @Injectable()
 export class ProfilesService {
-
 
   constructor(
     @InjectModel(Profile)
@@ -33,7 +29,6 @@ export class ProfilesService {
     private _sequelize: Sequelize,
     private _blobStorage: BlobStorageClient
   ) {}
-
 
   public async search(profile: { [key: string]: any }): Promise<ProfileDto[]> {
     //const props = this._filterQueryProps(profile);

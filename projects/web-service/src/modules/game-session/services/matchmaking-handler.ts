@@ -1,7 +1,7 @@
 
 import { delay, filter } from 'rxjs/operators';
 import { EventEmitter } from 'src/core/events/event-emitter';
-import { List, StateContainer } from 'utils';
+import { List, StateContainer } from 'hexchess-utils';
 import { GamesType, MatchmakingFailureEvent, MatchmakingSuccessEvent } from '../models/events';
 import { MatchmakingConfig, MatchmakingRequest } from './matchmaking-request';
 
@@ -68,8 +68,6 @@ export class MatchmakingHandler extends EventEmitter<MatchmakingSuccessEvent | M
   }
 
   
-
-
   private _emitSuccess(): void {
     this.emit(new MatchmakingSuccessEvent({
       id: this.id,

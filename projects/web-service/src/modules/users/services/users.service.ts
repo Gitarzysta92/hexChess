@@ -1,11 +1,13 @@
-import { Injectable, Query } from '@nestjs/common';
-import { Model, Sequelize } from 'sequelize-typescript';
+import { Injectable } from '@nestjs/common';
+import { Sequelize } from 'sequelize-typescript';
 import { InjectModel } from '@nestjs/sequelize';
-import { User } from 'src/database/models/user.model';
+
 import * as bcrypt from 'bcrypt';
 import { UserDto } from '../models/userDto';
-import { AffectedRows, QueryAction, QueryResult, Update } from 'src/core/models/query-result';
+import { QueryAction, QueryResult, Update } from 'src/core/models/query-result';
 import { Op } from 'sequelize';
+import { User } from 'hexchess-database';
+
 const saltRounds = 10;
 
 
@@ -23,6 +25,7 @@ export class UsersService {
 
   public async createUser(user: UserDto): Promise<UserDto> {
     let createdUser;
+
 
     await this._sequelize.transaction(async t => {
       const transactionHost = { transaction: t };

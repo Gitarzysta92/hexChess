@@ -1,10 +1,8 @@
-import { Controller, Post, Body, Get, Req, UseGuards, Param, BadRequestException } from '@nestjs/common';
+import { Controller, Get, UseGuards, Param, BadRequestException } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { MatchmakingService } from '../services/matchmaking.service';
-import { ProfilesService } from 'src/modules/users/services/profiles.service';
 
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { GameSessionGateway } from '../gateway/game-session.gateway';
 import { SystemConfiguration } from 'src/core/system-configuration.service';
 import { TokenGenerator } from 'src/utils/token-generator/token-generator';
 
@@ -43,5 +41,4 @@ export class MatchmakingController {
 
     return await this._tokenGenerator.create({ roomId: quickmatchId });
   }
-
 }

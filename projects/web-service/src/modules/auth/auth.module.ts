@@ -10,6 +10,9 @@ import { SessionSerializer } from './session.serialize';
 import { MailSenderModule } from 'src/utils/mail-sender/mail-sender.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtAuthTokenConfig, jwtAuthTokenConfig, JWT_AUTH_TOKEN_CONFIG } from 'src/configs/jwt-auth-token.config';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from 'hexchess-database';
+
 
 
 @Module({
@@ -26,6 +29,7 @@ import { JwtAuthTokenConfig, jwtAuthTokenConfig, JWT_AUTH_TOKEN_CONFIG } from 's
       useFactory: (configService: ConfigService) => configService.get<JwtAuthTokenConfig>(JWT_AUTH_TOKEN_CONFIG) as any,
       inject: [ConfigService]
     }),
+    SequelizeModule.forFeature([User])
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy, SessionSerializer],

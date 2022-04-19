@@ -1,5 +1,6 @@
 import { IsString, Length } from 'class-validator';
-import { IUser, User } from 'src/database/models/user.model';
+import { IUser } from 'hexchess-database';
+
 
 interface IRegistration {
   email: string;

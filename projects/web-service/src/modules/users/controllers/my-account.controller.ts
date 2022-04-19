@@ -1,18 +1,10 @@
-import { Controller, UseGuards, Get, Req, Query, UseFilters, Catch, HttpException, ExceptionFilter, ArgumentsHost, HttpStatus, Post, Put, Delete, Body, UnauthorizedException, Patch, Param, ValidationPipe, Res, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
-import { Profile } from 'src/database/models/profile.model';
+import { Controller, UseGuards, Get, UseFilters, Catch, ExceptionFilter, ArgumentsHost, HttpStatus, Delete, Body, Patch } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
-import { ProfileDto } from '../models/profileDto';
-import { ProfilesService, QueryAction, ServiceException } from '../services/profiles.service';
+import { ServiceException } from '../services/profiles.service';
 import { Request, Response } from 'express';
-import { PropsValidationPipe } from 'src/utils/props-validation-pipe/props-validation.pipe';
-import { PropsFilterPipe } from 'src/utils/props-filter-pipe/props-filter.pipe';
-import { NotEmptyValidatorPipe } from 'src/utils/not-empty-validator-pipe/not-empty-validator.pipe';
-import { AssignedArmy } from 'src/database/models/assigned-army.model';
-import { AssignedArmyDto } from '../models/assigned-army.dto';
 import { ModelValidationPipe } from 'src/utils/model-validation-pipe/model-validation.pipe';
 import { User } from 'src/core/extensions/decorators/context-user.decorator';
 import { ContextUser } from 'src/core/models/context-user';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from '../services/users.service';
 import { UserDto } from '../models/userDto';
 import { MyAccountDto } from '../models/my-account.dto';
@@ -24,8 +16,6 @@ export class ServiceExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-
-
 
     const status =
       exception instanceof ServiceException
@@ -87,12 +77,4 @@ export class AccountController {
   ) {
     await this._userService.deleteUser(contextUser.id);
   }
-
-
 }
-
-
-
-
-
-

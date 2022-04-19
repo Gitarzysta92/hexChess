@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
-import { DatabaseModule } from './database/database.module';
 import { GameSessionModule } from './modules/game-session/game-session.module';
 import { MailSenderModule } from './utils/mail-sender/mail-sender.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -29,15 +28,12 @@ import { BlobStorageConfig, blobStorageConfig, BLOB_STORAGE_CONFIG } from './con
       useFactory: (configService: ConfigService) => configService.get<BlobStorageConfig>(BLOB_STORAGE_CONFIG) as any,
       inject: [ConfigService]
     }),
-  
-    
     // JwtModule.register({
     //   secret: jwtConstants.secret,
     //   signOptions: { expiresIn: '24h' },
     // }),
     AuthModule,
     UsersModule,
-    DatabaseModule,
     GameSessionModule,
   ],
   providers: [

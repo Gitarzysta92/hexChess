@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from 'hexchess-database';
 import { CoreModule } from 'src/core/core.module';
 import { SystemConfiguration } from 'src/core/system-configuration.service';
-import { DatabaseModule } from 'src/database/database.module';
+
 import { TokenGenerator } from 'src/utils/token-generator/token-generator';
 import { UtilityModule } from 'src/utils/utility.module';
 import { UsersModule } from '../users/users.module';
@@ -11,10 +13,23 @@ import { MatchmakingService } from './services/matchmaking.service';
 import { MatchmakingFactory } from './utlis/matchmaking.factory';
 
 @Module({
-  imports: [DatabaseModule, UsersModule, CoreModule, UtilityModule],
-  controllers: [MatchmakingController],
-  providers: [MatchmakingService, GameSessionGateway, MatchmakingFactory],
-  exports: [MatchmakingService],
+  imports: [
+    SequelizeModule.forFeature([User]), 
+    UsersModule, 
+    CoreModule, 
+    UtilityModule
+  ],
+  controllers: [
+    MatchmakingController
+  ],
+  providers: [
+    MatchmakingService, 
+    GameSessionGateway, 
+    MatchmakingFactory
+  ],
+  exports: [
+    MatchmakingService
+  ],
 })
 export class GameSessionModule {
   constructor(

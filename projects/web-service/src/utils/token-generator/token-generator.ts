@@ -17,7 +17,7 @@ export class TokenGenerator {
 
       jwt.verify(token, this._secret, function(err, decoded) {
         if (err) return rejected();
-        resolved(decoded);
+        resolved(decoded as any);
       });
     });
   };

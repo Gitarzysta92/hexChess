@@ -6,18 +6,13 @@ import {
   BelongsTo,
   ForeignKey,
   BeforeCreate,
-  HasOne,
   HasMany,
 } from 'sequelize-typescript';
-import { User } from './user.model';
-import { UUIDV4 } from 'sequelize';
+import { User } from './user';
 import { v4 as uuid } from 'uuid';
-import { AssignedArmy } from './assigned-army.model';
+import { AssignedArmy } from './assigned-army';
+import { IProfile } from '../interfaces/i-profile';
 
-export interface IProfile {
-  id: string;
-  nickname: string;
-}
 
 @Table
 export class Profile extends Model<Profile> implements IProfile {
