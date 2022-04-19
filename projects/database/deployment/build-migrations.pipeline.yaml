@@ -10,7 +10,7 @@ pool:
 
 variables:
   root: '$(System.DefaultWorkingDirectory)/projects/database/'
-  source: '$(System.DefaultWorkingDirectory)/projects/database/management/migrations'
+  source: '$(System.DefaultWorkingDirectory)/projects/database/src/management/migrations'
 
 steps:
 - task: NodeTool@0

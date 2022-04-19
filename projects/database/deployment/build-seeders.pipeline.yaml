@@ -10,7 +10,7 @@ pool:
 
 variables:
   root: '$(System.DefaultWorkingDirectory)/projects/database/'
-  source: '$(System.DefaultWorkingDirectory)/projects/database/management/seeders'
+  source: '$(System.DefaultWorkingDirectory)/projects/database/src/management/seeders'
 
 steps:
 - task: NodeTool@0
