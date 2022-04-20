@@ -68,6 +68,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
     osType: 'Linux'
     restartPolicy: restartPolicy
     ipAddress: {
+      dnsNameLabel: 'hexchess-client'
       type: 'Public'
       ports: [
         {
