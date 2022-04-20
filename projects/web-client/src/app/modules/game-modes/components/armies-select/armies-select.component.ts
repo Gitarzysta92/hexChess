@@ -5,7 +5,7 @@ import { IconsToken, ICONS } from 'src/app/constants/icons';
 import { Army } from 'src/app/modules/matchmaking/components/player-badge/player-badge.component';
 import { HexagonColors } from 'src/app/shared/components/hexagon/hexagon.component';
 import { PanelOverlayComponent } from 'src/app/shared/components/panel-overlay/panel-overlay.component';
-import { StateContainer } from 'utils';
+import { StateContainer } from 'hexchess-utils';
 
 
 @Component({
