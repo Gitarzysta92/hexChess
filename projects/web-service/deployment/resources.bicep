@@ -108,11 +108,11 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
             }
             {
               name: 'BLOB_CONNECTION_STRING'
-              secureString: blobConnectionString
+              secureValue: blobConnectionString
             }
             {
               name: 'AUTH_TOKEN_SECRET'
-              secureString: 'asd'
+              secureValue: 'asd'
             }
           ]
           ports: [
