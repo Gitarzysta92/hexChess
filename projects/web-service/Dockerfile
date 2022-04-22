@@ -8,6 +8,7 @@ RUN npm run build
 FROM node:17-alpine3.14 as prod
 WORKDIR /app
 COPY --from=build app/dist/ .
+COPY --from=build app/node_modules ./node_modules
 ENV MYSQL_DATABASE_DIALECT = 'mysql'
 ENV MYSQL_DATABASE_HOST = 'localhost'
 ENV MYSQL_DATABASE_PORT = '3306'
