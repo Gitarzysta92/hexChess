@@ -22,7 +22,7 @@ param memoryInGb int = 2
   'Never' 
   'OnFailure'
 ])
-param restartPolicy string = 'Always'
+param restartPolicy string = 'Never'
 
 @secure()
 param password string = ''
