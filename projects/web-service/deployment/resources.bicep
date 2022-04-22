@@ -68,51 +68,51 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
           environmentVariables: [
             {
               name: 'MYSQL_DATABASE_DIALECT'
-              secureValue: 'mysql'
+              value: 'mysql'
             }
             {
               name: 'MYSQL_DATABASE_HOST'
-              secureValue: 'mn26.webd.pl'
+              value: 'mn26.webd.pl'
             }
             {
               name: 'MYSQL_DATABASE_PORT'
-              secureValue: '3306'
+              value: '3306'
             }
             {
               name: 'MYSQL_DATABASE_NAME'
-              secureValue: databaseUsername
+              value: databaseUsername
             }
             {
               name: 'MYSQL_DATABASE_USER'
-              secureValue: databaseUsername
+              value: databaseUsername
             }
             {
               name: 'MYSQL_DATABASE_PASSWORD'
-              secureValue: databasePassword
+              value: databasePassword
             }
             {
               name: 'SMTP_HOST'
-              secureValue: 'mich002.webd.pl'
+              value: 'mich002.webd.pl'
             }
             {
               name: 'SMTP_PORT'
-              secureValue: '465'
+              value: '465'
             }
             {
               name: 'SMTP_USERNAME'
-              secureValue: smtpUsername
+              value: smtpUsername
             }
             {
               name: 'SMTP_PASSWORD'
-              secureValue: smtpPassword
+              value: smtpPassword
             }
             {
               name: 'BLOB_CONNECTION_STRING'
-              secureValue: blobConnectionString
+              value: blobConnectionString
             }
             {
               name: 'AUTH_TOKEN_SECRET'
-              secureValue: 'asd'
+              value: 'asd'
             }
           ]
           ports: [
