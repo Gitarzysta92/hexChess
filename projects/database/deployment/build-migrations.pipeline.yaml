@@ -10,23 +10,11 @@ pool:
 
 variables:
   root: '$(System.DefaultWorkingDirectory)/projects/database/'
-  source: '$(System.DefaultWorkingDirectory)/projects/database/src/management/'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(root)
-    Contents: 'package.json'
-    TargetFolder: $(source)
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: $(source)
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 

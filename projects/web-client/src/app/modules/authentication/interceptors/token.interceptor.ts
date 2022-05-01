@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import { catchError, tap } from 'rxjs/operators';
 import { RoutingService } from 'src/app/core';
@@ -34,8 +34,9 @@ export class TokenInterceptor implements HttpInterceptor {
         if ((err as HttpErrorResponse).status === 401) {
           this._userService.unauthenticate();
           this._routingService.nagivateToLogin();
+        } else {
+          return throwError(err);
         }
-        return of(err)
       }))
       //.pipe(tap(res => console.log(res)));
   }

@@ -10,7 +10,7 @@
       <i name="save"></i>
       <span>Upload avatar</span>
     </label>
-    <img src="{{fileSrc}}"/>
+    <img src="{{ fileUrl }}" (error)="setDefaultAvatar($event)"/>
   </form>
 </div>
 

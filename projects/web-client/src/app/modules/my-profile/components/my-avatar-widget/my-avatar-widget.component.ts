@@ -12,7 +12,7 @@ import { MyProfileStore } from '../../stores/my-profile.store';
   selector: 'my-avatar-widget',
   template: `
   <div class="img-wrapper" (click)="navigateToMyProfile()">
-    <img [src]="(avatar | async) || 'assets/images/avatar.png'"/>
+    <img [src]="(avatar | async)" (error)="setDefaultAvatar($event)" />
   </div>
   `,
   styleUrls: ['./my-avatar-widget.component.scss']
@@ -39,6 +39,10 @@ export class MyAvatarWidgetComponent implements OnInit {
 
   public navigateToMyProfile(): void {
     this._routingService.navigateToMyProfile();
+  }
+
+  public setDefaultAvatar(event: any) {
+    event.target.src = 'assets/images/avatar.png';
   }
 
 }

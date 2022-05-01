@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserDto } from 'src/modules/users/models/userDto';
 import { MailSender } from 'src/utils/mail-sender/mail-sender';
+import { ProfilesService } from 'src/modules/users/services/profiles.service';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
     private readonly _usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly _mailSender: MailSender,
+    private readonly _profileService: ProfilesService
     //private readonly _dateTime: DatetimeHelper
   ) {}
 
@@ -26,9 +28,10 @@ export class AuthService {
     return null;
   }
 
-  public async getToken(user: UserDto): Promise<string> {
-    const newUser = await this._usersService.getUserById(user.id)
-    return this.jwtService.sign({ username: newUser.email, id: newUser.id });
+  public async getToken(userDto: UserDto): Promise<string> {
+    const user = await this._usersService.getUserById(userDto.id);
+    const profile = await this._profileService.getProfile(userDto.id);
+    return this.jwtService.sign({ username: user.email, id: user.id, profileId: profile.id });
   }
 
 

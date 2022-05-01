@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadingViewComponent } from './loading-view.component';
+import { MatchmakingLoadingViewComponent } from './loading-view.component';
 
 describe('LoadingViewComponent', () => {
-  let component: LoadingViewComponent;
-  let fixture: ComponentFixture<LoadingViewComponent>;
+  let component: MatchmakingLoadingViewComponent;
+  let fixture: ComponentFixture<MatchmakingLoadingViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoadingViewComponent ]
+      declarations: [ MatchmakingLoadingViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoadingViewComponent);
+    fixture = TestBed.createComponent(MatchmakingLoadingViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,11 +9,12 @@
     "compile": "npx tsc --watch",
     "export": "npm pack",
     "migrate": "npx sequelize-cli db:migrate",
-    "seed": "npx sequelize-cli db:seed"
+    "seed": "npx sequelize-cli db:seed:all"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.19.0",

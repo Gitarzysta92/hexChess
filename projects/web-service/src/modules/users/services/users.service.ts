@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 
 import * as bcrypt from 'bcrypt';
 import { UserDto } from '../models/userDto';
-import { QueryAction, QueryResult, Update } from 'src/core/models/query-result';
+import { QueryAction, QueryResult, Update } from 'src/aspects/events/services/models/query-result';
 import { Op } from 'sequelize';
 import { User } from 'src/db-models/user';
 

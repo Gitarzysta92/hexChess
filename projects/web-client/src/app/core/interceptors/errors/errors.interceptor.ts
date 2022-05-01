@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(catchError(x => {
       //console.log(x);
-      return of(x);
+      return throwError(x);
     }));
   }
 }

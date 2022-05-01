@@ -14,20 +14,16 @@ import { Response, Request } from 'express';
 import {
   Credentials,
   GuestCredentials,
-  ILocalUser,
 } from '../models/credentials';
 import { AuthService } from '../services/auth.service';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UserDto } from 'src/modules/users/models/userDto';
 
-import { LocalUser } from 'src/modules/game-session/controllers/matchmaking.controller';
 import { ModelValidationPipe } from 'src/utils/model-validation-pipe/model-validation.pipe';
 import { UsersService } from 'src/modules/users/services/users.service';
 import { PasswordReset } from '../models/password-reset-email';
-import { throws } from 'assert';
-import { ContextUser } from 'src/core/models/context-user';
-import { User } from 'src/core/extensions/decorators/context-user.decorator';
+import { ContextUserData, ContextUser } from 'src/extensions/decorators/context-user.decorator';
 
 
 
@@ -67,7 +63,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('refresh-token')
   async refreshToken(
-    @User() user: ContextUser
+    @ContextUser() user: ContextUserData
   ) {
     return await this._authService.getToken(user as UserDto)
   }

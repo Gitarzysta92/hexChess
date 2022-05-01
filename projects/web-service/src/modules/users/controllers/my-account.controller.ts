@@ -3,8 +3,7 @@ import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { ServiceException } from '../services/profiles.service';
 import { Request, Response } from 'express';
 import { ModelValidationPipe } from 'src/utils/model-validation-pipe/model-validation.pipe';
-import { User } from 'src/core/extensions/decorators/context-user.decorator';
-import { ContextUser } from 'src/core/models/context-user';
+import { ContextUserData, ContextUser } from 'src/extensions/decorators/context-user.decorator';
 import { UsersService } from '../services/users.service';
 import { UserDto } from '../models/userDto';
 import { MyAccountDto } from '../models/my-account.dto';
@@ -53,7 +52,7 @@ export class AccountController {
 
   @Get()
   async getMyAccount(
-    @User() user: ContextUser,
+    @ContextUser() user: ContextUserData,
   ): Promise<MyAccountDto> {
     const result = await this._userService.getUser(user.email);
     return new MyAccountDto(result);
@@ -62,7 +61,7 @@ export class AccountController {
   @Patch()
   async updateMyAccount(
     @Body(new ModelValidationPipe({ skipMissingProps: true })) myAccount: MyAccountDto,
-    @User() user: ContextUser,
+    @ContextUser() user: ContextUserData,
   ) {
 
     const userData = new UserDto(myAccount);
@@ -73,7 +72,7 @@ export class AccountController {
   @UseGuards(JwtAuthGuard)
   @Delete()
   async deleteMyUser(
-    @User() contextUser: ContextUser,
+    @ContextUser() contextUser: ContextUserData,
   ) {
     await this._userService.deleteUser(contextUser.id);
   }

@@ -17,7 +17,7 @@ export interface PanelOrigin {
   selector: 'panel-overlay',
   template: `<ng-template 
     cdkConnectedOverlay 
-    [cdkConnectedOverlayOrigin]="origin" 
+    [cdkConnectedOverlayOrigin]="origin.elementRef" 
     [cdkConnectedOverlayOpen]="isOpen"
     [cdkConnectedOverlayWidth]="width"
     (overlayOutsideClick)="hidePanelByClick($event)">

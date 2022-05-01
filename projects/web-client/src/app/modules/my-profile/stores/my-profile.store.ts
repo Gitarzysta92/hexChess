@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { iif, Observable, of } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/aspects/services/local-storage.service';
 import { Collection, StoreService } from 'src/app/core';
 import { MyProfile } from '../models/profile';
@@ -42,7 +42,7 @@ export class MyProfileStore {
   private _registerStore() {
     this._collection = this._store.register<MyProfile>(myProfile, () => {
       return {
-        initialState: this._localStorage.get(this._localStorageKey).pipe(catchError(() => this._profileService.getMyProfile())),
+        initialState: this._localStorage.get(this._localStorageKey).pipe(switchMap(data => !!data ? of(data) : this._profileService.getMyProfile())),
         actions: { 
           [updateMyProfile]: {
             before: [profile => this._profileService.updateMyProfile(profile)], 

@@ -5,7 +5,7 @@
         <div class="column avatar" style="position: relative;">
           <avatar-upload
             [@slideIn]="{ value: true, params: { delay: '50ms' }}" 
-            [fileName]="profile.avatar" 
+            [fileUrl]="avatarUrl" 
             (newFile)="updateAvatar($event)">
           </avatar-upload>
         </div>

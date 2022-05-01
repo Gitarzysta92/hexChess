@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from 'src/app/core';
-import { GameSessionService } from 'src/app/modules/matchmaking/services/game-session/game-session.service';
+
 import { CommandsFactory } from '../../commands/commands-factory';
 import { BaseCommand } from '../../lib/command-bus/base-command';
 import { CommandBusService, DefaultHandler } from '../../lib/command-bus/command-bus.service';
@@ -17,7 +17,7 @@ import { StateTransitionValidatorService } from '../../services/state-transition
   templateUrl: './play-view.component.html',
   styleUrls: ['./play-view.component.scss'],
   providers: [
-    GameSessionService 
+    //GameSessionService 
   ]
 })
 export class PlayViewComponent implements OnInit {
@@ -26,7 +26,7 @@ export class PlayViewComponent implements OnInit {
   gameData: GameData;
 
   constructor(
-    private readonly _gameSession: GameSessionService,
+    //private readonly _gameSession: GameSessionService,
     private readonly _route: ActivatedRoute,
     private readonly _routingService: RoutingService,
     private readonly _commandBusService: CommandBusService,
@@ -77,7 +77,7 @@ export class PlayViewComponent implements OnInit {
   }
 
   public sendMessage(): void {
-    this._gameSession.sendMessage(this.roomId);
+    //this._gameSession.sendMessage(this.roomId);
   }
 
   public navigateToLobby(): void {

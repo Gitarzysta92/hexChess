@@ -7,6 +7,7 @@ type email = string;
 interface AuthToken {
   username: email, 
   id: number;
+  profileId: string;
   exp: number;
   iat: number;
 }
@@ -28,6 +29,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: AuthToken) {
-    return { id: payload.id, email: payload.username };
+    return { id: payload.id, email: payload.username, profileId: payload.profileId };
   }
 }

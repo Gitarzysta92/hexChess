@@ -13,14 +13,12 @@ export function setup(app: INestApplication): void {
   //   }),
   // );
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+  //app.use(passport.initialize());
+  //app.use(passport.session());
 
-  // app.enableCors({
-  //   origin: process.env.ALLOWED_ORIGINS?.split(/\s*,\s*/) ?? '*',
-  //   credentials: true,
-  //   exposedHeaders: ['Authorization'],
-  // });
-
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.ALLOWED_ORIGIN,
+    credentials: true,
+    exposedHeaders: ['Authorization'],
+  });
 }

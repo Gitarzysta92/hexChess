@@ -31,8 +31,5 @@ export const databaseConfig = registerAs(MYSQL_DATABASE_CONFIG, () => {
       timestamps: false,
     },
   }
-
-  console.log(config);
-
   return config;
 });

@@ -12,15 +12,24 @@ import { Profile } from 'src/db-models/profile';
 import { User } from 'src/db-models/user';
 
 
-
 @Module({
   imports: [
     SequelizeModule.forFeature([User, Profile, AssignedArmy]),
     BlobStorageModule.forFeature('avatars'),
   ],
-  controllers: [UsersController, ProfilesController, AccountController],
-  providers: [UsersService, ProfilesService],
-  exports: [UsersService, ProfilesService],
+  controllers: [
+    UsersController, 
+    ProfilesController, 
+    AccountController
+  ],
+  providers: [
+    UsersService, 
+    ProfilesService
+  ],
+  exports: [
+    UsersService, 
+    ProfilesService
+  ],
 })
 export class UsersModule {}
  

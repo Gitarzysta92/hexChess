@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Subject, distinct, pairwise, map } from 'rxjs';
 import { IconsToken, ICONS } from 'src/app/constants/icons';
-import { Army } from 'src/app/modules/matchmaking/components/player-badge/player-badge.component';
+import { Army } from "src/app/modules/matchmaking/models/matched-player";
 import { HexagonColors } from 'src/app/shared/components/hexagon/hexagon.component';
 import { PanelOverlayComponent } from 'src/app/shared/components/panel-overlay/panel-overlay.component';
 import { StateContainer } from 'hexchess-utils';

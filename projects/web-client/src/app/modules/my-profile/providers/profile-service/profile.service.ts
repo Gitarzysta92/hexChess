@@ -76,6 +76,7 @@ export class ProfileService {
       //   this._localDb.store('MyAccount', ma);
       // }));
   }
+
   public refreshToken() {
     return this._httpClient.get(this._config.apiUrl + '/refresh-token', { headers, responseType: "text" })
       .subscribe(result => {
@@ -87,8 +88,12 @@ export class ProfileService {
       })
   }
 
-  
   public updateMyAccount(account: any): Observable<any> {
     return this._httpClient.patch(this._config.apiUrl + '/account', account , { headers, responseType: "text" });
+  }
+
+  public getMyAvatarUrl(fileName: string): Observable<string> {
+    return this._httpClient.get(this._config.avatarsBlobStorageUrl + fileName, { responseType: 'blob'})
+      .pipe(map(r => URL.createObjectURL(r)))
   }
 }

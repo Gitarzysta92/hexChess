@@ -5,8 +5,6 @@ import { io, Socket } from 'socket.io-client';
 
 
 
-
-
 export const SOCKET_CONFIG_TOKEN = new InjectionToken<SocketIoConfig>('__SOCKET_IO_CONFIG__');
 
 export interface SocketIoConfig {
@@ -16,77 +14,74 @@ export interface SocketIoConfig {
 
 @Injectable()
 export class WrappedSocket {
-    subscribersCounter = 0;
-    ioSocket: Socket;
+  subscribersCounter = 0;
+  ioSocket: Socket;
+  url: string;
+  options: any;
 
-    constructor(@Optional() @Inject(SOCKET_CONFIG_TOKEN) config: SocketIoConfig) {
-        const url: string = config?.url || '';
-        const options: any = config?.options || {};
+  constructor(
+    @Inject(SOCKET_CONFIG_TOKEN) config: SocketIoConfig
+  ) {
+    this.url = config?.url || '';
+    this.options = config?.options || {};
+  }
 
-        if (url.length > 0) {
+  connect(options) {
+    if (this.url.length === 0)
+      throw new Error('Invalid websocket url')
 
+    this.ioSocket = io(this.url, Object.assign(this.options, options));
+    return this.ioSocket.connect();
+  }
 
- 
-            this.ioSocket = io(url, options);
-        }  
-    }
+  disconnect(): void {
+    this.ioSocket?.disconnect();
+  }
 
-    on(eventName: string, callback: () => any) {
-        this.ioSocket.on(eventName, callback);
-    }
+  on(eventName: string, callback: () => any) {
+    this.ioSocket.on(eventName, callback);
+  }
 
-    once(eventName: string, callback: (...args: any[]) => void) {
-        this.ioSocket.once(eventName, callback);
-    }
+  once(eventName: string, callback: (...args: any[]) => void) {
+    this.ioSocket.once(eventName, callback);
+  }
 
-    connect(options) {
-        this.ioSocket
+  emit(eventName: string, data?: any, callback?: Function) {
+    return this.ioSocket.emit.apply(this.ioSocket, arguments);
+  }
 
+  removeListener(eventName: string, callback?: Function) {
+    return this.ioSocket.removeListener.apply(this.ioSocket, arguments);
+  }
 
-        //this.ioSocket = io(url, options);
-        return this.ioSocket.connect();
-    }
+  removeAllListeners(eventName?: string) {
+    return this.ioSocket.removeAllListeners.apply(this.ioSocket, arguments);
+  }
 
-    disconnect(close?: any) {
-        return this.ioSocket.disconnect.apply(this.ioSocket, arguments);
-    }
+  /** create an Observable from an event */
+  fromEvent<T>(eventName: string): Observable<T> {
+    this.subscribersCounter++;
+    return new Observable<T>((observer: any) => {
+      this.ioSocket.on(eventName, (data: T) => {
+        observer.next(data);
+      });
+      return () => {
+        if (this.subscribersCounter === 1)
+          this.ioSocket.removeListener(eventName);
+      };
+    }).pipe(share())
+  }
 
-    emit(eventName: string, data?: any, callback?: Function) {
-        return this.ioSocket.emit.apply(this.ioSocket, arguments);
-    }
+  /* Creates a Promise for a one-time event */
+  fromEventOnce<T>(eventName: string): Promise<T> {
+    return new Promise<T>(resolve => this.once(eventName, resolve));
+  }
 
-    removeListener(eventName: string, callback?: Function) {
-        return this.ioSocket.removeListener.apply(this.ioSocket, arguments);
-    }
-
-    removeAllListeners(eventName?: string) {
-        return this.ioSocket.removeAllListeners.apply(this.ioSocket, arguments);
-    }
-
-    /** create an Observable from an event */
-    fromEvent<T>(eventName: string): Observable<T> {
-        this.subscribersCounter++;
-        return new Observable<T>((observer: any) => {
-             this.ioSocket.on(eventName, (data: T) => {
-                 observer.next(data);
-             });
-             return () => {
-                 if (this.subscribersCounter === 1)
-                    this.ioSocket.removeListener(eventName);
-            };
-        }).pipe(share())
-    }
-   
-    /* Creates a Promise for a one-time event */
-    fromEventOnce<T>(eventName: string): Promise<T> {
-        return new Promise<T>(resolve => this.once(eventName, resolve));
-    }
-
-    changeRoom(name: string) {
+  changeRoom(name: string) {
     console.log('socket-name', name);
-      return this.ioSocket.on('connection', socket => {
-          console.log(socket);
-          socket.join(name);
-        });
-    }
+    return this.ioSocket.on('connection', socket => {
+      console.log(socket);
+      socket.join(name);
+    });
+  }
 }

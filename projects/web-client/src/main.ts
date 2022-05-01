@@ -9,7 +9,7 @@ import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
 } else {
-  loadDemoDataToLocalStorage();
+  //loadDemoDataToLocalStorage();
 }
 
 platformBrowserDynamic()

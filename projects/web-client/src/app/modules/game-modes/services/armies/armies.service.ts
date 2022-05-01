@@ -47,7 +47,7 @@ export class ArmiesService {
 
   constructor(
     private readonly _httpClient: HttpClient,
-    private readonly _config: ConfigurationService
+    private readonly _config: ConfigurationService,
   ) { }
 
   public setSelectedArmies(selectedArmies: MySelectedArmy[]): Observable<boolean> {

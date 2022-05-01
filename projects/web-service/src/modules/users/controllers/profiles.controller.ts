@@ -7,8 +7,8 @@ import { PropsFilterPipe } from 'src/utils/props-filter-pipe/props-filter.pipe';
 import { NotEmptyValidatorPipe } from 'src/utils/not-empty-validator-pipe/not-empty-validator.pipe';
 import { AssignedArmyDto, MyAssignedArmyDto } from '../models/assigned-army.dto';
 import { ModelValidationPipe } from 'src/utils/model-validation-pipe/model-validation.pipe';
-import { User } from 'src/core/extensions/decorators/context-user.decorator';
-import { ContextUser } from 'src/core/models/context-user';
+import { ContextUserData, ContextUser } from 'src/extensions/decorators/context-user.decorator';
+
 import { FileInterceptor } from '@nestjs/platform-express';
 
 
@@ -25,7 +25,7 @@ export class ServiceExceptionFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
     response
-      .status(status)
+      .status(status) 
       .json({
         statusCode: status,
         timestamp: new Date().toISOString(),
@@ -86,7 +86,7 @@ export class ProfilesController {
   @UseInterceptors(FileInterceptor('avatar')) 
   async updateMyAvatar(
     @UploadedFile() avatar: Express.Multer.File,
-    @User() user: ContextUser,
+    @ContextUser() user: ContextUserData,
   ) {
     if (!avatar) {
       throw new BadRequestException();
@@ -109,7 +109,7 @@ export class ProfilesController {
 
   @Get('me/armies')
   @UseGuards(JwtAuthGuard)
-  async getMyAssignedArmies(@User() user: ContextUser) {
+  async getMyAssignedArmies(@ContextUser() user: ContextUserData) {
     const profileId = await this._profilesService.getProfileId(user?.id);
     if (!profileId) throw new UnauthorizedException();
 
@@ -122,7 +122,7 @@ export class ProfilesController {
   @UseGuards(JwtAuthGuard)
   async synchronizeAssignedArmies(
     @Body(new ModelValidationPipe({ explicitModel: [MyAssignedArmyDto] })) armies: MyAssignedArmyDto[],
-    @User() user: ContextUser
+    @ContextUser() user: ContextUserData
   ) {
     const profileId = await this._profilesService.getProfileId(user?.id);
     if (!profileId) throw new UnauthorizedException();
@@ -137,7 +137,7 @@ export class ProfilesController {
   @UseGuards(JwtAuthGuard)
   async createOrUpdateAssignedArmy(
     @Body(ModelValidationPipe) army: AssignedArmyDto,
-    @User() user: ContextUser,
+    @ContextUser() user: ContextUserData,
     @Res() res: Response
   ) {
     const profileId = await this._profilesService.getProfileId(user?.id);
@@ -164,7 +164,7 @@ export class ProfilesController {
   async updateAssignedArmy(
     @Param('priority') priority: number,
     @Body(new PropsFilterPipe(['armyId']), NotEmptyValidatorPipe) army: AssignedArmyDto,
-    @User() user: ContextUser,
+    @ContextUser() user: ContextUserData,
     @Res() res: Response
   ) {
     const profileId = await this._profilesService.getProfileId(user?.id);
@@ -191,7 +191,7 @@ export class ProfilesController {
   @UseGuards(JwtAuthGuard)
   async deleteAssignedArmy(
     @Param('priority') priority: number,
-    @User() user: ContextUser,
+    @ContextUser() user: ContextUserData,
     @Res() res: Response
   ) {
     const profileId = await this._profilesService.getProfileId(user?.id);
@@ -211,9 +211,3 @@ export class ProfilesController {
     }
   }
 }
-
-
-
-
-
-

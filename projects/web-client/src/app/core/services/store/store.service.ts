@@ -301,7 +301,7 @@ class ActionWrapper {
         await result.toPromise()
       }
     } catch (error) {
-      return this._finished.thrownError();
+      return this._finished.error(error);
     }
 
     this.execute();

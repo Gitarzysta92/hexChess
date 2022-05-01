@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
@@ -10,33 +11,22 @@ import { MyProfileStore } from '../../stores/my-profile.store';
   styleUrls: ['./avatar-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AvatarUploadComponent implements OnInit, OnChanges {
+export class AvatarUploadComponent implements OnInit {
 
-  @Input() fileName: string;
+  @Input() fileUrl: string | undefined;
   @Output() newFile: EventEmitter<any> = new EventEmitter()
 
-  public fileSrc: string;
   public hovered: boolean;
   public newFileName: string;
 
   constructor(
-    private readonly _configService: ConfigurationService,
-    private readonly _changeDetectorRef: ChangeDetectorRef
+    private readonly _changeDetectorRef: ChangeDetectorRef,
+    private readonly _configurationService: ConfigurationService
   ) { 
-    this.fileSrc = 'assets/images/avatar.png';
     this.hovered = false;
   }
 
-  ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.fileName.currentValue) {
-      this.fileSrc = 'assets/images/avatar.png';
-      return;
-    };
-    this.fileSrc = `${this._configService.avatarsBlobStorageUrl}/${this.fileName}`;
-  }
+  ngOnInit(): void { }
 
   public updateAvatar(event): void {
     this.newFileName = event.target.files[0];
@@ -47,5 +37,9 @@ export class AvatarUploadComponent implements OnInit, OnChanges {
     event.preventDefault();
     this.hovered = event.type === "mouseenter"; 
     this._changeDetectorRef.detectChanges();
+  }
+
+  public setDefaultAvatar(event: any) {
+    event.target.src = this._configurationService.defaultAvatarUrl
   }
 }

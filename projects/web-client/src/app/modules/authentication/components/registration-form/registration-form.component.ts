@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { TextInputConfig } from 'src/app/shared/components/text-input/text-input.component';
+import { AccountValidators } from 'src/app/shared/validators/account.validator';
 import { CustomValidators } from 'src/app/shared/validators/custom.validator';
 import { ProfileValidators } from 'src/app/shared/validators/unique-profile.validator';
 import { AuthPolicies, PoliciesToken } from '../../constants/policies';
@@ -11,7 +12,7 @@ import { AuthPolicies, PoliciesToken } from '../../constants/policies';
   selector: 'registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss'],
-  providers: [ ProfileValidators ]
+  providers: [ ProfileValidators, AccountValidators ]
 })
 export class RegistrationFormComponent {
 
@@ -22,6 +23,7 @@ export class RegistrationFormComponent {
 
   constructor(
     private readonly _profileValidators: ProfileValidators,
+    private readonly _accountValidators: AccountValidators,
     @Inject(PoliciesToken) public readonly policies: AuthPolicies
   ) {
     this.formConfig = {
@@ -30,7 +32,7 @@ export class RegistrationFormComponent {
         validators: [ Validators.minLength(4), Validators.maxLength(16) ]
       },
       email: {
-        asyncValidators: [ this._profileValidators.unique('email') ],
+        asyncValidators: [ this._accountValidators.emailUniqueness.bind(this._accountValidators) ],
         validators: [ CustomValidators.email ]
       },
       password: {

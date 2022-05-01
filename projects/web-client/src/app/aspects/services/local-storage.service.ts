@@ -11,7 +11,7 @@ export class LocalStorageService {
 
   get<T extends object>(localStorageKey: string): Observable<T> {
     return of(JSON.parse(localStorage.getItem(localStorageKey)))
-      .pipe(map(v => !!v ? v : throwError(() => new Error())));
+      //.pipe(map(v => !!v ? v : throwError(() => new Error()))).pipe(tap(console.log));
   }
   update<T extends object>(localStorageKey: string, profile: T): void {
     localStorage.setItem(localStorageKey, JSON.stringify(profile))

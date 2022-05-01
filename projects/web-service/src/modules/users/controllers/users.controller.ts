@@ -4,11 +4,6 @@ import {
   Body,
   UseGuards,
   Get,
-  Req,
-  Delete,
-  Param,
-  Put,
-  Session,
   Patch,
   Res,
   HttpStatus,
@@ -18,18 +13,11 @@ import { UsersService } from '../services/users.service';
 import { UserDto, UserRegistrationDto } from '../models/userDto';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { ProfilesService } from '../services/profiles.service';
-import { isNullOrUndefined } from 'util';
 import { ModelValidationPipe } from 'src/utils/model-validation-pipe/model-validation.pipe';
 import { PropsFilterPipe } from 'src/utils/props-filter-pipe/props-filter.pipe';
-import { NotEmptyValidatorPipe } from 'src/utils/not-empty-validator-pipe/not-empty-validator.pipe';
-import { User } from 'src/core/extensions/decorators/context-user.decorator';
-import { ContextUser } from 'src/core/models/context-user';
-import { Request, Response } from 'express';
-import { IsEmail, isEmail, IsOptional, IsString } from 'class-validator';
+import { ContextUserData, ContextUser } from 'src/extensions/decorators/context-user.decorator';
+import { Response } from 'express';
 import { ExistingUserQueryDto } from '../models/existing-user-query.dto';
-
-
-
 
 
 @Controller('user')
@@ -56,7 +44,7 @@ export class UsersController {
       new PropsFilterPipe(['email', 'password']), 
       new ModelValidationPipe({ skipMissingProps: true })
     ) user: UserDto,
-    @User() contextUser: ContextUser,
+    @ContextUser() contextUser: ContextUserData,
     @Res() res: Response
   ) {
     user.id = contextUser.id;
@@ -69,11 +57,10 @@ export class UsersController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('exists')
   async isExists(
     @Query(new ModelValidationPipe()) query: ExistingUserQueryDto,
-    @User() contextUser: ContextUser,
+    @ContextUser() contextUser: ContextUserData,
   ): Promise<boolean> {
 
     if (contextUser) {
@@ -83,6 +70,4 @@ export class UsersController {
     return await this._usersService.checkIsUserExists(query);
   }
 
-
 }
-

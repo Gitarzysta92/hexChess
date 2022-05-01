@@ -18,7 +18,9 @@ enum ItemsInRow {
 type Coordinates = number[];
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HexBoard {
   private _fieldsDistribution: Bitmap;
   public fieldsCoordinates: Coordinates[];

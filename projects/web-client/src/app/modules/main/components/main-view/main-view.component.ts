@@ -39,6 +39,9 @@ export class MainViewComponent implements OnInit, OnDestroy {
   secondaryMenu: any;
   mobileMenu: any;
 
+
+  isOpen: boolean =false;
+
   constructor(
     public readonly routing: RoutingService,
     private readonly _changeDetector: ChangeDetectorRef,

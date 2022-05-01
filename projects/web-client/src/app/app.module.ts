@@ -40,7 +40,7 @@ import { ResourcesInterceptor } from './core/interceptors/http.interceptor';
     { provide: Window, useValue: window },
     { provide: Document, useValue: document },
     { provide: HTTP_INTERCEPTORS, useClass: Authentication.Interceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },
+    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },
     //{ provide: HTTP_INTERCEPTORS, useClass: ResourcesInterceptor, multi: true },
     { provide: IconsToken, useValue: ICONS },
     //{ provide: ErrorHandler, useClass: MyErrorHandler }

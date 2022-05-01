@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { WrappedSocket } from 'src/app/utils/ng-web-sockets/ng-web-sockets.service';
+
 
 
 
@@ -12,7 +12,6 @@ import { WrappedSocket } from 'src/app/utils/ng-web-sockets/ng-web-sockets.servi
   exports: [
   ],
   providers: [
-    WrappedSocket
   ]
 })
 export class MatchmakingSharedModule { }

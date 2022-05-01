@@ -1,7 +1,7 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { concatMap, map, tap } from 'rxjs/operators';
+import { concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { ConfigurationService } from 'src/app/core';
 import { PanelOverlayComponent } from 'src/app/shared/components/panel-overlay/panel-overlay.component';
 import { ArmyBadge, MySelectedArmy } from '../../models/army';
@@ -52,8 +52,8 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.selectedArmies = this._armiesService.getArmiesBadges()
-      .pipe(concatMap(val => this._getSelectedArmies(val)))
+    this.selectedArmies = this._selectedArmiesStore.state
+      .pipe(switchMap(selectedArmies => this._getSelectedArmiesBadges(selectedArmies)))
   }
 
   ngOnDestroy(): void {
@@ -69,11 +69,15 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
     this._selectedArmiesStore.remove(MySelectedArmy.fromArmyBadge(armyBadge))
   }
 
-  private _getSelectedArmies(badges: ArmyBadge[]): Observable<ArmyBadge[]> {
-    return this._selectedArmiesStore.state
-      .pipe(map(selected => selected.reduce((acc, s) => {
+  private _getSelectedArmiesBadges(selected: MySelectedArmy[]): Observable<ArmyBadge[]> {
+    return this._armiesService.getArmiesBadges()
+      .pipe(map(badges => selected.reduce((acc, s) => {
         const army = badges.find(a => a.id === s.armyId);
-        return army ? [...acc, army] : acc; 
+        
+        if (!army)
+          throw new Error(`Cannot found badge for armyid: ${s.armyId}`)
+
+        return [...acc, army]; 
       }, [])))
   }
 

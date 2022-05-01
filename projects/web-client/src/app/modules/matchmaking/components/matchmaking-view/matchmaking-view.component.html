@@ -1,7 +1,10 @@
 <div class="container flex_center-center fh" [@fadeOut]="animation">
   <div class="row">
-    <div class="column-3" *ngIf="false">
-      <player-badge avatar="top"></player-badge>
+    <div class="column-3" *ngIf="numberOfPlayers === 3">
+      <player-badge 
+        avatar="top"
+        [player]="oponentTop">
+      </player-badge>
     </div>
   </div>
   <div class="row">
@@ -14,7 +17,7 @@
     <div class="column-4">
       <div *ngIf="!ready" @fadeIn>
         <h2>Duel <br><small>Quickmatch</small></h2>
-        <button btn class="blue">Abandon match</button>
+        <button btn class="blue" (click)="leaveMatchmaking()">Abandon match</button>
       </div>
       <div *ngIf="ready" @fadeIn class="flex_center-center">
         <h2 *ngIf="ready">Starting game</h2>
@@ -24,13 +27,16 @@
     <div class="column-3">
       <player-badge @slideInFromRight
         avatar="right" 
-        [player]="oponent">
+        [player]="oponentRight">
       </player-badge>
     </div>  
   </div>
   <div class="row">
-    <div class="column-3" *ngIf="false">
-      <player-badge avatar="top"></player-badge>
+    <div class="column-3" *ngIf="numberOfPlayers === 4">
+      <player-badge 
+        avatar="top"
+        [player]="oponentBottom">
+      </player-badge>
     </div>
   </div>
 </div>

@@ -17,4 +17,15 @@ export class JwtParser {
         }
         
     }
+
+    decodeV2<T>(token: string): T {
+        if (!token) return;
+        try {
+            return jwt_decode(token);
+        } catch(e) {
+            console.log('asd', e);
+            return;
+        }
+        
+    }
 }

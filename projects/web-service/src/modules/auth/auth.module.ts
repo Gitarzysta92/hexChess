@@ -21,8 +21,7 @@ import { User } from 'src/db-models/user';
     MailSenderModule.forFeature(),
     PassportModule.register({
       defaultStrategy: 'jwt',
-      session: false,
-      
+      session: false,     
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule.forFeature(jwtAuthTokenConfig)],

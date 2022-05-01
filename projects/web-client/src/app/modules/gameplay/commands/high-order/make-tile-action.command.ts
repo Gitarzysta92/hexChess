@@ -1,11 +1,9 @@
-
 import { Injectable } from "@angular/core";
 import { BaseCommand } from "../../lib/command-bus/base-command";
 import { CommandBusService } from "../../lib/command-bus/command-bus.service";
 import { TileType } from "../../logic/consts/hierarchical-tile-types-model";
-import { RoundStateService } from "../../services/round-state/round-state.service";
 import { Coords, SceneService } from "../../services/scene/scene.service";
-import { GameState } from "../../state/game/game-state";
+import { RoundState } from "../../state/round/round-state";
 import { roundStateName } from "../../state/round/round-state-name.enum";
 import { CommandsFactory } from "../commands-factory";
 import { ApplyTile } from "../state-mutators/apply-tile.command";
@@ -21,9 +19,8 @@ export class MakeTileAction extends BaseCommand {
   constructor(
     private readonly _sceneService: SceneService,
     private readonly _commandBus: CommandBusService,
-    private readonly _gameState: RoundStateService,
     private readonly _commandsFactory: CommandsFactory,
-    private readonly _currentState: GameState
+    private readonly _roundState: RoundState,
   ) {
     super();
   }
@@ -34,7 +31,9 @@ export class MakeTileAction extends BaseCommand {
   }
 
   execute(): void {
-    const currentState = this._gameState.getState();
+    console.log(this._roundState);
+
+    const currentState = this._roundState;
     const utilizingTile = currentState?.utilizingTile;
     const targetedField = this._sceneService.getTargetedField(this._coords);
     const tile = this._sceneService.getTile(utilizingTile.id);

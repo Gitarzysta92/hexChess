@@ -14,9 +14,8 @@ export class TokenGenerator {
 
   public async checkToken(token: string): Promise<string> {
     return new Promise((resolved,rejected) => {
-
       jwt.verify(token, this._secret, function(err, decoded) {
-        if (err) return rejected();
+        if (err) return rejected(err);
         resolved(decoded as any);
       });
     });

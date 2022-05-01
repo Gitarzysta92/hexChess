@@ -12,6 +12,15 @@ import { GameModesSharedModule } from '../game-modes';
 import { GameDataResolver } from './resolvers/game-data.resolver';
 import { SceneComponent } from './components/scene/scene.component';
 import { HexBoard } from './scene/objects/hex-board';
+import { MakeTileAction } from './commands/high-order/make-tile-action.command';
+import { SceneService } from './services/scene/scene.service';
+import { CommandsFactory } from './commands/commands-factory';
+import { RoundState } from './state/round/round-state';
+import { GameState } from './state/game/game-state';
+import { GameStateService } from './services/game-state/game-state.service';
+import { RoundStateService } from './services/round-state/round-state.service';
+import { TilesRepositoryService } from './services/tiles-repository/tiles-repository.service';
+import { CommandBusService } from './lib/command-bus/command-bus.service';
 
 
 @NgModule({
@@ -41,14 +50,25 @@ export class GameplayRoutingModule { }
   providers: [
     BoardService,
     GameDataResolver,
-    HexBoard
-    // GameView,
-    // DragManager,
-    // AnimationManager,
-    // { provide: TasksQueue, useFactory: (() => {
-    //   const queue = new TasksQueue();
-    //   return () => queue;
-    // })() }
+    HexBoard,
+    SceneService,
+    CommandsFactory,
+    GameStateService,
+    RoundStateService,
+    TilesRepositoryService,
+    CommandBusService,
+    {
+      provide: RoundState,
+      useFactory: (roundStateService: RoundStateService) => roundStateService.getState(),
+      deps: [RoundStateService]
+    },
+    {
+      provide: GameState,
+      useFactory: (gameStateService: GameStateService) => gameStateService.getState(),
+      deps: [GameStateService]
+    },
+    // Commands
+    MakeTileAction,
   ]
 })
 export class GameplayModule { }

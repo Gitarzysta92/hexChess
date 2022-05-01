@@ -62,7 +62,7 @@ export class ArmiesNotificationsFactory {
   }
 
   private _getSwapedArmies(initial: MySelectedArmy[], target: MySelectedArmy[]): SwapedArmies {
-    const isMissingPriority = initial.concat(target).map(a => a.armyId).some(a => isNaN(a));
+    const isMissingPriority = initial.concat(target).map(a => a.armyId).some(id => id === null);
     if (isMissingPriority) throw new Error();
 
     const targetArmy = target.find(ta => initial.some(ia => ia.armyId !== ta.armyId));

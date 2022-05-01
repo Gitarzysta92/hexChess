@@ -18,5 +18,7 @@ export class ConfigurationService {
 
   public get selectedArmyFallbacksLimit() { return environment.selectedArmyFallbacksLimit || 0 }
 
+  public get defaultAvatarUrl() { return 'assets/images/avatar.png' }
+
   constructor() { }
 }

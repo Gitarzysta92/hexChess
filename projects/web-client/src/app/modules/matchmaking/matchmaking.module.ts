@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { SocketIoConfig, SocketIoModule } from 'src/app/utils/ng-web-sockets/ng-web-sockets.module';
+import { SOCKET_CONFIG_TOKEN, WrappedSocket } from 'src/app/utils/ng-web-sockets/ng-web-sockets.service';
 import { environment } from 'src/environments/environment';
 
-import { LoadingViewComponent } from './components/loading-view/loading-view.component';
+import { MatchmakingLoadingViewComponent } from './components/loading-view/loading-view.component';
 import { MatchmakingViewComponent } from './components/matchmaking-view/matchmaking-view.component';
 import { PlayerBadgeComponent } from './components/player-badge/player-badge.component';
 import { routes } from './matchmaking.routing';
 import { MatchmakingSharedModule } from './matchmaking.shared-module';
+import { MatchmakingService } from './services/matchmaking/matchmaking.service';
 
 
 @NgModule({
   imports: [RouterModule.forChild(routes.bindComponents({
-    root: LoadingViewComponent,
+    root: MatchmakingLoadingViewComponent,
     matchmaking: MatchmakingViewComponent
   }).toDefaultFormat())],
   exports: [RouterModule]
@@ -23,7 +24,7 @@ export class MatchmakingRoutingModule { }
 
 @NgModule({
   declarations: [
-    LoadingViewComponent,
+    MatchmakingLoadingViewComponent,
     MatchmakingViewComponent,
     PlayerBadgeComponent,
   ],
@@ -31,7 +32,11 @@ export class MatchmakingRoutingModule { }
     MatchmakingRoutingModule,
     MatchmakingSharedModule,
     SharedModule,
-    SocketIoModule.config({ url: environment.matchmakingSocket })
+  ],
+  providers: [
+    { provide: SOCKET_CONFIG_TOKEN, useValue: { url: environment.matchmakingSocket } },
+    WrappedSocket,
+    MatchmakingService
   ]
 })
 export class MatchmakingModule {}
