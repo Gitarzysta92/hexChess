@@ -12,6 +12,8 @@ import { EventService } from 'src/aspects/events/services/events/event.service';
 import { TokenGenerator } from 'src/utils/token-generator/token-generator';
 import { MatchmakingCompletedEvent, MatchmakingRejectedEvent, PlayerLeftMatchmakingRoomEvent } from '../events/events';
 import { MatchmakingService } from '../services/matchmaking/matchmaking.service';
+import { HashGenerator } from 'src/utils/hash-generator/hash-generator/hash-generator.service';
+import { SystemConfiguration } from 'src/aspects/events/services/configuration/system-configuration.service';
 
 
 @WebSocketGateway(3030, { namespace: 'matchmaking', cors: {
@@ -29,7 +31,9 @@ export class MatchmakingGateway implements OnGatewayConnection, OnGatewayDisconn
   constructor(
     private readonly _matchmakingService: MatchmakingService,
     private readonly _eventsService: EventService,
-    private readonly _tokenGenerator: TokenGenerator
+    private readonly _tokenGenerator: TokenGenerator,
+    private readonly _hashGenerator: HashGenerator,
+    private readonly _systemConfiguration: SystemConfiguration
   ) { }
 
   listenForPlayerLeaveMatchmakingQueue(): void {
@@ -42,8 +46,8 @@ export class MatchmakingGateway implements OnGatewayConnection, OnGatewayDisconn
   listenForCompletedMatchmaking(): void {
     this._eventsService.on([MatchmakingCompletedEvent])
       .subscribe((event: MatchmakingCompletedEvent) => {
-        const token = this._tokenGenerator.create(event);
-        this.server.to(event.roomId).emit('matchmaking-completed', token);
+        const matchmakingHash = this._hashGenerator.createMd5(event,  this._systemConfiguration.secret);
+        this.server.to(event.roomId).emit('matchmaking-completed', { token: matchmakingHash });
       });
   }
 
@@ -64,13 +68,6 @@ export class MatchmakingGateway implements OnGatewayConnection, OnGatewayDisconn
     this._matchmakingService.confirmMatchmakingJoin(roomId, playerId);
   }
 
-  handleDisconnect(socket: Socket) {
-    const { roomId, playerId } = socket.handshake.query.token as unknown as any;
-    this._matchmakingService.leaveMatchmaking(roomId, playerId);
-    const players = this._matchmakingService.getPlayersInTheRoom(roomId);
-    this.server.to(roomId).emit('players-updated', { players });
-  }
-
   handleConnection(socket: Socket) {
     // here should be additional validation, to ensure that token is not
     // used by someone unauthenticated.
@@ -85,6 +82,14 @@ export class MatchmakingGateway implements OnGatewayConnection, OnGatewayDisconn
     const players = this._matchmakingService.getPlayersInTheRoom(roomId);
     this.server.to(roomId).emit('players-updated', { players });
   }
+
+  handleDisconnect(socket: Socket) {
+    const { roomId, playerId } = socket.handshake.query.token as unknown as any;
+    this._matchmakingService.leaveMatchmaking(roomId, playerId);
+    const players = this._matchmakingService.getPlayersInTheRoom(roomId);
+    this.server.to(roomId).emit('players-updated', { players });
+  }
+
 
   onApplicationBootstrap(): void  {
     this.server.use(async (socket, next) => {

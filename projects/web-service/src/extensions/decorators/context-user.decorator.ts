@@ -3,6 +3,7 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export class ContextUserData {
   public id: number;
+  public profileId: string;
   public email: string;
   constructor(data: Partial<ContextUserData>) {
     this.id = data.id;

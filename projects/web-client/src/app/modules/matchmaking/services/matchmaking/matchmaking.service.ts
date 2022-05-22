@@ -1,13 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { merge, Observable, of } from 'rxjs';
-import { delay, map, mergeAll, switchMap, tap } from 'rxjs/operators';
-import { ConfigurationService } from 'src/app/core';
-import { armies } from 'src/app/modules/game-modes/services/armies/armies.service';
-import { GameData, gameData, GameToken } from 'src/app/modules/gameplay/models/game-data';
-import { WrappedSocket } from 'src/app/utils/ng-web-sockets/ng-web-sockets.service';
-import { Army, MatchedPlayer } from "../../models/matched-player";
-import { MatchmakingCompletedEvent, MatchmakingRejectedEvent, RoomPlayersUpdateEvent } from '../../models/events';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, of, switchMap, merge, map } from "rxjs";
+import { ConfigurationService } from "src/app/core";
+import { WrappedSocket } from "src/app/utils/ng-web-sockets/ng-web-sockets.service";
+import { RoomPlayersUpdateEvent, MatchmakingCompletedEvent, MatchmakingRejectedEvent } from "../../models/events";
 
 export interface Player {
   id: string
@@ -33,7 +29,7 @@ export class MatchmakingService {
   ) { }
 
   requestForQuickMatch(playersNumber: number, selectedArmies: number[]): Observable<any> {
-    return this._httpClient.post(this._config.apiUrl + this._endpointPath + '/quickmatch', { 
+    return this._httpClient.post(this._config.apiUrl + this._endpointPath + '/quickmatch', {
       requiredPlayers: playersNumber,
       selectedArmies: selectedArmies
     }, { responseType: 'text' })
@@ -48,7 +44,7 @@ export class MatchmakingService {
           this._socket.fromEvent("matchmaking-rejected").pipe(map(() => new MatchmakingRejectedEvent())),
           this._socket.fromEvent('disconnect').pipe(map(() => new MatchmakingRejectedEvent())),
         ))
-      ) 
+      )
   }
 
   confirmReadiness(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { GameModeType } from 'src/app/constants/game-mode-type.enum';
 import { GameToken } from 'src/app/modules/gameplay/models/game-data';

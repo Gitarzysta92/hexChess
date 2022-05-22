@@ -1,24 +1,24 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
-import { Observable, of } from "rxjs";
-import { delay } from "rxjs/operators";
-import { GameModeType } from "src/app/constants/game-mode-type.enum";
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { catchError, Observable, throwError } from "rxjs";
+import { RoutingService } from "src/app/core";
 import { GameData } from "../models/game-data";
-import { players } from "../models/player";
+import { GameplayService } from "../services/gameplay/gameplay.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GameDataResolver implements Resolve<GameData> {
 
-  constructor() {
-    
-  }
+  constructor(
+    private readonly _gameplayService: GameplayService,
+    private readonly _routingService: RoutingService
+  ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): GameData | Observable<GameData> | Promise<GameData> {
-    return of(new GameData({
-      id: route.params.id,
-      type: GameModeType.Quickmatch,
-      players: players,
-    })).pipe(delay(2000));
+    return this._gameplayService.requestForSessionDetails(route.params.id)
+      .pipe(catchError(err => {
+        this._routingService.navigateToLobby();
+        return throwError(err);
+      }));
   }
 
 }

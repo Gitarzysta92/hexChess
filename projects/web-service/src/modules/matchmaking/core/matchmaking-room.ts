@@ -1,8 +1,9 @@
+import { PlayerArmyAssignment } from 'src/modules/game/core/game-session';
 import { v4 as uuid } from 'uuid';
 import { GameType, MAX_SEARCHING_TIME, MAX_WAITING_TIME_FOR_PLAYER_READINESS, READINESS_PROBE_INTERVAL } from "../consts/game-types";
 import { MatchmakingRequest } from "./matchmaking-request";
 
-export interface MatchmakingPlayer {
+export interface MatchmakingPlayer extends PlayerArmyAssignment {
   id: string;
   isConfirmed: boolean;
   timeout: number;
@@ -69,8 +70,13 @@ export class MatchmakingRoom {
     this._runTimeoutChecking();
   }
 
-  removePlayer(playerId: string) {
+  removePlayer(playerId: string): void {
     this.players = this.players.filter(p => p.id !== playerId);
+  }
+
+  delete(): void {
+    this._roomTimeoutCb(this);
+    clearInterval(this._interval);
   }
 
   onPlayerTimedOut(cb: (timedPlayer: MatchmakingPlayer, roomdId: string, players: MatchmakingPlayer[]) => void) {
@@ -110,8 +116,7 @@ export class MatchmakingRoom {
 
   private _checkMatchmakingTimeout(timestamp: number): void {
     if (this._timeout < timestamp) {
-      this._roomTimeoutCb(this);
-      clearInterval(this._interval);
+      this.delete();
     }
   }
 

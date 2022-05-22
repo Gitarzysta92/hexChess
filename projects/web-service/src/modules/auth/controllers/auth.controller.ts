@@ -39,7 +39,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('authenticate')
   async authenticate(@Req() req: Request & { user: UserDto }, @Res() res: Response) {
-    const token = await this._authService.getToken(req.user);
+    const token = await this._authService.getToken(req.user.id);
 
     if (!token) {
       res.status(401).send();
@@ -65,7 +65,7 @@ export class AuthController {
   async refreshToken(
     @ContextUser() user: ContextUserData
   ) {
-    return await this._authService.getToken(user as UserDto)
+    return await this._authService.getToken(user.id);
   }
 
 

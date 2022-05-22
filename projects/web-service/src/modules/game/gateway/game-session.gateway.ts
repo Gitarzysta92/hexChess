@@ -10,10 +10,13 @@ import { Subject } from 'rxjs';
 import { Server, Socket } from 'socket.io';
 import { EventService } from 'src/aspects/events/services/events/event.service';
 import { TokenGenerator } from 'src/utils/token-generator/token-generator';
-import { MatchmakingRequestConfirmationEvent, MatchmakingRequestDetachedEvent, MatchmakingRequestReadinessCheckEvent, MatchmakingRequestResolvedEvent } from '../models/events';
 
 
-@WebSocketGateway(8988, { namespace: 'matchmaking' })
+@WebSocketGateway(3030, { namespace: 'game', cors: {
+  origin: ["http://localhost:4200"],
+  methods: ["GET", "POST"],
+  credentials: false
+} })
 export class GameSessionGateway implements OnGatewayConnection, OnGatewayDisconnect, OnApplicationBootstrap {
 
   @WebSocketServer()
@@ -31,22 +34,7 @@ export class GameSessionGateway implements OnGatewayConnection, OnGatewayDisconn
   }
 
   public initialize(): void {
-    this._eventService.on([MatchmakingRequestResolvedEvent])
-      .subscribe(event => {
-        this._emitResolved(event.id, event.gameSessionId);
-      });
-
-    this._eventService.on([MatchmakingRequestReadinessCheckEvent])
-      .subscribe(event => {
-        this._emitReadinessRequest(event.id, event.gameSessionId);
-      });
-
-    this._eventService.on([MatchmakingRequestDetachedEvent])
-      .subscribe(event => {
-        this._closeSocket(event.id);
-      });
-
-    
+   
   }
 
   public onApplicationBootstrap(): void  {
@@ -61,37 +49,22 @@ export class GameSessionGateway implements OnGatewayConnection, OnGatewayDisconn
     const { roomId } = socket.handshake.query.token as unknown as any;
     this._sockets.push(socket);
     socket.join(roomId);
-
-    this._eventService.emit(new MatchmakingRequestConfirmationEvent({ id: roomId }));
+    this.server.to(roomId).emit('player-joined', '');
   }
 
   public handleDisconnect(socket: Socket) {
     const { roomId } = socket.handshake.query.token as unknown as any;
-    this._eventService.emit(new MatchmakingRequestDetachedEvent({ id: roomId }));
+    this.server.to(roomId).emit('player-left', '');
   }
 
-  @SubscribeMessage('confirm-readiness')
+  @SubscribeMessage('next-round')
   confirmReadiness(socket: Socket): void {
     const { roomId } = socket.handshake.query.token as unknown as any;
 
-    if (socket.rooms[roomId]) {
-      this._eventService.emit(new MatchmakingRequestConfirmationEvent({ id: roomId }));
-    };
-  }
+    if (!socket.rooms[roomId])
+      return;
 
-
-  // emit 
-  private _emitResolved(roomName: string, payload: string) {
-    this.server.to(roomName).emit('matchmaking-resolved', payload);
-  } 
-
-  private _emitReadinessRequest(roomName: string, payload: string) {
-    this.server.to(roomName).emit('readiness-request', payload);
-  }
-
-  private _closeSocket(roomId: string): void {
-    // const socket = this.server.sockets.;
-    // socket.disconnect(false);
+    this.server.to(roomId).emit('next-round', '');
   }
    
 }

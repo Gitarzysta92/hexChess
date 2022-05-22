@@ -9,6 +9,8 @@ import { TokenGenerator } from 'src/utils/token-generator/token-generator';
 import { UtilityModule } from 'src/utils/utility.module';
 import { UsersModule } from '../users/users.module';
 import { MatchmakingController } from './controllers/game.controller';
+import { GameSessionsList, HexGameService } from './core/game-sessions-list';
+import { GameStateManager } from './core/game-state-manager';
 import { GameSessionGateway } from './gateway/game-session.gateway';
 import { GameService } from './services/game/game.service';
 
@@ -25,7 +27,10 @@ import { GameService } from './services/game/game.service';
   ],
   providers: [
     GameSessionGateway,
-    GameService
+    GameService,
+    GameStateManager,
+    GameSessionsList,
+    HexGameService
   ],
   exports: [
     GameService
@@ -37,7 +42,7 @@ export class GameModule {
     private readonly _tokenGenerator: TokenGenerator,
     private readonly _systemConfiguration: SystemConfiguration
   ) {
-    this._gameSessionGateway.initialize();
+    //this._gameSessionGateway.initialize();
 
     const secret = this._systemConfiguration.secret;
     this._tokenGenerator.setSecret(secret);

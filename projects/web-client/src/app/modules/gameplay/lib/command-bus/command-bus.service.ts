@@ -23,9 +23,7 @@ export interface CommandBusSideEffect<T> {
 
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CommandBusService {
 
   private _processors: Array<(command: any) => boolean | void> = [];
@@ -72,7 +70,7 @@ export class CommandBusService {
 @Injectable({
   providedIn: 'root'
 })
-export class DefaultHandler implements CommandBusHandler<BaseCommand> {
+export class DefaultCommandsHandler implements CommandBusHandler<BaseCommand> {
   public handle(command: BaseCommand) {
     !command.isConsumed && command.execute();
     command.isConsumed = true;

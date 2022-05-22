@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 
 import { Profile } from 'src/db-models/profile';
 import { MatchmakingQueue } from '../../core/matchmaking-queue';
-import { PlayerDto } from '../../models/player';
+import { PlayerProfile } from '../../models/player-profile';
 
 @Injectable()
 export class RoomsService {
@@ -16,7 +16,7 @@ export class RoomsService {
     private readonly _matchmakingQueue: MatchmakingQueue,
   ) { }
 
-  async getPlayersFromRoom(roomId: string): Promise<PlayerDto[]> {
+  async getPlayersFromRoom(roomId: string): Promise<PlayerProfile[]> {
     const players = this._matchmakingQueue.getPlayers(roomId);
 
     const result = await this._profile.findAll({
@@ -26,10 +26,10 @@ export class RoomsService {
         }
       },
     });
-    return result as unknown as PlayerDto[];
+    return result as unknown as PlayerProfile[];
   }
 
-  async getPlayersByIds(playersIds: string[]): Promise<PlayerDto[]>  {
+  async getPlayersByIds(playersIds: string[]): Promise<PlayerProfile[]>  {
     const result = await this._profile.findAll({
       where: {
         id: {
@@ -37,7 +37,7 @@ export class RoomsService {
         }
       },
     });
-    return result as unknown as PlayerDto[];
+    return result as unknown as PlayerProfile[];
   }
 
 }

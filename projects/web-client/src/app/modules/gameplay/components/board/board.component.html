@@ -1,9 +1,0 @@
-<div class="board-row" *ngFor="let row of board">
-  <board-tile *ngFor="let item of row; let i = index;" [style.width.%]="20" [style.margin.px]="5">
-    <div class="items-container" cdkDropList [cdkDropListData]="item" (cdkDropListDropped)="drop($event)">
-      <div cdkDrag *ngFor="let i of item" class="item">
-        {{ i.name }}
-      </div>
-    </div>
-  </board-tile>
-</div>

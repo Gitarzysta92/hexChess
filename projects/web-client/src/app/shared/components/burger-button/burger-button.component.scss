@@ -58,4 +58,13 @@ $hover-color: $text-primary;
       };
     } 
   }
+
+
+  &.dark-mode {
+    div {
+      background-color: $secondary-dark;
+      &::after { background-color: $secondary-dark; }
+      &::before { background-color: $secondary-dark; }
+    }
+  }
 }

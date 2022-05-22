@@ -1,17 +1,15 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Host, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, pipe, Subject } from 'rxjs';
-import { distinct, takeUntil } from 'rxjs/operators';
+import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export type OriginState = { open: boolean, context: any }
-
 
 export interface PanelOrigin {
   state: Observable<OriginState>;
   elementRef: ElementRef;
   setState: (boolean) => void 
 }
-
 
 @Component({
   selector: 'panel-overlay',
@@ -29,7 +27,7 @@ export interface PanelOrigin {
   animations: [
     trigger('slideIns', [
       transition(':enter', [
-        style({ opacity: '0', transform: 'translate(0, -30px)', display: 'block' }),
+        style({ opacity: '0', transform: 'translate(0, -30px)', display: 'block', 'pointer-events': 'none' }),
         animate('200ms ease-in-out', style({ opacity: '1', transform: 'translate(0, 0)', display: 'block' }))
       ]),
       transition(':leave', [

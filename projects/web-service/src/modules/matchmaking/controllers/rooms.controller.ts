@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
-import { PlayerDto } from '../models/player';
+import { PlayerProfile } from '../models/player-profile';
 import { RoomsService } from '../services/rooms/rooms.service';
 
 @Controller('rooms')
@@ -12,13 +12,13 @@ export class RoomsController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/:roomId/players')  
-  async getPlayersByRoomId(@Param('roomId') roomId): Promise<PlayerDto[]> {
+  async getPlayersByRoomId(@Param('roomId') roomId): Promise<PlayerProfile[]> {
     return await this._roomsService.getPlayersFromRoom(roomId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/players')  
-  async getPlayersByIds(@Query() query): Promise<PlayerDto[]> {
+  async getPlayersByIds(@Query() query): Promise<PlayerProfile[]> {
     const playersIds: string[] = Object.values(query);
 
     if (!playersIds)

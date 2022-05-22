@@ -55,6 +55,10 @@ export class MatchmakingQueue {
   removePlayer(roomId: string, playerId: string): void {
     const room = this._rooms.find(r => r.id === roomId);
     room?.removePlayer(playerId);
+
+    if (room?.players.length === 0) {
+      room.delete();
+    }
   }
 
   removeRoom(roomId: string): void {

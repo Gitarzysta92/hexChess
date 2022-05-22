@@ -1,10 +1,17 @@
 import { GameModeType } from "src/app/constants/game-mode-type.enum";
 import { Player } from "./player";
 
+export interface ArmyAssignment {
+  armyId: number;
+  id: string
+}
+
+
+
 export class GameData {
   id: string;
   type: GameModeType;
-  players: Player[]
+  armyAssignments: ArmyAssignment[]
     
 
   constructor(data: Partial<GameData>) {

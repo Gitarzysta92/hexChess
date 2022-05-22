@@ -42,9 +42,29 @@ export class RectButtonComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input() outlined: boolean = false;
   @Input() loader: boolean =  false;
+  @Input() colorCode: string = 'default'; 
   
 
   @HostBinding('@routeAnimations') get state() { return this.loader };
+
+  @HostBinding('style.background-color') get backgroundColor(): string {
+    return !this.outlined ? this._colors[this.colorCode].backgroundColor || this._colors.default.backgroundColor : 'transparent';
+  }
+
+  @HostBinding('style.border-color') get borderColor(): string {
+    return this.outlined ? this._colors[this.colorCode].borderColor : 'none';
+  }
+
+  @HostBinding('style.color') get color(): string {
+    return this._colors[this.colorCode].color || 'none';
+  }
+
+  private readonly _colors = {
+    transparent: { backgroundColor: 'transparent', color: '#fff', borderColor: '#f6af43' },
+    default: { backgroundColor: '#f6af43', color: '#25242a', borderColor: '#f6af43' },
+    orange: { backgroundColor: '#f6af43', color: '#25242a', borderColor: '#f6af43' }
+
+  }
 
   constructor() { }
 

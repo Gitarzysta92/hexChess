@@ -1,15 +1,27 @@
+<div class="menu-btn-wrapper">
+  <burger-button darkMode #menuPanelOrigin="panel-origin" panel-origin (click)="menuPanelOrigin.openPanel()"></burger-button>
+  <panel-overlay [hideOnMouseLeave]="true" [origin]="menuPanelOrigin" class="panel">
+    <game-menu></game-menu>
+  </panel-overlay>
+</div>
+
+<div class="players-order-wrapper">
+  <players-order [players]="players"></players-order>
+</div>
+
+<div class="players-score-wrapper">
+  <players-score [players]="players"></players-score>
+</div>
+
+<div class="player-control-wrapper">
+  <gameplay-log></gameplay-log>
+  <player-control 
+    [armyBadge]="(myProfile | async)?.armyBadge"
+    [avatarUrl]="(myProfile | async)?.avatarUrl"
+    [message]="'Start new round'">
+  </player-control>
+</div>
+
+<!-- <gameplay-caption></gameplay-caption> -->
+
 <scene></scene>
-
-<!-- <button (click)="sendMessage()">test web socket</button>
-<button (click)="navigateToLobby()">leave game</button>
-
-<div class="container-fluid" cdkDropListGroup>
-  <div class="row">
-    <div class="column-3">
-      <player-board></player-board>
-    </div>
-    <div class="column-7">
-      <game-board></game-board>
-    </div>
-  </div> 
-</div> -->

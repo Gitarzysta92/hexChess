@@ -6,6 +6,7 @@ import { SelectedArmyWidgetComponent } from './components/selected-army-widget/s
 import { GameModeTileComponent } from './components/game-mode-tile/game-mode-tile.component';
 import { notifications, NotificationsToken } from './constants/armies-notifications';
 import { ArmiesSelectComponent } from './components/armies-select/armies-select.component';
+import { MyGamesWidgetComponent } from './components/my-games-widget/my-games-widget.component';
 
 
 
@@ -16,6 +17,7 @@ import { ArmiesSelectComponent } from './components/armies-select/armies-select.
     SelectedArmyWidgetComponent,
     ArmiesSelectComponent,
     GameModeTileComponent,
+    MyGamesWidgetComponent
   ],
   imports: [
     SharedModule,
@@ -25,6 +27,7 @@ import { ArmiesSelectComponent } from './components/armies-select/armies-select.
     MyArmiesWidgetComponent,
     SelectedArmyWidgetComponent,
     GameModeTileComponent,
+    MyGamesWidgetComponent
   ],
   providers: [
     { provide: NotificationsToken, useValue: notifications },

@@ -4,13 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { RoutingService } from 'src/app/core';
 import { ArmiesService } from 'src/app/modules/game-modes/services/armies/armies.service';
-
 import { fadeOutAnimation } from 'src/app/shared/animations/animations/fade-out.animation';
 import { fadeIn, slideIn } from 'src/app/shared/animations/predefined-animations';
 import { MatchmakingService, MatchmakingToken } from '../../services/matchmaking/matchmaking.service';
 import { JwtParser } from 'src/app/utils/jwt-parser/jwt-parser.service';
 import { MatchmakingCompletedEvent, MatchmakingRejectedEvent, RoomPlayersUpdateEvent } from '../../models/events';
-import { combineLatest, forkJoin, Subject } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { MatchmakingPlayerDto } from '../../models/matchmaking-player';
 import { OponentsService } from '../../services/oponents/oponents.service';
 import { MyProfileStore } from 'src/app/modules/my-profile/stores/my-profile.store';
@@ -84,7 +83,7 @@ export class MatchmakingViewComponent implements OnInit, OnDestroy {
         filter(event => event instanceof MatchmakingCompletedEvent),
         takeUntil(this._destroy$)
       )
-      .subscribe((event: MatchmakingCompletedEvent) => {            
+      .subscribe((event: MatchmakingCompletedEvent) => { 
         this._routingService.navigateToGame(event.token);
       });
   }

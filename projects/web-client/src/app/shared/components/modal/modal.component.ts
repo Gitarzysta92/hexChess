@@ -27,7 +27,7 @@ export class ModalComponent implements OnInit {
 
   constructor(
     private readonly _overlay: Overlay,
-    private readonly _viewContainerRef: ViewContainerRef
+    private readonly _viewContainerRef: ViewContainerRef,
   ) { 
     this.o = this._overlay.create({
       height: '100%',
@@ -35,8 +35,7 @@ export class ModalComponent implements OnInit {
       hasBackdrop: false,
       positionStrategy: new GlobalPositionStrategy(),
       //scrollStrategy: new BlockScrollStrategy(),
-    });
-    
+    });  
   }
 
   ngOnInit(): void {

@@ -25,6 +25,10 @@ const ICONS_NAMES = {
   save: { class: "oi oi-cloud-upload", glyph: "cloud-upload" },
   'cartet-bottom': { class: "oi oi-caret-bottom", glyph: "caret-bottom" },
   comment: { class: "oi oi-comment-square", glyph: "comment-square" },
+  undo: { class: "oi oi-action-undo", glyph: "action-undo" },
+  'next-player': { class: "oi oi-caret-right", glyph: "caret-right" },
+  'exit-game': { class: "oi oi-account-logout", glyph: "account-logout" },
+
 
   // armies icons
   borgo: { class: "", glyph: "borgo" },

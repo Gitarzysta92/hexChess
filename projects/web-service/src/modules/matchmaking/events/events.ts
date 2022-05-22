@@ -2,18 +2,6 @@ import { MatchmakingPlayer } from "../core/matchmaking-room";
 import { Event } from "src/aspects/events/services/events/event"
 import { GameType } from "../consts/game-types";
 
-export class PlayerJoinedToMatchmakingRoomEvent extends Event {
-  roomId: string;
-  players: MatchmakingPlayer[];
-  playerJoinId: string;
-  timestamp: number;
-
-  constructor(data: Partial<PlayerJoinedToMatchmakingRoomEvent>) {
-    super();
-    Object.assign(this, data);
-    this.timestamp = Date.now();
-  }
-}
 
 export class PlayerLeftMatchmakingRoomEvent extends Event {
   roomId: string;

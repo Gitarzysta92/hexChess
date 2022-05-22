@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CommandsFactory } from '../../commands/commands-factory';
 import { MakeTileAction } from '../../commands/high-order/make-tile-action.command';
 import { CommandBusService } from '../../lib/command-bus/command-bus.service';
@@ -19,6 +19,11 @@ export class SceneComponent implements OnInit {
     private readonly _commandBus: CommandBusService,
     private readonly _sceneService: SceneService
   ) { }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this._sceneService.adjustRendererSize();
+  }
 
   ngOnInit(): void {}
 

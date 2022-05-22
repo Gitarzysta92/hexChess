@@ -1,6 +1,7 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
+import { ContextUserData } from 'src/extensions/decorators/context-user.decorator';
 
 type email = string;
 
@@ -28,7 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: AuthToken) {
+  async validate(payload: AuthToken): Promise<ContextUserData> {
     return { id: payload.id, email: payload.username, profileId: payload.profileId };
   }
 }

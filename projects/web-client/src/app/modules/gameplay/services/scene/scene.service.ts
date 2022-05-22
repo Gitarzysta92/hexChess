@@ -80,6 +80,11 @@ export class SceneService {
     return this.view;
   }
 
+  public adjustRendererSize() {
+    this.view.adjustRendererSize();
+  }
+
+
   public async createToken(img: string, id: string) {
     const camera = this.view['_camera'];
 

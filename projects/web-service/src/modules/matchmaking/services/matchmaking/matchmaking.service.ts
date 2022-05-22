@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { timeout } from 'rxjs';
 import { EventService } from 'src/aspects/events/services/events/event.service';
 import { GameType } from '../../consts/game-types';
 import { MatchmakingQueue } from '../../core/matchmaking-queue';
 import { MatchmakingRequest } from '../../core/matchmaking-request';
 import { MatchmakingResult, MatchmakingPlayer } from '../../core/matchmaking-room';
-import { MatchmakingCompletedEvent, MatchmakingRejectedEvent, PlayerJoinedToMatchmakingRoomEvent, PlayerLeftMatchmakingRoomEvent } from '../../events/events';
+import { MatchmakingCompletedEvent, MatchmakingRejectedEvent, PlayerLeftMatchmakingRoomEvent } from '../../events/events';
 
 @Injectable()
 export class MatchmakingService {
@@ -34,21 +33,11 @@ export class MatchmakingService {
     if (!confirmed)
       return
 
-    this._eventService.emit(new PlayerJoinedToMatchmakingRoomEvent({
-      playerJoinId: playerId,
-      roomId: roomId,
-      players: this._matchmakingQueue.getPlayers(roomId)
-    }));
     if (this._matchmakingQueue.isCompleted(roomId)) {
       const matchmaking = this._matchmakingQueue.getRoom(roomId);
       this._eventService.emit(new MatchmakingCompletedEvent({
           roomId: matchmaking.id,
-          players: matchmaking.players.map(p => ({
-            id: p.id,
-            isConfirmed: p.isConfirmed,
-            armyId: p.armyId,
-            timeout: p.timeout
-          })),
+          players: matchmaking.players,
           requiredPlayers: matchmaking.requiredPlayers,
           creationDate: matchmaking.creationDate,
           gameType: matchmaking.gameType

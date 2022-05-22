@@ -96,8 +96,10 @@ export class GameView {
 
 
 
-  public adjustRendererSize(event: UIEvent) {
-    console.log(event);
+  public adjustRendererSize() {
+    this._camera.aspect = innerWidth/innerHeight;
+    this._camera.updateProjectionMatrix();
+    this._renderer.setSize(innerWidth, innerHeight);
   }
 
   public attach<T extends Instantionable>(object: T): InstantionableId {

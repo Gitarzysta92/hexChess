@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/modules/users/services/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UserDto } from 'src/modules/users/models/userDto';
 import { MailSender } from 'src/utils/mail-sender/mail-sender';
 import { ProfilesService } from 'src/modules/users/services/profiles.service';
 
@@ -15,7 +14,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly _mailSender: MailSender,
     private readonly _profileService: ProfilesService
-    //private readonly _dateTime: DatetimeHelper
   ) {}
 
   public async authenticate(username: string, pass: string): Promise<any> {
@@ -28,9 +26,9 @@ export class AuthService {
     return null;
   }
 
-  public async getToken(userDto: UserDto): Promise<string> {
-    const user = await this._usersService.getUserById(userDto.id);
-    const profile = await this._profileService.getProfile(userDto.id);
+  public async getToken(userId: number): Promise<string> {
+    const user = await this._usersService.getUserById(userId);
+    const profile = await this._profileService.getProfile(userId);
     return this.jwtService.sign({ username: user.email, id: user.id, profileId: profile.id });
   }
 

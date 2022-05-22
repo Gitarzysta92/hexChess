@@ -32,8 +32,8 @@ export interface ArmyBadgeConfig {
 export class ArmyBadgeComponent implements OnInit {
   
   @Input('setup') set setup(data: ArmyBadgeConfig) {
-    this.icon = data.icon;
-    this.colors = data.colors;
+    this.icon = data?.icon;
+    this.colors = data?.colors;
   }
 
   public colors: HexagonColors;

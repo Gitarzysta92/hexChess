@@ -5,12 +5,17 @@ import { Component, Input, OnInit } from '@angular/core';
   template: `<div></div>`,
   styleUrls: ['./burger-button.component.scss'],
   host: {
-    '[class.focused]': 'asdasd'
+    '[class.focused]': 'focused',
+    '[class.dark-mode]': 'dark'
   }
 })
 export class BurgerButtonComponent implements OnInit {
 
   @Input() focused: boolean = false;
+
+  @Input() set darkMode(_: void) { this.dark = true }
+  
+  public dark: boolean = false;
 
   constructor() { }
 

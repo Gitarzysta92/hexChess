@@ -8,9 +8,7 @@ import { RoundState } from "../../state/round/round-state";
 import { RoundStateName } from "../../state/round/round-state-name.enum";
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GameLoopAutoDispatcherService implements CommandBusSideEffect<StateTransition<RoundState, RoundStateName>> {
 
   constructor(
