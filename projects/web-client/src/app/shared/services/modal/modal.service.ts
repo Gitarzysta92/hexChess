@@ -27,7 +27,7 @@ export class ModalService implements OnDestroy {
     this._o = this._overlay.create({
       maxWidth: '400px',
       maxHeight: '600px',
-      hasBackdrop: false,
+      hasBackdrop: true,
       positionStrategy: new GlobalPositionStrategy().centerHorizontally().centerVertically(),
       disposeOnNavigation: true
       //scrollStrategy: new BlockScrollStrategy(),

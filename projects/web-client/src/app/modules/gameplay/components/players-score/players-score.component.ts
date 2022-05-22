@@ -12,9 +12,6 @@ export class PlayersScoreComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-
-    console.log(this.players)
-  }
+  ngOnInit(): void { }
 
 }

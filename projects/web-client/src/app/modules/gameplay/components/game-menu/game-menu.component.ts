@@ -14,7 +14,7 @@ import { GameExitConfirmationModalComponent } from '../game-exit-confirmation-mo
 export class GameMenuComponent implements OnInit, OnDestroy {
 
   data: any & ExpandableListItem[] = [
-    { isActive: true, icon: 'exit-game', label: 'Quit Game', action: () => this._modalService.open(GameExitConfirmationModalComponent) }
+    { isActive: true, icon: 'exit-game', label: 'Quit Game', action: (e: MouseEvent) => this.openGameExitModal(e) }
   ]
 
   private _onDestroy: Subject<void> = new Subject();
@@ -29,6 +29,13 @@ export class GameMenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._onDestroy.next();
+  }
+
+  openGameExitModal(e: MouseEvent): void {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    this._modalService.open(GameExitConfirmationModalComponent)
   }
 
 }

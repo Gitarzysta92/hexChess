@@ -16,7 +16,5 @@ export class PlayerControlComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log(this.avatarUrl);
-  }
+  ngOnInit(): void { }
 }

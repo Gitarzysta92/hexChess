@@ -93,7 +93,6 @@ export class PlayViewComponent implements OnInit, OnDestroy {
         });
 
         console.log(this.players);
- 
       });
 
 
