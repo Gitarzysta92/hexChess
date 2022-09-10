@@ -9,8 +9,8 @@ import { MyProfile } from './modules/my-profile';
 import { GameModes } from './modules/game-modes';
 import { Notifications } from './modules/notifications';
 import { Matchmaking } from './modules/matchmaking';
-import { Gameplay } from './modules/gameplay';
 import { Authentication } from './modules/authentication';
+import { Gameplay } from './modules/gameplay';
 
 
 const routes: Routes = [

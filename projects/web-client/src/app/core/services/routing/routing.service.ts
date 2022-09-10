@@ -53,11 +53,15 @@ export class RoutingService {
   }
 
   navigateToMatchmaking(type: GameModeType, players: number): void {
-    this._routerNavigate(['/matchmaking'], { type,  players })
+    this._routerNavigate(['/matchmaking', type.toLowerCase()], { players })
   }
 
   navigateToGame(token: GameToken): void {
     this._router.navigate(['/game', token]);
+  }
+
+  navigateToHotseatGame(): void {
+    this._router.navigate(['/game/hotseat']);
   }
 
   navigateToNotifications(): void {

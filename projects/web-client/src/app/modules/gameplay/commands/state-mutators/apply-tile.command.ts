@@ -1,6 +1,5 @@
-import { BaseCommand } from "../../lib/command-bus/base-command";
-import { Revertable } from "../../lib/commands-stack/commands-stack.service";
-import { SceneService } from "../../services/scene/scene.service";
+import { BaseCommand } from "src/app/aspects/services/commands/command-bus/base-command";
+import { Revertable } from "src/app/aspects/services/commands/commands-stack/commands-stack.service";
 
 
 export class ApplyTile extends BaseCommand implements Revertable {
@@ -9,7 +8,6 @@ export class ApplyTile extends BaseCommand implements Revertable {
 
 
   constructor(
-    private readonly _sceneService: SceneService,
   ) {
     super();
   }
@@ -24,7 +22,6 @@ export class ApplyTile extends BaseCommand implements Revertable {
     if (!field)
       return;
       
-    const token = this._sceneService.dragManager.currentObject;
     //this._sceneService.attachTileToField(token, field);
   }
 

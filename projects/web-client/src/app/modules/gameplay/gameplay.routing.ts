@@ -4,5 +4,6 @@ import { GameDataResolver } from './resolvers/game-data.resolver';
 
 export const ROOT_PATH = 'game';
 export const routes = new RoutesAdapter({
-  root: { path: ':id', pathMatch: 'full', resolve: { gameData: GameDataResolver } },
+  offline: { path: 'hotseat', pathMatch: 'full' },
+  online: { path: ':id', pathMatch: 'full', resolve: { gameData: GameDataResolver } }
 });

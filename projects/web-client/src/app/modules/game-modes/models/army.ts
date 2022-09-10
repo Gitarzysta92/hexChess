@@ -3,7 +3,7 @@ import { HexagonColors } from "src/app/shared/components/hexagon/hexagon.compone
 
 
 export class ArmyBadge implements ArmyBadgeConfig {
-  public id: number;
+  public id: string;
   public name: string;
   public icon: string;
   public colors: HexagonColors;
@@ -19,7 +19,7 @@ export class ArmyBadge implements ArmyBadgeConfig {
 export class AssignedArmy   {
   id: number;
   profileId: string;
-  armyId: number;
+  armyId: string;
   priority: number;
 
   constructor(data: Partial<AssignedArmy>) {
@@ -33,7 +33,7 @@ export class AssignedArmy   {
 export class MySelectedArmy {
   id: number;
   armyName: string;
-  armyId: number;
+  armyId: string;
   priority: number;
 
   constructor(data: Partial<MySelectedArmy>) {

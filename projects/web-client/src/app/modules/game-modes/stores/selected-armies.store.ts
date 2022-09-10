@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Collection, ConfigurationService, StoreService } from 'src/app/core';
-import { CommandBusService } from 'src/app/core/services/command-bus/command-bus.service';
+import { EventBusService } from 'src/app/core/services/event-bus/event-bus.service';
 import { NotificationsActions } from '../../notifications';
 import { MySelectedArmy } from '../models/army';
 import { ArmiesService } from '../services/armies/armies.service';
@@ -23,7 +23,7 @@ export class SelectedArmiesStore {
   constructor(
     private readonly _store: StoreService,
     private readonly _armiesService: ArmiesService,
-    private readonly _commandBus: CommandBusService, 
+    private readonly _commandBus: EventBusService, 
     private readonly _configurationService: ConfigurationService,
     private readonly _notificationsFactory: ArmiesNotificationsFactory
   ) {

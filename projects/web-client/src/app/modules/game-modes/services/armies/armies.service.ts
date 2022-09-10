@@ -7,7 +7,7 @@ import { ArmyBadge, AssignedArmy, MySelectedArmy } from '../../models/army';
 
 export const armies = [
   {
-    id: 1,
+    id: "432d6de7-24cb-418c-8a6e-77841a36d59c",
     name: 'borgo',
     colors: {
       outer: '#30c2ff',
@@ -17,7 +17,7 @@ export const armies = [
     icon: 'borgo'
   },
   {
-    id: 2,
+    id: "937ad7d2-deff-4203-9ec0-290b30e6eaa3",
     name: 'hegemony',
     colors: {
       outer: '#edb316',
@@ -27,7 +27,7 @@ export const armies = [
     icon: 'hegemony'
   },
   {
-    id: 3,
+    id: "3",
     name: 'random',
     colors: {
       outer: "#bababa",

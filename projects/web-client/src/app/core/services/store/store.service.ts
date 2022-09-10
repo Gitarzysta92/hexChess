@@ -5,9 +5,6 @@ import { filter, first, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/op
 import { ConfigurationService } from '../configuration/configuration.service';
 
 
-
-
-
 interface CollectionConfig<T>  {
   initialState: any,
   isLazyLoaded?: boolean,

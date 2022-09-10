@@ -1,0 +1,44 @@
+<div class="container flex_center-center fh">
+  <div class="row">
+    <!-- <div class="column-3" *ngIf="numberOfPlayers === 3">
+      <player-badge 
+        avatar="top"
+        [player]="oponentTop">
+      </player-badge>
+    </div> -->
+  </div>
+  <div class="row">
+    <!-- <div class="column-3">
+      <player-badge @slideInFromLeft
+        avatar="left" 
+        [player]="myProfile">
+      </player-badge>
+    </div> -->
+    <div class="column-4">
+      <div @fadeIn>
+        <h2>Duel <br><small>Quickmatch</small></h2>
+        <button btn class="blue" (click)="startMatch()">Start match</button>
+      </div>
+      <!-- <div *ngIf="ready" @fadeIn class="flex_center-center">
+        <h2 *ngIf="ready">Starting game</h2>
+        <div circle-spinner></div>
+      </div>  -->
+    </div>
+    <!-- <div class="column-3">
+      <player-badge @slideInFromRight
+        avatar="right" 
+        [player]="oponentRight">
+      </player-badge>
+    </div>   -->
+  </div>
+  <div class="row">
+    <!-- <div class="column-3" *ngIf="numberOfPlayers === 4">
+      <player-badge 
+        avatar="top"
+        [player]="oponentBottom">
+      </player-badge>
+    </div> -->
+  </div>
+</div>
+
+

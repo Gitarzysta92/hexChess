@@ -1,5 +1,5 @@
 export enum GameModeType {
-  Quickmatch,
-  Custom,
-  Local
+  Quickmatch = "Quickmatch",
+  Custom = "Custom",
+  Hotseat = "Hotseat"
 };

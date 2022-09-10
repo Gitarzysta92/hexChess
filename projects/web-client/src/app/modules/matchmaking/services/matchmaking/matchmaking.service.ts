@@ -28,10 +28,10 @@ export class MatchmakingService {
     private readonly _config: ConfigurationService,
   ) { }
 
-  requestForQuickMatch(playersNumber: number, selectedArmies: number[]): Observable<any> {
+  requestForQuickMatch(playersNumber: number, selectedArmyIds: string[]): Observable<any> {
     return this._httpClient.post(this._config.apiUrl + this._endpointPath + '/quickmatch', {
       requiredPlayers: playersNumber,
-      selectedArmies: selectedArmies
+      selectedArmies: selectedArmyIds
     }, { responseType: 'text' })
   }
 

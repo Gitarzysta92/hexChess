@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Player } from '../../models/player';
+import { GameplayFeed } from '../../services/gameplay/gameplay.service';
 
 @Component({
   selector: 'players-order',
@@ -8,7 +10,7 @@ import { Player } from '../../models/player';
 })
 export class PlayersOrderComponent implements OnInit, OnChanges {
 
-  @Input() players: Player[]
+  @Input() feed$: Observable<GameplayFeed> | undefined 
 
   currentPlayer: Player;
   nextPlayers: Player[];
@@ -16,13 +18,17 @@ export class PlayersOrderComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
+    this.feed$.subscribe(feed => {
+      const [ currentPlayer, ...nextPlayers ] = feed.players || [];
+
+      this.currentPlayer = currentPlayer;
+      this.nextPlayers = nextPlayers;
+    });
+
   }
 
   ngOnChanges(): void {
-    const [ currentPlayer, ...nextPlayers ] = this.players || [];
-
-    this.currentPlayer = currentPlayer;
-    this.nextPlayers = nextPlayers;
+    
   }
 
 }

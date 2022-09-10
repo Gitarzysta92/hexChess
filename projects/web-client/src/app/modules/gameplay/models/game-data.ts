@@ -1,9 +1,9 @@
 import { GameModeType } from "src/app/constants/game-mode-type.enum";
-import { Player } from "./player";
+import { Profile } from "../../my-profile/models/profile";
 
 export interface ArmyAssignment {
-  armyId: number;
-  id: string
+  armyId: string;
+  profileId: string
 }
 
 
@@ -11,8 +11,8 @@ export interface ArmyAssignment {
 export class GameData {
   id: string;
   type: GameModeType;
-  armyAssignments: ArmyAssignment[]
-    
+  armyAssignments: ArmyAssignment[];
+  profiles: Profile[];
 
   constructor(data: Partial<GameData>) {
     Object.assign(this, data);

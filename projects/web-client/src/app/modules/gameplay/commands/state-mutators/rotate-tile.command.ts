@@ -1,6 +1,6 @@
-import { BaseCommand } from "../../lib/command-bus/base-command";
-import { Revertable } from "../../lib/commands-stack/commands-stack.service";
-import { SceneService } from "../../services/scene/scene.service";
+import { BaseCommand } from "src/app/aspects/services/commands/command-bus/base-command";
+import { Revertable } from "src/app/aspects/services/commands/commands-stack/commands-stack.service";
+
 
 
 export enum RotationDirection {
@@ -11,9 +11,9 @@ export enum RotationDirection {
 export class RotateTile extends BaseCommand implements Revertable {
   private _tileId!: string;
   private _direction!: RotationDirection;
+  _sceneService: any;
 
   constructor(
-    private readonly _sceneService: SceneService,
   ) {
     super();
   } 

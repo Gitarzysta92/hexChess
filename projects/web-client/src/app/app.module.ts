@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,9 +14,7 @@ import { MatchmakingSharedModule } from './modules/matchmaking';
 import { MyProfileSharedModule } from './modules/my-profile';
 import { NotificationsSharedModule } from './modules/notifications';
 import { Authentication } from './modules/authentication';
-import { MyErrorHandler } from './core/error-handler';
-import { ErrorsInterceptor } from './core/interceptors/errors/errors.interceptor';
-import { ResourcesInterceptor } from './core/interceptors/http.interceptor';
+
 
 
 

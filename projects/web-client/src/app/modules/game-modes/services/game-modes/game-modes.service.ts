@@ -31,9 +31,9 @@ import { GameMode } from '../../models/game-mode';
     }),
     new GameMode({
       id: 4,
-      type: GameModeType.Custom,
-      players: null,
-      name: 'Create Custom Game',
+      type: GameModeType.Hotseat,
+      players: 2,
+      name: 'Create Hotseat Game',
       description: 'Suspendisse nunc velit, dictum a lacus non, facilisis pulvinar libero. Curabitur odio ante, consequat nec felis vitae, dapibus dictum ligula. Ut faucibus porta velit ut mollis.',
       image: './assets/images/custom.jpg'
     })

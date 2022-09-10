@@ -2,7 +2,7 @@ import { ArmyBadge } from "../../game-modes/models/army";
 
 export class Player {
   id: string;
-  armyId: number;
+  armyId: string;
   nickname: string;
   armyBadge: ArmyBadge;
   avatarUrl: string;

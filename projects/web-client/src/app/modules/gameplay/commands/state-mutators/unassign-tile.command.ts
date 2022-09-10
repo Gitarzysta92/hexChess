@@ -1,16 +1,15 @@
-import { BaseCommand } from "../../lib/command-bus/base-command";
-import { Revertable } from "../../lib/commands-stack/commands-stack.service";
-import { RoundStateService } from "../../services/round-state/round-state.service";
-import { SceneService } from "../../services/scene/scene.service";
+import { BaseCommand } from "src/app/aspects/services/commands/command-bus/base-command";
+import { Revertable } from "src/app/aspects/services/commands/commands-stack/commands-stack.service";
 
 
 export class UnassignTile extends BaseCommand implements Revertable {
 
   private _tileId!: string;
+  _sceneService: any
 
   constructor(
-    private readonly _sceneService: SceneService,
-    private readonly _state: RoundStateService
+   // private readonly _sceneService: SceneService,
+    //private readonly _state: RoundStateService
   ) {
     super();
   }

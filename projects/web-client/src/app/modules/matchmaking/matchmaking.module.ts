@@ -10,14 +10,20 @@ import { PlayerBadgeComponent } from './components/player-badge/player-badge.com
 import { routes } from './matchmaking.routing';
 import { MatchmakingSharedModule } from './matchmaking.shared-module';
 import { MatchmakingService } from './services/matchmaking/matchmaking.service';
+import { HotseatmakingViewComponent } from './components/hotseatmaking-view/hotseatmaking-view.component';
+import { MatchmakingDataResolver } from './resolvers/matchmaking-data.resolver';
 
 
 @NgModule({
   imports: [RouterModule.forChild(routes.bindComponents({
-    root: MatchmakingLoadingViewComponent,
-    matchmaking: MatchmakingViewComponent
+    //root: MatchmakingLoadingViewComponent,
+    quickmatch: MatchmakingViewComponent,
+    hotseat: HotseatmakingViewComponent
   }).toDefaultFormat())],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  declarations: [
+    HotseatmakingViewComponent
+  ]
 })
 export class MatchmakingRoutingModule { }
 
@@ -36,7 +42,8 @@ export class MatchmakingRoutingModule { }
   providers: [
     { provide: SOCKET_CONFIG_TOKEN, useValue: { url: environment.matchmakingSocket } },
     WrappedSocket,
-    MatchmakingService
+    MatchmakingService,
+    MatchmakingDataResolver
   ]
 })
 export class MatchmakingModule {}

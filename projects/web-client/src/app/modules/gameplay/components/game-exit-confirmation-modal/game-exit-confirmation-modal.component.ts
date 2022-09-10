@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ModalService } from 'src/app/shared/services/modal/modal.service';
-import { GameplayService } from '../../services/gameplay/gameplay.service';
+//import { GameplayService } from '../../services/gameplay/gameplay.service';
 
 @Component({
   selector: 'app-game-exit-confirmation-modal',
@@ -11,7 +11,7 @@ export class GameExitConfirmationModalComponent {
 
 
   constructor(
-    private readonly _gameplayService: GameplayService,
+    //private readonly _gameplayService: GameplayService,
     private readonly _modalService: ModalService,
   ) { }
 
@@ -21,6 +21,6 @@ export class GameExitConfirmationModalComponent {
 
   exitGame(): void {
     console.log('aaaa')
-    this._gameplayService.exitGame();
+    //this._gameplayService.exitGame();
   }
 }

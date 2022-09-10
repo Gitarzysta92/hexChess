@@ -1,30 +1,34 @@
 
 import { Injectable } from "@angular/core";
-import { BaseCommand } from "../../lib/command-bus/base-command";
-import { CommandBusService } from "../../lib/command-bus/command-bus.service";
-import { RoundStateService } from "../../services/round-state/round-state.service";
-import { Coords, SceneService } from "../../services/scene/scene.service";
-import { CommandsFactory } from "../commands-factory";
+import { BaseCommand } from "src/app/aspects/services/commands/command-bus/base-command";
+// import { BaseCommand } from "../../lib/command-bus/base-command";
+// import { CommandBusService } from "../../lib/command-bus/command-bus.service";
+// import { RoundStateService } from "../../services/round-state/round-state.service";
+// import { Coords, SceneService } from "../../services/scene/scene.service";
+// import { CommandsFactory } from "../commands-factory";
 
 @Injectable()
 export class ProceedGame extends BaseCommand {
-  private _coords!: Coords;
+  execute(): void {
+    throw new Error("Method not implemented.");
+  }
+  // private _coords!: Coords;
 
   constructor(
-    private readonly _sceneService: SceneService,
-    private readonly _commandBus: CommandBusService,
-    private readonly _gameState: RoundStateService,
-    private readonly _commandsFactory: CommandsFactory
+    // private readonly _sceneService: SceneService,
+    // private readonly _commandBus: CommandBusService,
+    // private readonly _gameState: RoundStateService,
+    // private readonly _commandsFactory: CommandsFactory
   ) {
     super();
   }
   
-  setParameters(coords: Coords): this {
-    this._coords = coords;
-    return this;
-  }
+  // setParameters(coords: Coords): this {
+  //   this._coords = coords;
+  //   return this;
+  // }
 
-  execute(): void {
+  // execute(): void {
 
 
 
@@ -52,4 +56,3 @@ export class ProceedGame extends BaseCommand {
     //     .setParameters(tileToDiscard);
   }
   
-}
