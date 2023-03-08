@@ -1,5 +1,5 @@
 import { CoordsHelper } from "../../../lib/features/board/coords-helper";
-import { Direction } from "../../../lib/features/board/constants/tile-sides";
+import { TileSide } from "../../../lib/features/board/constants/tile-side";
 
 describe('coords-helper', () => {
 
@@ -112,7 +112,7 @@ describe('coords-helper', () => {
     const point = { r: 0, q: 0, s: 0 }
     const board = CoordsHelper.createHexagonalBoardCoords(5);
 
-    const result = CoordsHelper.getAllCoordsForGivenSide(point, Direction.Top, board);
+    const result = CoordsHelper.getAllCoordsForGivenSide(point, TileSide.Top, board);
     expect(result[0].q).toEqual(1);
     expect(result[0].s).toEqual(-1);
     expect(result[1].q).toEqual(2);
@@ -123,7 +123,7 @@ describe('coords-helper', () => {
     const point = { r: 0, q: 0, s: 0 }
     const board = CoordsHelper.createHexagonalBoardCoords(5);
 
-    const result = CoordsHelper.getAllCoordsForGivenSide(point, Direction.BottomLeft, board);
+    const result = CoordsHelper.getAllCoordsForGivenSide(point, TileSide.BottomLeft, board);
     expect(result[0].s).toEqual(1);
     expect(result[0].r).toEqual(-1);
     expect(result[1].s).toEqual(2);

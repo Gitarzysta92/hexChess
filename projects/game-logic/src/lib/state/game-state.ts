@@ -31,4 +31,5 @@ export interface GameState {
   effects: Effect[];
   prevState: GameState | null;
   battleResolver: Generator<BattleResult> | undefined;
+  winnerId: string | null;
 }

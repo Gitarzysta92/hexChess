@@ -1,6 +1,6 @@
 import { transition, trigger } from '@angular/animations';
 import { Component, Inject, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { FormErrors, FormErrorsToken, FORM_ERRORS } from 'src/app/constants/form-errors';
+import { InputErrors, InputErrorsToken, INPUT_ERRORS } from 'src/app/shared/constants/input-errors';
 
 
 export interface InputError {
@@ -22,7 +22,7 @@ export interface InputError {
     }`
   ],
   providers: [
-    { provide: FormErrorsToken, useValue: FORM_ERRORS }
+    { provide: InputErrorsToken, useValue: INPUT_ERRORS }
   ]
 })
 export class InputErrorComponent implements OnInit, OnChanges {
@@ -32,7 +32,7 @@ export class InputErrorComponent implements OnInit, OnChanges {
   @Input() data: { name: string, value: any };  
   public errorDescriptions: string[] = [];
   constructor(
-    @Inject(FormErrorsToken) private readonly _formErrors: FormErrors
+    @Inject(InputErrorsToken) private readonly _formErrors: InputErrors
   ) { }
 
   ngOnInit(): void { }

@@ -2,11 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
   },
   "include": [
     "src/**/*.ts",
-    "src/evironments/environment.prod.ts"
+    "src/evironments/environment.prod.ts",
+    "../3d-scene/src/**/*.ts"
   ],
   "exclude": [
     "src/test.ts",

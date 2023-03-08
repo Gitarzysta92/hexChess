@@ -1,3 +1,5 @@
+import { borgo } from "../../lib/data/armies/borgo/borgo";
+import { hegemony } from "../../lib/data/armies/hegemony/hegemony";
 import { EventService } from "../../lib/events/event-service";
 import { ActionTile } from "../../lib/features/army/models/action-tile";
 import { UnitTile } from "../../lib/features/army/models/unit-tile";
@@ -27,6 +29,8 @@ describe('HexChess - hot seat', () => {
   });
 
   it('should go through whole game and emerge winner', () => {
+    console.log(JSON.stringify(borgo));
+    console.log(JSON.stringify(hegemony));
     let state: GameState;
     state = hexChess.startHeadquarterTurn();
 
@@ -59,7 +63,7 @@ describe('HexChess - hot seat', () => {
     const tile5 = ArmyHelperMock.getTile(state.actualPlayer.data?.armyId!, state.actualPlayer.playablesSlot[0]);
     state = hexChess.disposeActionTile(tile5 as ActionTile)
 
-    console.log(state);
+    console.log(JSON.stringify(state));
 
     expect(true).toEqual(true);
   });

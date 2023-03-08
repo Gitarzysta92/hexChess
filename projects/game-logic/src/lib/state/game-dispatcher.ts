@@ -4,6 +4,7 @@ import { GameState } from "./game-state";
 import { consequentActivities as ca } from "./consequent-activities";
 import { StateGenerator } from "./state-generator";
 import { ValidationError } from "../extensions/validation-error";
+import { ReplaySubject } from "rxjs";
 
 
 
@@ -13,6 +14,7 @@ export type DispatcherDirective = (state: GameState, authority: Player) => Activ
 
 export class GameDispatcher {
 
+  stateChange$: ReplaySubject<GameState> = new ReplaySubject();
   currentState!: GameState;
   authority!: Player;
   get _activityStack() { return this.currentState.activityStack };
@@ -75,5 +77,6 @@ export class GameDispatcher {
     const prevState = this.getCurrentStateCopy();
     this.currentState = state;
     this.currentState.prevState = prevState;
+    this.stateChange$.next(this.currentState)
   }
 }

@@ -5,6 +5,7 @@ export interface GameConfiguration {
   startingLife: number;
   boardSize: number;
   drawPerTurn: number;
+  tilesToKeepPerTurn: number;
 }
 
 export interface PlayerDeclaration {

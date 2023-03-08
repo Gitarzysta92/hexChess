@@ -1,6 +1,5 @@
 import { ActualPlayer } from "../../game/models/actual-player";
 import { BoardService } from "../board-service";
-import { Direction } from "../constants/tile-sides";
 import { Coord } from "../interfaces/coords";
 import { Tile } from "../models/tile";
 

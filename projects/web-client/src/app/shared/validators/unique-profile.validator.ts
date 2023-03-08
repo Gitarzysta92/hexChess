@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable, of, Subject, timer } from 'rxjs';
 import { catchError, concatMap, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { ProfileService } from 'src/app/modules/my-profile/providers/profile-service/profile.service';
+import { ProfileService } from 'src/app/core/my-profile/providers/profile-service/profile.service';
 
 
 
@@ -30,24 +30,7 @@ export class ProfileValidators {
       };
 
       return timer(1000).pipe(switchMap(() => this._checkProfilePropUniqueness(propsToCheck)));
-
-
   }
-
-
-  
-  // public nicknameUniquenessValidator(): Function {
-
-  //   return (control: AbstractControl, profileId?: string): Observable<ValidationErrors|null> => {
-  //     if (!control.value) return of(null);
-  //     const propsToCheck = { nickname: control.value };
-  //     if (profileId) {
-  //       (propsToCheck as any).id = profileId
-  //     }
-  //     return this._checkProfilePropUniqueness(propsToCheck);
-  //   }
-
-  // }
 
   public emailUniqueness(control: AbstractControl, profileId?: string): Observable<ValidationErrors|null> {
     if (!control.value) return of(null);
@@ -65,40 +48,3 @@ export class ProfileValidators {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// @Injectable({ providedIn: 'root' })
-// export class UniqueAlterEgoValidator implements AsyncValidator {
-
-//   constructor() {}
-
-//   validate(ctrl: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
-//     return this.heroesService.isAlterEgoTaken(ctrl.value).pipe(
-//       map(isTaken => (isTaken ? { uniqueAlterEgo: true } : null)),
-//       catchError(() => of(null))
-//     );
-//   }
-// };
-
-
-// export class ValidatrosAsync {
-
-//   static unique(provider: (data) => Observable<any>): Function {
-//     return (ctrl: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-//       return provider(ctrl.value)
-//         .pipe(tap(value => console.log(value)))
-//         .pipe(map(value => (!!value ? { uniqueAlterEgo: !!value } : null)))     
-//     }
-//   }
-
-// }

@@ -30,7 +30,6 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { UniqueEmailValidatorDirective } from './directives/unique-email-validator/unique-email-validator.directive';
 import { AttachedOverlayDirective } from './directives/attached-overlay/attached-overlay.directive';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PortalModule } from '@angular/cdk/portal';
 import { CounterBadgeComponent } from './components/counter-badge/counter-badge.component';
 

@@ -4,7 +4,7 @@ import { AttributeType } from "../../capabilities/attribute/constants/attribute-
 import { Attributes, AttributeDeclarations } from "../../capabilities/attribute/interfaces/attributes";
 import { TileType } from "../constants/tile-type.enum";
 import { ToughnessAttribute } from "../../capabilities/attribute/interfaces/toughness-attribute"
-import { Direction } from "../../board/constants/tile-sides";
+import { TileSide } from "../../board/constants/tile-side";
 
 
 export class UnitTile extends Tile implements Abilities, Attributes {
@@ -12,7 +12,7 @@ export class UnitTile extends Tile implements Abilities, Attributes {
   abilities: AbilityDeclarations = [];
   attributes: AttributeDeclarations = [];
 
-  direction: Direction = Direction.Top;
+  direction: TileSide = TileSide.Top;
 
   constructor(data: Partial<UnitTile>) {
     super(data);

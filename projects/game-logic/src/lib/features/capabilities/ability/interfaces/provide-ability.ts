@@ -1,6 +1,6 @@
 import { ActionType } from "../../action/constants/action-type";
 import { ActionTargetType } from "../../action/constants/target-type";
-import { Direction } from "../../../board/constants/tile-sides";
+import { TileSide } from "../../../board/constants/tile-side";
 import { AbilityType } from "../constants/ability-type";
 
 export interface ProvideAbility {
@@ -8,5 +8,5 @@ export interface ProvideAbility {
   action: ActionType,
   value: number;
   actionTarget: ActionTargetType,
-  directions: Direction[]
+  directions: TileSide[]
 }

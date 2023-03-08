@@ -1,0 +1,42 @@
+<main-view-template>
+
+  <ng-container topBarLeft>
+    <my-armies-widget [@slideIn]="{ value: true, params: { delay: '50ms' }}"></my-armies-widget>
+  </ng-container>
+
+  <ng-container topBarRight>
+    <navigational-menu
+      [locations]="mainMenu"
+      [@slideIn]="{ value: true, params: { delay: '125ms' }}">
+    </navigational-menu>
+    <my-profile-widget 
+      #profilePanelOrigin="panel-origin" 
+      panel-origin 
+      onClick
+      [active]="profilePanelOrigin.isOpen" 
+      [@slideIn]="{ value: true, params: { delay: '200ms' }}">
+    </my-profile-widget>      
+    <panel-overlay [hideOnMouseLeave]="true" [origin]="profilePanelOrigin">
+      <navigational-menu
+        class="secondary-menu" 
+        vertical
+        showIcons
+        [locations]="secondaryMenu">
+      </navigational-menu>
+    </panel-overlay>
+  </ng-container>
+
+  <ng-container topBarMobile>
+    <my-armies-widget [@slideIn]="{ value: true, params: { delay: '50ms' }}"></my-armies-widget> 
+  </ng-container>
+
+  <ng-container mobileModal>
+    <my-avatar-widget class="avatar"></my-avatar-widget>
+    <navigational-menu
+      class="mobile-menu"
+      vertical
+      [locations]="[mainMenu, secondaryMenu, mobileMenu]">
+    </navigational-menu>
+  </ng-container>
+
+</main-view-template>

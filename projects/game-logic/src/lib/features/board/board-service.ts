@@ -1,4 +1,4 @@
-import { Direction } from "./constants/tile-sides";
+import { TileSide } from "./constants/tile-side";
 import { CoordsHelper } from "./coords-helper";
 import { Board } from "./interfaces/board";
 import { Coord } from "./interfaces/coords";

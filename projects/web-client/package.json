@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
     "jwt-decode": "^3.1.2",
+    "localforage": "^1.10.0",
     "ngx-scrollbar": "^9.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.5.4",
@@ -33,7 +34,7 @@
     "zone.js": "~0.11.4",
     "hexchess-utils": "0.4.8",
     "hexchess-game-logic": "0.1.0",
-    "hexchess-3d-scene": "0.1.0"
+    "hexchess-tile-generator": "0.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.2.3",

@@ -1,5 +1,5 @@
 import { Component, HostBinding, Inject, Input, OnInit } from '@angular/core';
-import { Icons, ICONS, IconsToken } from 'src/app/constants/icons';
+import { Icons, ICONS, IconsToken } from 'src/app/shared/constants/icons';
 
 @Component({
   selector: 'i[name]',

@@ -30,7 +30,7 @@ const defaultColors: HexagonColors = {
     `,
   styleUrls: ['./hexagon.component.scss']
 })
-export class HexagonComponent implements OnInit, AfterViewInit {
+export class HexagonComponent implements OnChanges {
 
   @HostBinding('class.red') aasd = true;
 
@@ -41,33 +41,24 @@ export class HexagonComponent implements OnInit, AfterViewInit {
     private readonly _elementRef: ElementRef
   ) { }
 
-  ngOnInit(): void {
-    
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.colors) {
+      const stroke = this._elementRef.nativeElement.querySelector('.stroke-wrapper');
+      this._renderer.setStyle(stroke, 'background-color', this.colors.stroke);
+      this._renderer.setStyle(stroke, 'border-right-color', this.colors.stroke);
+      this._renderer.setStyle(stroke, 'border-left-color', this.colors.stroke);
+
+      const outer = this._elementRef.nativeElement;
+      this._renderer.setStyle(outer.querySelector('.outer'), 'background-color', this.colors.outer);
+      this._renderer.setStyle(outer, 'border-right-color', this.colors.outer);
+      this._renderer.setStyle(outer, 'border-left-color', this.colors.outer);
+
+      const inner = this._elementRef.nativeElement.querySelector('.inner-wrapper');
+      this._renderer.setStyle(inner, 'background-color', this.colors.inner);
+      this._renderer.setStyle(inner, 'border-right-color', this.colors.inner);
+      this._renderer.setStyle(inner, 'border-left-color', this.colors.inner);
+      this._renderer.setStyle(inner, 'color', this.colors.outer);
+    }
   }
-
-  ngAfterViewInit() {
-    const stroke = this._elementRef.nativeElement.querySelector('.stroke-wrapper');
-    this._renderer.setStyle(stroke, 'background-color', this.colors.stroke);
-    this._renderer.setStyle(stroke, 'border-right-color', this.colors.stroke);
-    this._renderer.setStyle(stroke, 'border-left-color', this.colors.stroke);
-
-    const outer = this._elementRef.nativeElement;
-    this._renderer.setStyle(outer.querySelector('.outer'), 'background-color', this.colors.outer);
-    this._renderer.setStyle(outer, 'border-right-color', this.colors.outer);
-    this._renderer.setStyle(outer, 'border-left-color', this.colors.outer);
-
-    const inner = this._elementRef.nativeElement.querySelector('.inner-wrapper');
-    this._renderer.setStyle(inner, 'background-color', this.colors.inner);
-    this._renderer.setStyle(inner, 'border-right-color', this.colors.inner);
-    this._renderer.setStyle(inner, 'border-left-color', this.colors.inner);
-    this._renderer.setStyle(inner, 'color', this.colors.outer);
-  }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (!changes.colors?.currentValue) return;
-  //   const { stroke, outer, inner } = changes.colors.currentValue
-    
-  //   this._renderer.setStyle(this._elementRef.nativeElement.querySelector(''), 'background-color', stroke)
-  // }
 
 }

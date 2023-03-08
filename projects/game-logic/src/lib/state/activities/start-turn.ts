@@ -1,4 +1,4 @@
-import { resolveEffectModifyPlayerDraw as resolveModifyPlayerDrawEffect } from "../../features/capabilities/effect/mutators/modify-player-draw.effect";
+import { resolveModifyPlayerDrawEffect as resolveModifyPlayerDrawEffect } from "../../features/capabilities/effect/mutators/modify-player-draw.effect";
 import { updateEffects } from "../../features/capabilities/effect/mutators/update-effects";
 import { Player } from "../../features/game/models/player";
 import { setNextPlayer } from "../../features/game/mutators/set-next-player";
@@ -17,6 +17,8 @@ export const startTurn = (): DispatcherDirective => (state: GameState, authority
   setNextPlayer(state.actualPlayer, state.players, state.metadata);
   updateEffects(state.effects);
   resolveModifyPlayerDrawEffect(state.effects, state.actualPlayer);
+
+  state.actualPlayer.numberOfTilesToKeep = 2;
 
   return {
     playerId: state.actualPlayer?.data?.id,

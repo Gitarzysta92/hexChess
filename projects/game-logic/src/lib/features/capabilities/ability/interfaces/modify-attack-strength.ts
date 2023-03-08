@@ -1,10 +1,10 @@
-import { Direction } from "../../../board/constants/tile-sides";
+import { TileSide } from "../../../board/constants/tile-side";
 import { AbilityType } from "../constants/ability-type";
 
 export interface ModifyAttackStrengthDeclaration {
   attackType: AbilityType.Attack | AbilityType.RangedAttack;
   value: number;
-  direction: Direction
+  direction: TileSide
 }
 
 export interface ModifyAttackStrengthAbility {

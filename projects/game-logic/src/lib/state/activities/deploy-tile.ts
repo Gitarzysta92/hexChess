@@ -2,7 +2,7 @@ import { ArmyHelper } from "../../features/army/army-helper";
 import { UnitTile } from "../../features/army/models/unit-tile";
 import { TileId } from "../../features/board/aliases/tile-id";
 import { BoardService } from "../../features/board/board-service";
-import { Direction } from "../../features/board/constants/tile-sides";
+import { TileSide } from "../../features/board/constants/tile-side";
 import { Coord } from "../../features/board/interfaces/coords";
 import { putTileOnTheBoard } from "../../features/board/mutators/put-tile-on-the-board";
 import { Player } from "../../features/game/models/player";

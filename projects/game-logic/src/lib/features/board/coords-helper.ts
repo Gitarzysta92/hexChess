@@ -1,4 +1,4 @@
-import { Direction } from "./constants/tile-sides";
+import { TileSide } from "./constants/tile-side";
 import { Coord } from "./interfaces/coords";
 
 export class CoordsHelper {
@@ -45,26 +45,26 @@ export class CoordsHelper {
     return coords;
   }
 
-  static getAllCoordsForGivenSide(from: Coord, side: Direction, board: Coord[]): Coord[] {
+  static getAllCoordsForGivenSide(from: Coord, side: TileSide, board: Coord[]): Coord[] {
     let method;
 
     switch (side) {
-      case Direction.Top:
+      case TileSide.Top:
         method = this.getAdjencedTopCoords
         break;
-      case Direction.TopRight:
+      case TileSide.TopRight:
         method = this.getAdjencedTopRightCoords
         break;
-      case Direction.TopLeft:
+      case TileSide.TopLeft:
         method = this.getAdjencedTopLeftCoords
         break;
-      case Direction.Bottom:
+      case TileSide.Bottom:
         method = this.getAdjencedBottomCoords
         break;
-      case Direction.BottomLeft:
+      case TileSide.BottomLeft:
         method = this.getAdjencedBottomLeftCoords
         break;
-      case Direction.BottomRight:
+      case TileSide.BottomRight:
         method = this.getAdjencedBottomRightCoords
         break;
     }

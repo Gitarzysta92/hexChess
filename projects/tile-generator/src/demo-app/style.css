@@ -1,0 +1,24 @@
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+
+
+.texture-preview {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
+}
+
+.texture-preview img {
+  border: 1px solid;
+}

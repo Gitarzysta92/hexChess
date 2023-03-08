@@ -5,7 +5,7 @@ export function addRandomTilesToPlayablesSlot(player: ActualPlayer, keepedTiles:
   const tilesFromPreviousTurn = keepedTiles.filter(tb => tb.playerId === player.data?.id).map(tb => tb.tileId);
   player.playablesSlot = tilesFromPreviousTurn;
 
-  const numberToDraw = player.availableDraw - tilesFromPreviousTurn.length;
+  const numberToDraw = player.availableTilesDraw - tilesFromPreviousTurn.length;
 
   for (let i = 0; i < numberToDraw; i++) {
     const tileId = player?.data?.tilesOrder.shift();

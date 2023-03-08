@@ -1,0 +1,62 @@
+@import '../../../../../scss/colors.scss';
+@import '../../../../../scss/breakpoints.scss';
+
+my-profile-widget, my-armies-widget {
+  z-index: 3333;
+}
+
+.secondary-menu {
+  position: relative;
+  top: 20px;
+  list-style-type: none;
+  padding: 20px 10px;
+  background-color: #1b1a21;
+  border-radius: 5px;
+  margin: 0;
+
+
+  ::ng-deep ul li {
+    padding: 5px 0;
+    border-radius: 5px;
+    i { 
+      font-size: 10px;
+      margin-right: 10px;
+    }
+    &:hover {
+      background-color: #292730;       
+    }
+  } 
+}
+
+.avatar {
+  margin-bottom: 20px;
+}
+
+.mobile-menu {
+  ::ng-deep ul li {
+    max-width: 400px;
+    margin: 0 auto;
+    font-size: 1.4em;
+    a { 
+      display: block;
+      text-align: center;
+      padding: 20px 0; 
+    }
+    border-radius: 10px;
+    i { 
+      font-size: 10px;
+      margin-right: 10px;
+    }
+    &:hover {
+      background-color: #292730;       
+    }
+  } 
+}
+
+
+
+
+
+
+
+

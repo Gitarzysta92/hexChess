@@ -1,8 +1,8 @@
-import { Direction } from "../../../board/constants/tile-sides";
+import { TileSide } from "../../../board/constants/tile-side";
 import { AbilityType } from "../constants/ability-type";
 
 export interface AttackDeclaration {
-  direction: Direction;
+  direction: TileSide;
   value: number;
   initiativeModifier: number;
 }

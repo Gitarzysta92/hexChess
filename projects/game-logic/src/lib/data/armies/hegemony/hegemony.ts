@@ -3,7 +3,7 @@ import { Army } from "../../../features/army/interfaces/army";
 import { HeadquarterTile } from "../../../features/army/models/headquarter-tile";
 import { UnitTile } from "../../../features/army/models/unit-tile";
 import { AbilityType } from "../../../features/capabilities/ability/constants/ability-type";
-import { Direction } from "../../../features/board/constants/tile-sides";
+import { TileSide } from "../../../features/board/constants/tile-side";
 
 import { AttributeType } from "../../../features/capabilities/attribute/constants/attribute-type";
 import { ModuleTile } from "../../../features/army/models/module-tile";
@@ -19,23 +19,23 @@ const headquarter = new HeadquarterTile({
     {
       type: AbilityType.Attack,
       attack: [
-        { value: 1, direction: Direction.Top, initiativeModifier: 0 },
-        { value: 1, direction: Direction.TopLeft, initiativeModifier: 0 },
-        { value: 1, direction: Direction.TopRight, initiativeModifier: 0 },
-        { value: 1, direction: Direction.BottomRight, initiativeModifier: 0 },
-        { value: 1, direction: Direction.BottomLeft, initiativeModifier: 0 },
-        { value: 1, direction: Direction.Bottom, initiativeModifier: 0 },
+        { value: 1, direction: TileSide.Top, initiativeModifier: 0 },
+        { value: 1, direction: TileSide.TopLeft, initiativeModifier: 0 },
+        { value: 1, direction: TileSide.TopRight, initiativeModifier: 0 },
+        { value: 1, direction: TileSide.BottomRight, initiativeModifier: 0 },
+        { value: 1, direction: TileSide.BottomLeft, initiativeModifier: 0 },
+        { value: 1, direction: TileSide.Bottom, initiativeModifier: 0 },
       ]
     },
     {
       type: AbilityType.ModifyAttackStrength,
       modify: [
-        { value: 1, attackType: AbilityType.Attack, direction: Direction.Top },
-        { value: 1, attackType: AbilityType.Attack, direction: Direction.TopLeft },
-        { value: 1, attackType: AbilityType.Attack, direction: Direction.TopRight },
-        { value: 1, attackType: AbilityType.Attack, direction: Direction.BottomRight },
-        { value: 1, attackType: AbilityType.Attack, direction: Direction.BottomLeft },
-        { value: 1, attackType: AbilityType.Attack, direction: Direction.Bottom },
+        { value: 1, attackType: AbilityType.Attack, direction: TileSide.Top },
+        { value: 1, attackType: AbilityType.Attack, direction: TileSide.TopLeft },
+        { value: 1, attackType: AbilityType.Attack, direction: TileSide.TopRight },
+        { value: 1, attackType: AbilityType.Attack, direction: TileSide.BottomRight },
+        { value: 1, attackType: AbilityType.Attack, direction: TileSide.BottomLeft },
+        { value: 1, attackType: AbilityType.Attack, direction: TileSide.Bottom },
       ]
     }
   ]
@@ -102,7 +102,7 @@ const units = [
       {
         type: AbilityType.Attack,
         attack: [
-          { value: 1, direction: Direction.Top, initiativeModifier: 0 },
+          { value: 1, direction: TileSide.Top, initiativeModifier: 0 },
         ]
       }
     ],
@@ -120,9 +120,9 @@ const units = [
       {
         type: AbilityType.Attack,
         attack: [
-          { value: 2, direction: Direction.Top, initiativeModifier: 0 },
-          { value: 1, direction: Direction.TopLeft, initiativeModifier: 0 },
-          { value: 1, direction: Direction.TopRight, initiativeModifier: 0 }
+          { value: 2, direction: TileSide.Top, initiativeModifier: 0 },
+          { value: 1, direction: TileSide.TopLeft, initiativeModifier: 0 },
+          { value: 1, direction: TileSide.TopRight, initiativeModifier: 0 }
         ]
       }
     ],
@@ -140,12 +140,12 @@ const units = [
       {
         type: AbilityType.Attack,
         attack: [
-          { value: 1, direction: Direction.TopLeft, initiativeModifier: 0 }
+          { value: 1, direction: TileSide.TopLeft, initiativeModifier: 0 }
         ]
       },
       {
         type: AbilityType.Armor,
-        directions: [ Direction.Top, Direction.TopLeft, Direction.TopRight ]
+        directions: [ TileSide.Top, TileSide.TopLeft, TileSide.TopRight ]
       }
     ],
     attributes: [
@@ -162,14 +162,14 @@ const units = [
       {
         type: AbilityType.Attack,
         attack: [
-          { value: 2, direction: Direction.Top, initiativeModifier: 0 },
-          { value: 2, direction: Direction.TopLeft, initiativeModifier: 0 },
-          { value: 2, direction: Direction.TopRight, initiativeModifier: 0 },
+          { value: 2, direction: TileSide.Top, initiativeModifier: 0 },
+          { value: 2, direction: TileSide.TopLeft, initiativeModifier: 0 },
+          { value: 2, direction: TileSide.TopRight, initiativeModifier: 0 },
         ]
       },
       {
         type: AbilityType.Armor,
-        directions: [ Direction.Top, Direction.TopLeft, Direction.TopRight ]
+        directions: [ TileSide.Top, TileSide.TopLeft, TileSide.TopRight ]
       }
     ],
     attributes: [
@@ -185,7 +185,7 @@ const units = [
     abilities: [
       {
         type: AbilityType.Net,
-        directions: [ Direction.TopRight ]
+        directions: [ TileSide.TopRight ]
       },
     ],
     attributes: [
@@ -201,12 +201,12 @@ const units = [
       {
         type: AbilityType.Attack,
         attack: [
-          { value: 1, direction: Direction.Bottom, initiativeModifier: 0 },
+          { value: 1, direction: TileSide.Bottom, initiativeModifier: 0 },
         ]
       },
       {
         type: AbilityType.Net,
-        directions: [ Direction.BottomLeft, Direction.BottomRight ]
+        directions: [ TileSide.BottomLeft, TileSide.BottomRight ]
       },
     ],
     attributes: [
@@ -223,9 +223,9 @@ const units = [
       {
         type: AbilityType.Attack,
         attack: [
-          { value: 1, direction: Direction.Top, initiativeModifier: 0 },
-          { value: 1, direction: Direction.TopLeft, initiativeModifier: 0 },
-          { value: 1, direction: Direction.Bottom, initiativeModifier: 0 },
+          { value: 1, direction: TileSide.Top, initiativeModifier: 0 },
+          { value: 1, direction: TileSide.TopLeft, initiativeModifier: 0 },
+          { value: 1, direction: TileSide.Bottom, initiativeModifier: 0 },
         ]
       },
     ],
@@ -242,11 +242,11 @@ const units = [
     abilities: [
       {
         type: AbilityType.Attack,
-        attack: [{ value: 1, direction: Direction.TopLeft, initiativeModifier: 0 }]
+        attack: [{ value: 1, direction: TileSide.TopLeft, initiativeModifier: 0 }]
       },
       {
         type: AbilityType.RangedAttack,
-        attack: [{ value: 1, direction: Direction.TopLeft, initiativeModifier: 0 }]
+        attack: [{ value: 1, direction: TileSide.TopLeft, initiativeModifier: 0 }]
       }
     ],
     attributes: [
@@ -266,15 +266,15 @@ const modules = [
       {
         type: AbilityType.ModifyAttackStrength,
         modify: [
-          { value: 1, attackType: AbilityType.Attack, direction: Direction.Top },
-          { value: 1, attackType: AbilityType.Attack, direction: Direction.TopLeft },
+          { value: 1, attackType: AbilityType.Attack, direction: TileSide.Top },
+          { value: 1, attackType: AbilityType.Attack, direction: TileSide.TopLeft },
         ]
       },
       {
         type: AbilityType.ModifyAttribute,
         modify: [
-          { value: 1, attribute: AttributeType.Initiative, direction: Direction.Top },
-          { value: 1, attribute: AttributeType.Initiative, direction: Direction.TopLeft },
+          { value: 1, attribute: AttributeType.Initiative, direction: TileSide.Top },
+          { value: 1, attribute: AttributeType.Initiative, direction: TileSide.TopLeft },
         ]
       }
     ],
@@ -291,8 +291,8 @@ const modules = [
       {
         type: AbilityType.ModifyAttackStrength,
         modify: [
-          { value: 1, attackType: AbilityType.Attack, direction: Direction.Top },
-          { value: 1, attackType: AbilityType.Attack, direction: Direction.TopLeft },
+          { value: 1, attackType: AbilityType.Attack, direction: TileSide.Top },
+          { value: 1, attackType: AbilityType.Attack, direction: TileSide.TopLeft },
         ]
       }
     ],
@@ -309,9 +309,28 @@ const modules = [
       {
         type: AbilityType.ModifyAttackStrength,
         modify: [
-          { value: 1, attackType: AbilityType.Attack, direction: Direction.Top },
-          { value: 1, attackType: AbilityType.Attack, direction: Direction.TopLeft },
-          { value: 1, attackType: AbilityType.Attack, direction: Direction.TopRight },
+          { value: 1, attackType: AbilityType.Attack, direction: TileSide.Top },
+          { value: 1, attackType: AbilityType.Attack, direction: TileSide.TopLeft },
+          { value: 1, attackType: AbilityType.Attack, direction: TileSide.TopRight },
+        ]
+      }
+    ],
+    attributes: [
+      { type: AttributeType.Toughness, toughness: 1, wounds: 0 }
+    ]
+  }),
+
+  new ModuleTile({
+    id: "b51fc615-faa6-4c8c-9046-c627a53b0148",
+    name: "Scout",
+    copiesInStack: 1,
+    abilities: [
+      {
+        type: AbilityType.ModifyAttribute,
+        modify: [
+          { value: 1, attribute: AttributeType.Initiative, direction: TileSide.Top },
+          { value: 1, attribute: AttributeType.Initiative, direction: TileSide.TopLeft },
+          { value: 1, attribute: AttributeType.Initiative, direction: TileSide.TopRight },
         ]
       }
     ],
@@ -331,12 +350,12 @@ const modules = [
         action: ActionType.Move,
         actionTarget: ActionTargetType.Adjenced,
         directions: [
-          Direction.Top,
-          Direction.TopRight,
-          Direction.BottomRight,
-          Direction.Bottom,
-          Direction.BottomLeft,
-          Direction.TopLeft
+          TileSide.Top,
+          TileSide.TopRight,
+          TileSide.BottomRight,
+          TileSide.Bottom,
+          TileSide.BottomLeft,
+          TileSide.TopLeft
         ]
       }
     ],
@@ -355,7 +374,7 @@ const modules = [
         value: 1,
         action: ActionType.SwapAttack,
         actionTarget: ActionTargetType.Adjenced,
-        directions: [ Direction.Top ]
+        directions: [ TileSide.Top ]
       }
     ],
     attributes: [

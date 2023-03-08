@@ -16,7 +16,6 @@ import { EventService } from "./events/event-service";
 import { Player } from "./features/game/models/player";
 import { TileId } from "./features/board/aliases/tile-id";
 import { startHeadquarterTurn } from "./state/activities/start-headquarter-turn";
-import { Direction } from "./features/board/constants/tile-sides";
 import { UnitTile } from "./features/army/models/unit-tile";
 
 
@@ -24,16 +23,19 @@ import { UnitTile } from "./features/army/models/unit-tile";
 
 export class HexChess {
 
-  _events: ReplaySubject<unknown> = new ReplaySubject();
-  
-  _directiveContext = {
+  public stateChanged$: ReplaySubject<GameState> 
+
+  private _events: ReplaySubject<unknown> = new ReplaySubject();
+  private _directiveContext = {
     emitEvent: (name: string, payload: any) => this._events.next({ name, payload })
   }
 
   constructor(
     private readonly _gameDispatcher: GameDispatcher,
     private readonly _eventService: EventService
-  ) { }
+  ) { 
+    this.stateChanged$ = this._gameDispatcher.stateChange$;
+  }
   
 
   initialize(gameState: any, authority: Player) {

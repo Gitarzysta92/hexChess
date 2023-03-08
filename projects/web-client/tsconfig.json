@@ -15,10 +15,16 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "es2021",
       "dom"
     ],
-    "emitDecoratorMetadata": true,  
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@hexchess-3d-scene/*": [ "../3d-scene/src/*" ],
+      "@hexchess-game-logic/*": [ "../game-logic/src/*" ],
+      "@hexchess-tile-generator/*": [ "../tile-generator/src/*" ],
+      "@hexchess-utils/*": ["../utils/src/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

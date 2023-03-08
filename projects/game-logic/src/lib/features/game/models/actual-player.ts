@@ -6,5 +6,6 @@ export interface ActualPlayer {
   data: Player | undefined;
   playablesSlot: TileId[];
   actionsSlot: Action[];
-  availableDraw: number;
+  availableTilesDraw: number;
+  numberOfTilesToKeep: number;
 }

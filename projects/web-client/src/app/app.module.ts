@@ -6,15 +6,14 @@ import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
-import { ICONS, IconsToken } from './constants/icons';
+import { ICONS, IconsToken } from './shared/constants/icons';
 
-import { MainModule } from './modules/main';
-import { GameModesSharedModule } from './modules/game-modes';
-import { MatchmakingSharedModule } from './modules/matchmaking';
-import { MyProfileSharedModule } from './modules/my-profile';
-import { NotificationsSharedModule } from './modules/notifications';
-import { Authentication } from './modules/authentication';
-
+import { GameModesSharedModule } from './core/game-modes/api';
+import { MatchmakingSharedModule } from './core/matchmaking/api';
+import { MyProfileSharedModule } from './core/my-profile/api';
+import { NotificationsSharedModule } from './aspects/notifications/api';
+import { Identity } from './core/identity/identity.routing';
+import { MainModule } from './core/main/main.module';
 
 
 
@@ -37,7 +36,7 @@ import { Authentication } from './modules/authentication';
   providers: [
     { provide: Window, useValue: window },
     { provide: Document, useValue: document },
-    { provide: HTTP_INTERCEPTORS, useClass: Authentication.Interceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: Identity.Interceptor, multi: true },
     //{ provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },
     //{ provide: HTTP_INTERCEPTORS, useClass: ResourcesInterceptor, multi: true },
     { provide: IconsToken, useValue: ICONS },

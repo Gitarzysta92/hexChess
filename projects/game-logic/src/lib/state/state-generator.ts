@@ -33,9 +33,9 @@ export class StateGenerator {
         boardSize: cfg.boardSize
       },
       players: Object.fromEntries(cfg.players.map(p => ([p.id, { 
-        id!: p.id,
-        name!: p.name,
-        armyId!: p.armyId,
+        id: p.id,
+        name: p.name,
+        armyId: p.armyId,
         tilesOrder: this._armyHelper.generateArmiesOrder(p.armyId),
         headquarterId: this._armyHelper.getArmyHeadquarter(p.armyId).id
       } as Player ]))),
@@ -43,7 +43,8 @@ export class StateGenerator {
         data: undefined,
         playablesSlot: [] as TileId[],
         actionsSlot: [] as Action[],
-        availableDraw: cfg.drawPerTurn
+        availableTilesDraw: cfg.drawPerTurn,
+        numberOfTilesToKeep: cfg.tilesToKeepPerTurn
       },
       keepedTiles: [] as TileBind[],
       utilizedTiles: [] as TileBind[],
@@ -54,6 +55,7 @@ export class StateGenerator {
       board: new BoardService(this._coordsHelper).initialize(cfg.boardSize),
       prevState: null,
       battleResolver: undefined,
+      winnerId: null
     }
   }
 

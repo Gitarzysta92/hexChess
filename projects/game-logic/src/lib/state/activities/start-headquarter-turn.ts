@@ -13,6 +13,8 @@ export const startHeadquarterTurn = (): DispatcherDirective => (state: GameState
   setRoundNumber(state);
   setNextPlayer(state.actualPlayer, state.players, state.metadata);
   addHeadquarterToPlayablesSlot(state.actualPlayer, state.keepedTiles);
+  
+  state.actualPlayer.numberOfTilesToKeep = 1;
 
   return [
     {
