@@ -1,6 +1,7 @@
 import { InjectionToken } from "@angular/core";
-import { NotificationType } from "../api";
+
 import { ICONS } from "../../../shared/constants/icons";
+import { NotificationType } from "./notification-type.enum";
 
 
 export const COMMON_NOTIFICATIONS = {

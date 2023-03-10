@@ -33,17 +33,15 @@ export class MainViewComponent implements OnInit, OnDestroy {
 
   public dataLoaded: boolean = false;
   public selectedArmies: string[] = [];
+  
+  public mainMenu: any;
+  public secondaryMenu: any;
+  public mobileMenu: any;
+  public isOpen: boolean = false;
+  
   private _onDestroy: Subject<void> = new Subject();
 
-  mainMenu: any;
-  secondaryMenu: any;
-  mobileMenu: any;
-
-
-  isOpen: boolean =false;
-
   constructor(
-    public readonly routing: RoutingService,
     private readonly _changeDetector: ChangeDetectorRef,
     private readonly _menuService: MenuService
   ) { 
@@ -59,14 +57,6 @@ export class MainViewComponent implements OnInit, OnDestroy {
         this.dataLoaded = true;
         this._changeDetector.markForCheck();
       });
-
-    this.routing.onNavigationStart
-      .pipe(takeUntil(this._onDestroy))
-      .pipe(delay(150))
-      .subscribe(() => {
-        this._mobileMenuModal.close();
-      });
-
   }
 
   ngOnDestroy(): void {

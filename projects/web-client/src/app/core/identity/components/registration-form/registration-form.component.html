@@ -25,9 +25,10 @@
 
   <checkbox-input required name="consent">
     <span [innerHTML]="policies.login"></span>
+    <!-- href='http://hexchess.tk/terms-and-conditions.html' -->
   </checkbox-input>
 
-  <button btn type="submit" [loader]="processing" [disabled]="!form.valid">
+  <button btn type="submit" [loader]="processing" [disabled]="!form.valid" class="submit-btn">
     Register <i name="registration"></i>
   </button>
 </reactive-form>

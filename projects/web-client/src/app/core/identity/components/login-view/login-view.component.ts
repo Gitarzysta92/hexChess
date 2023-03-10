@@ -33,11 +33,11 @@ import { RoutingService } from 'src/app/aspects/navigation/api';
         ]),
         query(':leave', animateChild()),
         group([
-          query(':leave', [
-            animate('150ms ease-out', style({ transform: 'translate(-150%, 0)' }))
-          ]),
           query(':enter', [
             animate('150ms 100ms ease-out', style({ transform: 'translate(0, 0)' }))
+          ]),
+          query(':leave', [
+            animate('150ms ease-out', style({ transform: 'translate(-150%, 0)' }))
           ])
         ]),
         query(':enter', animateChild()),
@@ -54,16 +54,17 @@ import { RoutingService } from 'src/app/aspects/navigation/api';
           style({ 
             transform: 'translate(0, 0)',
             display: 'block',
-            position: 'absolute'
+            position: 'absolute',
+            width: "100%"
           })
         ]),
         query(':leave', animateChild()),
         group([
-          query(':leave', [
-            animate('150ms ease-out', style({ transform: 'translate(200%, 0)' }))
-          ]),
           query(':enter', [
             animate('150ms 150ms ease-out', style({ transform: 'translate(0, 0)' }))
+          ]),
+          query(':leave', [
+            animate('150ms ease-out', style({ transform: 'translate(150%, 0)' }))
           ])
         ]),
         query(':enter', animateChild()),

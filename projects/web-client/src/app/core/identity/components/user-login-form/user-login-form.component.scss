@@ -8,13 +8,16 @@
   width: 50px;
 }
 
-
 .blank-btn {
   cursor: pointer;
   color: #a5a4a9;
 }
 
-
 .submit-btn i {
   margin-left: 5px;
+}
+
+text-input, .submit-btn {
+  margin: 10px 0;
+  display: block;
 }

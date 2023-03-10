@@ -23,9 +23,7 @@ export class TextInputComponent extends ReactiveInput {
   };
 
   constructor(
-    private readonly _reactiveForm: ReactiveFormComponent,
-    //private readonly _changeDetector: ChangeDetectorRef
-
+    private readonly _reactiveForm: ReactiveFormComponent
   ) {
     super(_reactiveForm);
   } 

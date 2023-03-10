@@ -14,6 +14,7 @@ import { MyProfileSharedModule } from './core/my-profile/api';
 import { NotificationsSharedModule } from './aspects/notifications/api';
 import { Identity } from './core/identity/identity.routing';
 import { MainModule } from './core/main/main.module';
+import { ArmiesSharedModule } from './core/armies/armies.shared-module';
 
 
 
@@ -31,6 +32,7 @@ import { MainModule } from './core/main/main.module';
     GameModesSharedModule,
     MyProfileSharedModule,
     NotificationsSharedModule.forRoot(),
+    ArmiesSharedModule.forRoot(),
     MainModule
   ],
   providers: [

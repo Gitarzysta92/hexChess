@@ -1,5 +1,4 @@
 <reactive-form #form (onSubmit)="submitForm($event)">
-
   <text-input #nickname required name="email" placeholder="Login"></text-input>
 
   <text-input #password required text-hidden name="password" placeholder="Password">
@@ -13,9 +12,3 @@
     Log in <i name="login"></i>
   </button>
 </reactive-form>
-
-
-
-<!-- [disabled]="!form.valid" -->
-
-

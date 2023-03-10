@@ -32,6 +32,7 @@ import { UniqueEmailValidatorDirective } from './directives/unique-email-validat
 import { AttachedOverlayDirective } from './directives/attached-overlay/attached-overlay.directive';
 import { PortalModule } from '@angular/cdk/portal';
 import { CounterBadgeComponent } from './components/counter-badge/counter-badge.component';
+import { AppLogoComponent } from './components/app-logo/app-logo.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { CounterBadgeComponent } from './components/counter-badge/counter-badge.
     TooltipComponent,
     UniqueEmailValidatorDirective,
     AttachedOverlayDirective,
-    CounterBadgeComponent
+    CounterBadgeComponent,
+    AppLogoComponent
   ],
   imports: [
     CommonModule,
@@ -103,7 +105,8 @@ import { CounterBadgeComponent } from './components/counter-badge/counter-badge.
     UniqueEmailValidatorDirective,
     AttachedOverlayDirective,
     PortalModule,
-    CounterBadgeComponent
+    CounterBadgeComponent,
+    AppLogoComponent
   ]
 })
 export class SharedModule { }
