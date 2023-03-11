@@ -8,9 +8,7 @@ import {
   BelongsTo,
   ForeignKey,
 } from 'sequelize-typescript';
-
 import { Profile } from './profile';
-
 
 
 @Table
