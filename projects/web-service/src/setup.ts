@@ -13,8 +13,8 @@ export function setup(app: INestApplication): void {
   //   }),
   // );
 
-  //app.use(passport.initialize());
-  //app.use(passport.session());
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   app.enableCors({
     origin: process.env.ALLOWED_ORIGIN,

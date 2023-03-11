@@ -19,14 +19,10 @@ import { AuthService } from '../services/auth.service';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UserDto } from 'src/modules/users/models/userDto';
-
 import { ModelValidationPipe } from 'src/utils/model-validation-pipe/model-validation.pipe';
 import { UsersService } from 'src/modules/users/services/users.service';
 import { PasswordReset } from '../models/password-reset-email';
 import { ContextUserData, ContextUser } from 'src/extensions/decorators/context-user.decorator';
-
-
-
 
 
 @Controller()
