@@ -66,25 +66,4 @@ $columns-number: 10;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #131217;
 }
-
-
-
-
-
-
-
-
-
-
-
-// @for $i from 1 through $columns-number {
-//   @media only screen and (max-width: ($i*200)px) {
-//     .container {
-//       width: ($i*200 -200)px;
-//     }
-//   }
-// }
-
-

@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { RoutingService } from 'src/app/aspects/navigation/api';
+import { NOTIFY_DURATION_MS } from 'src/app/aspects/notifications/api';
 import { IdentityNotifications, IdentityNotificationsToken } from '../../constants/notifications';
 import { AuthPolicies, PoliciesToken } from '../../constants/policies';
+import { TERMS_AND_CONDITIONS_URL } from '../../constants/terms-and-conditions-url';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user/user.service';
 
@@ -13,7 +15,8 @@ import { UserService } from '../../services/user/user.service';
 export class RegistrationViewComponent implements OnInit {
 
   public notifications: Notification[] = [];
-  public notifyDuration: number = 5000;
+  public notifyDuration: number = NOTIFY_DURATION_MS;
+  public termsAndConditionsUrl: string = TERMS_AND_CONDITIONS_URL;
 
   constructor(
     private readonly _user: UserService,

@@ -30,8 +30,14 @@ body {
 }
 
 
+.custom-modal {
+  display: block;
+  width: 100%;
+}
 
-
+.modal-backdrop {
+  background-color: rgba($color: #000000, $alpha: 0.5)
+}
 
 
 

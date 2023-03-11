@@ -12,6 +12,7 @@ import {  IdentityNotificationsToken, IDENTITY_NOTIFICATIONS } from './constants
 import { policies, PoliciesToken } from './constants/policies';
 import { LogoutViewComponent } from './components/logout-view/logout-view.component';
 import { IdentityRoutingModule } from './identity.routing-module';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { IdentityRoutingModule } from './identity.routing-module';
     GuestFormComponent,
     RegistrationFormComponent,  
     PasswordResetViewComponent, 
-    SessionExpiredViewComponent, LogoutViewComponent
+    SessionExpiredViewComponent, LogoutViewComponent, TermsAndConditionsComponent
   ],
   imports: [
     SharedModule,

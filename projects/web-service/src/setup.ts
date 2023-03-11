@@ -1,8 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-
 import * as passport from 'passport';
-
-//import MySQLSessionStore from "express-mysql-session";
 
 export function setup(app: INestApplication): void {
   // app.useGlobalPipes(
@@ -14,7 +11,7 @@ export function setup(app: INestApplication): void {
   // );
 
   app.use(passport.initialize());
-  app.use(passport.session());
+  //app.use(passport.session());
 
   app.enableCors({
     origin: process.env.ALLOWED_ORIGIN,

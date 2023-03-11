@@ -1,18 +1,19 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
+import { CheckboxInputComponent } from 'src/app/shared/components/checkbox-input/checkbox-input.component';
 import { TextInputConfig } from 'src/app/shared/components/text-input/text-input.component';
+import { ModalService } from 'src/app/shared/services/modal/modal.service';
 import { AccountValidators } from 'src/app/shared/validators/account.validator';
 import { CustomValidators } from 'src/app/shared/validators/custom.validator';
 import { ProfileValidators } from 'src/app/shared/validators/unique-profile.validator';
 import { AuthPolicies, PoliciesToken } from '../../constants/policies';
-
-
+import { TermsAndConditionsComponent } from '../terms-and-conditions/terms-and-conditions.component';
 
 @Component({
   selector: 'registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss'],
-  providers: [ ProfileValidators, AccountValidators ]
+  providers: [ ProfileValidators, AccountValidators, ModalService ]
 })
 export class RegistrationFormComponent {
 
@@ -24,6 +25,7 @@ export class RegistrationFormComponent {
   constructor(
     private readonly _profileValidators: ProfileValidators,
     private readonly _accountValidators: AccountValidators,
+    private readonly _modalService: ModalService,
     @Inject(PoliciesToken) public readonly policies: AuthPolicies
   ) {
     this.formConfig = {
@@ -55,6 +57,21 @@ export class RegistrationFormComponent {
         reject: () => this.processing = false,
       });
     }  
+  }
+
+  public openTermsAndConditionsModal(input: CheckboxInputComponent): void {
+    //input.control.setValue()
+
+    this._modalService.open(TermsAndConditionsComponent,
+      {
+        accept: () => input.control.setValue(true),
+        reject: () => input.control.setValue(false)
+      },
+      {
+        maxWidth: "500px",
+        maxHeight: "1000px",
+      }
+    );
   }
 }
 
