@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://hexchess-service.westeurope.azurecontainer.io',
-  matchmakingSocket: 'http://hexchess-service.westeurope.azurecontainer.io/matchmaking',
+  apiUrl: 'http://webservice.dev.hexchess.tk',
+  matchmakingSocket: 'webservice.dev.hexchess.tk/matchmaking',
   selectedArmyFallbacksLimit: 2,
-  blobStorageUrl: 'http://localhost:10000/devstoreaccount1',
+  blobStorageUrl: 'https://hexchess-webservice.blackpebble-51ab22b9.westeurope.azurecontainerapps.io',
   avatarsContainerName: 'avatars'
 };

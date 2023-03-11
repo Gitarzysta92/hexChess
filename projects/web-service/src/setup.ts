@@ -1,4 +1,4 @@
-import { ValidationPipe, HttpStatus, INestApplication } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 
 import * as passport from 'passport';
 
