@@ -3,7 +3,7 @@ FROM node:17-alpine3.14 as build
 WORKDIR /app  
 COPY . .
 RUN npm install
-RUN npm run build
+RUN npm run build:docker
 
 FROM nginx:1.21.6-alpine as prod
 COPY --from=build app/deployment/nginx.conf /host/path/nginx.conf
