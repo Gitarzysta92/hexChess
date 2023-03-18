@@ -7,17 +7,22 @@ export const IDENTITY_NOTIFICATIONS = {
   error: new Notification({
     type: NotificationType.Error,
     icon: ICONS.warning,
-    content: `<strong>Problem:</strong> Duis maximus nibh ut magna maximus, iaculis rhoncus sapien vehicula. Donec metus ante, cursus eu aliquam ac.`
+    content: `<strong>Problem:</strong> Oops! Something went wrong. Please try again later or contact our support team for assistance."`
   }),
-  success: new Notification({
+  loginSuccess: new Notification({
     type: NotificationType.Success,
     icon: ICONS.success,
-    content: `<strong>Problem:</strong> Duis maximus nibh ut magna maximus, iaculis rhoncus sapien vehicula. Donec metus ante, cursus eu aliquam ac.`
+    content: `<strong>Success:</strong> Success! You have been logged in to your account.`
+  }),
+  registrationSuccess: new Notification({
+    type: NotificationType.Success,
+    icon: ICONS.success,
+    content: `<strong>Success:</strong> Thank you for registering! You will receive a confirmation email shortly.`
   }),
   badCredentials: new Notification({
     type: NotificationType.Error,
     icon: ICONS.login,
-    content: `<strong>Problem:</strong> Duis maximus nibh ut magna maximus, iaculis rhoncus sapien vehicula. Donec metus ante, cursus eu aliquam ac.`
+    content: `<strong>Problem:</strong> Sorry, we couldn't log you in. Please check your login credentials and try again.`
   })
 };
 

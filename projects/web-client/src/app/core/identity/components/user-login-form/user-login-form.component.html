@@ -1,8 +1,11 @@
+<p>
+  Welcome back! Please enter your login credentials to access your account.
+</p>
 <reactive-form #form (onSubmit)="submitForm($event)">
   <text-input #nickname required name="email" placeholder="Login"></text-input>
 
   <text-input #password required text-hidden name="password" placeholder="Password">
-    <button type="button" class="blank-btn" (click)="password.toggleTextVisibility();">
+    <button common-button blank type="button" class="revealer-btn" (click)="password.toggleTextVisibility();">
       <i *ngIf="password.textHidden" name="reveal"></i>
       <i *ngIf="!password.textHidden" name="hide"></i>
     </button>

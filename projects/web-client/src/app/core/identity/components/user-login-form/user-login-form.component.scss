@@ -1,23 +1,15 @@
-.blank-btn, .icon-wrapper {
-  text-align: center;
-  display: flex;
-  height: 100%;
-  font-size: 20px;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-}
-
-.blank-btn {
-  cursor: pointer;
+.revealer-btn {
   color: #a5a4a9;
-}
-
-.submit-btn i {
-  margin-left: 5px;
+  font-size: 20px;
+  width: 50px;
+  height: 100%;
 }
 
 text-input, .submit-btn {
   margin: 10px 0;
   display: block;
+}
+
+p {
+  margin-bottom: 25px;
 }

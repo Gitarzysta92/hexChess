@@ -17,6 +17,10 @@
   display: inline-block;
   text-align: center;
 
+  ::ng-deep i {
+    margin-left: 5px;
+  }
+
   &.blank-btn {
     border: none;
     color: $text-secondary;
@@ -35,12 +39,11 @@
       border: none;
       box-shadow: none;
     }
-  }
-  
 
+    ::ng-deep i {
+      margin-left: initial;
+    }
 
-  ::ng-deep i {
-    margin-left: 5px;
   }
 
 

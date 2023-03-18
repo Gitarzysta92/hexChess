@@ -150,7 +150,7 @@ export class LoginViewComponent implements OnInit {
         notify = this._notification.badCredentials;
         break;
       case 200:
-        notify = this._notification.success;
+        notify = this._notification.loginSuccess;
         break;
     };
 

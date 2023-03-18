@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import * as passport from 'passport';
+//import * as passport from 'passport';
 
 export function setup(app: INestApplication): void {
   // app.useGlobalPipes(
@@ -10,7 +10,7 @@ export function setup(app: INestApplication): void {
   //   }),
   // );
 
-  app.use(passport.initialize());
+  //app.use(passport.initialize());
   //app.use(passport.session());
 
   app.enableCors({

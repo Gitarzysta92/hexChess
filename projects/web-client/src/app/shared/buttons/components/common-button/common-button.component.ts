@@ -7,9 +7,9 @@ import { slideOutAnimation } from '../../../animations/animations/slide-out.anim
   selector: '[common-button]',
   templateUrl: './common-button.component.html',
   styleUrls: ['./common-button.component.scss'],
-  // host: {
-  //   '@routeAnimations': 'true'
-  // },
+  host: {
+    "[class.blank-btn]": "isBlank"
+  },
   animations: [
     trigger('routeAnimations', [
       transition('* <=> *', [
@@ -43,6 +43,8 @@ export class CommonButtonComponent implements OnInit {
   // @Input() colorCode: string = 'default';
   // @Input() outlined: boolean = false;
   
+  @Input() set blank(_: unknown) { this.isBlank = true; }
+  public isBlank: boolean = false;
 
   @HostBinding('@routeAnimations') get state() { return this.loader };
 
