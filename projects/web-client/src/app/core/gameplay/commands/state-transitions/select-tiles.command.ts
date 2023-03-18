@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { TileObject } from "@hexchess-3d-scene/lib/actors/game-objects/tile.game-object";
-import { GameState } from "hexchess-game-logic/dist/lib/state/game-state";
+import { GameState } from "@hexchess-game-logic/lib/state/game-state";
 import { Observable, firstValueFrom, filter, map, take, tap, of } from "rxjs";
 import { BaseCommandAsync, CommandMetadata } from "src/app/aspects/commands/command-bus/base-command";
 import { RevertableAsync } from "src/app/aspects/commands/commands-stack/commands-stack.service";

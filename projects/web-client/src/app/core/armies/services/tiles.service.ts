@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { TileGenerator } from 'hexchess-tile-generator';
-import { ArtworkType } from 'hexchess-tile-generator/dist/lib/constants/artwork-type';
+import { TileGenerator } from '@hexchess-tile-generator/index';
+import { ArtworkType } from '@hexchess-tile-generator/lib/constants/artwork-type';
 import { forkJoin, from, map, Observable, of } from 'rxjs';
 import * as localForage from "localforage";
 import { ITileArtworkData } from '../models/tile-artwork-data';
 import { ITileGraphicalData } from '../models/tile-graphical-data';
 import { ITileImageBinding } from '../models/tile-image-binding';
+
 
 @Injectable({
   providedIn: 'root'

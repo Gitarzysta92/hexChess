@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { HexChess } from "hexchess-game-logic";
-import { StateGenerator } from "hexchess-game-logic/dist/lib/state/state-generator";
+import { HexChess } from "@hexchess-game-logic/index";
+import { StateGenerator } from "@hexchess-game-logic/lib/state/state-generator";
 import { Observable, ReplaySubject, Subject } from "rxjs";
 import { ArmiesService } from "src/app/core/armies/services/armies.service";
 import { TilesService } from "src/app/core/armies/services/tiles.service";

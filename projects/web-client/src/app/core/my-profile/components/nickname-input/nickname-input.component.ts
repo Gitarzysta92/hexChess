@@ -4,7 +4,7 @@ import { Component, OnInit, OnChanges, OnDestroy, ViewChild, TemplateRef, Input,
 import { NgModel, FormControl, FormGroup, NG_VALIDATORS, Validator, NG_ASYNC_VALIDATORS, AsyncValidator } from "@angular/forms";
 
 import { Observable, Subject, takeUntil, filter, delay, BehaviorSubject } from "rxjs";
-import { StateContainer } from 'hexchess-utils';
+import { StateContainer } from '@hexchess-utils/index';
 
 
 const STATE = {

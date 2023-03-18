@@ -1,3 +1,3 @@
-import { TileGraphicalConfig } from "hexchess-tile-generator/dist/lib/interfaces/tile-graphical-config";
+import { TileGraphicalConfig } from "@hexchess-tile-generator/index";
 
 export type ITileGraphicalData = TileGraphicalConfig & { id: string };

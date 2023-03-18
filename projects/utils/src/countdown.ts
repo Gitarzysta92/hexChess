@@ -1,4 +1,3 @@
-import { throws } from "assert";
 import { Subject } from "rxjs";
 
 export type CountdownSetup = ICountdownStep[] | Countdown | number;

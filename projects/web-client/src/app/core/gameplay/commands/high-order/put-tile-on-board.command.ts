@@ -1,7 +1,7 @@
 
 import { Injectable } from "@angular/core";
 import { TileObject } from "@hexchess-3d-scene/lib/actors/game-objects/tile.game-object";
-import { TileType } from "hexchess-tile-generator/dist/lib/constants/tile-type";
+import { TileType } from "@hexchess-tile-generator/lib/constants/tile-type";
 import { lastValueFrom } from "rxjs";
 import { BaseCommandAsync, Command, CommandMetadata } from "src/app/aspects/commands/command-bus/base-command";
 import { CommandsFactory } from "src/app/aspects/commands/commands-factory";

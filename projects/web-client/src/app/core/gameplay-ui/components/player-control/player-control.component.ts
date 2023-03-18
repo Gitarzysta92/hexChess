@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivityName } from 'hexchess-game-logic/dist/lib/state/activity.interface';
-import { CommandBusService } from 'src/app/aspects/commands/command-bus/command-bus.service';
 import { CommandsStackService } from 'src/app/aspects/commands/commands-stack/commands-stack.service';
 import { IArmyBadge } from 'src/app/core/armies/api';
 import { IPlayer } from '../../../gameplay/models/player';
-import { GameplayService } from '../../../gameplay/services/gameplay/gameplay.service';
 import { IPlayerControlAction } from '../../models/player-control-action';
 
 @Component({
