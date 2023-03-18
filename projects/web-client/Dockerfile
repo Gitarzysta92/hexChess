@@ -1,4 +1,6 @@
 FROM node:17-alpine3.14 as build
+
+WORKDIR /
 COPY . .
 RUN npm install
 RUN npm run build:docker
@@ -10,4 +12,3 @@ COPY --from=build app/dist/web-client/index.html /usr/share/nginx/html/index.htm
 EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
- 
