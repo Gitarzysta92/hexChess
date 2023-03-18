@@ -1,5 +1,6 @@
 import { Vector2, Vector3 } from "three";
 
+
 export type Bitmap = number[][];
 export type Coords2 = { x: number, y: number, source?: Coords2 };
 
@@ -51,10 +52,10 @@ export function getNormalizedMouseCoordinates2(x: number, y: number, v: Vector2)
 }
 
 
-export function mapCoordsTo2d(coords: THREE.Vector3): THREE.Vector2 {
+export function mapCoordsTo2d(coords: Vector3): Vector2 {
   return new Vector2(coords.x, coords.y); 
 }
 
-export function mapCoordsTo3d(coords: THREE.Vector2): THREE.Vector3 {
+export function mapCoordsTo3d(coords: Vector2): Vector3 {
   return new Vector3(coords.x, coords.y, 0);
 }
