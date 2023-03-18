@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
-import { ICONS, IconsToken } from './shared/constants/icons';
+import { ICONS, IconsToken } from './shared/icons/constants/icons';
 
 import { GameModesSharedModule } from './core/game-modes/api';
 import { MatchmakingSharedModule } from './core/matchmaking/api';

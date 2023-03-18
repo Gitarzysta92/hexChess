@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
-import { PanelOverlayComponent } from 'src/app/shared/components/panel-overlay/panel-overlay.component';
+import { PanelOverlayComponent } from 'src/app/shared/dialogs/components/panel-overlay/panel-overlay.component';
 import { mapArmyBadgeToArmyBaseData } from '../../mappings/army-badge-to-army-base-data.mapping';
 import { IArmyAssignmentDto } from '../../models/army-assignment.dto';
 import { IArmyBadge } from '../../models/army-badge';

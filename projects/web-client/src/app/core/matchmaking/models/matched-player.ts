@@ -1,5 +1,6 @@
-import { ArmyBadgeConfig } from 'src/app/shared/components/army-badge/army-badge.component';
-import { HexagonColors } from 'src/app/shared/components/hexagon/hexagon.component';
+import { ArmyBadgeConfig } from 'src/app/shared/misc/components/army-badge/army-badge.component';
+import { HexagonColors } from 'src/app/shared/misc/components/hexagon/hexagon.component';
+
 
 
 export class MatchedPlayer {

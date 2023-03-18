@@ -1,5 +1,5 @@
 import { animate, animation, AnimationReferenceMetadata, stagger, style } from "@angular/animations";
-import { EASING } from "../animations-constants";
+import { EASING } from "../constants/animations-constants";
 
 
 // Params

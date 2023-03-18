@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DialogRef, DIALOG_DATA } from 'src/app/shared/services/modal/modal.service';
+import { DialogRef, DIALOG_DATA } from 'src/app/shared/dialogs/api';
+
 import { TERMS_AND_CONDITIONS_URL } from '../../constants/terms-and-conditions-url';
 
 @Component({

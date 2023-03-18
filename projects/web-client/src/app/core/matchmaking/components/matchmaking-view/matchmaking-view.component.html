@@ -17,7 +17,7 @@
     <div class="column-4">
       <div *ngIf="!ready" @fadeIn>
         <h2>Duel <br><small>Quickmatch</small></h2>
-        <button btn class="blue" (click)="leaveMatchmaking()">Abandon match</button>
+        <button common-button class="blue" (click)="leaveMatchmaking()">Abandon match</button>
       </div>
       <div *ngIf="ready" @fadeIn class="flex_center-center">
         <h2 *ngIf="ready">Starting game</h2>

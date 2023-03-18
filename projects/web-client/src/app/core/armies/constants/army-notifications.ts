@@ -1,5 +1,5 @@
 
-import { ICONS } from 'src/app/shared/constants/icons';
+import { ICONS } from 'src/app/shared/icons/constants/icons';
 import { InjectionToken } from '@angular/core';
 import { NotificationType } from '../../../aspects/notifications/api';
 

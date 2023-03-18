@@ -1,4 +1,4 @@
-import { ArmyBadgeConfig } from "src/app/shared/components/army-badge/army-badge.component";
+import { ArmyBadgeConfig } from "src/app/shared/misc/components/army-badge/army-badge.component";
 import { ITile } from "./tile";
 
 export interface IArmy extends IArmyBaseData {

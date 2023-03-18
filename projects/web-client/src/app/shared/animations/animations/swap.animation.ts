@@ -1,5 +1,5 @@
 import { animate, animateChild, animation, AnimationReferenceMetadata, group, query, sequence, stagger, style } from "@angular/animations";
-import { EASING } from "../animations-constants";
+import { EASING } from "../constants/animations-constants";
 
 
 export const swapAnimation = () => {

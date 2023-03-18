@@ -20,7 +20,7 @@ import { RoutingService } from 'src/app/aspects/navigation/api';
 
 
 @Component({
-  selector: 'app-matchmaking-view',
+  selector: 'matchmaking-view',
   templateUrl: './matchmaking-view.component.html',
   styleUrls: ['./matchmaking-view.component.scss'],
   animations: [

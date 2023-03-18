@@ -16,17 +16,14 @@
   </text-input>
 
   <text-input #password required text-hidden name="password" placeholder="Password" [config]="formConfig.password">
-    <button type="button" class="blank-btn" (click)="password.toggleTextVisibility();">
-      <i *ngIf="password.textHidden" name="reveal"></i>
-      <i *ngIf="!password.textHidden" name="hide"></i>
-    </button>
+    <visibility-toggle-button (click)="password.toggleTextVisibility()" [visible]="password.textHidden"></visibility-toggle-button>
   </text-input>
 
   <checkbox-input #consentCheckbox required name="consent" class="consent">
     <span [innerHTML]="policies.login" (click)="openTermsAndConditionsModal(consentCheckbox)"></span>
   </checkbox-input>
 
-  <button btn type="submit" [loader]="processing" [disabled]="!form.valid" class="submit-btn">
+  <button common-button type="submit" [loader]="processing" [disabled]="!form.valid" class="submit-btn">
     Register <i name="registration"></i>
   </button>
 </reactive-form>

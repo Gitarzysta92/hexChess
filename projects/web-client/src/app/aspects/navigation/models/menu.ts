@@ -1,6 +1,6 @@
 import { ComponentType } from "@angular/cdk/portal";
 import { Observable } from "rxjs";
-import { Icons } from "src/app/shared/constants/icons";
+import { Icons } from "src/app/shared/icons/constants/icons";
 import { MenuLocation } from "src/app/aspects/navigation/constants/menu-location.enum";
 import { StoreService } from "src/app/infrastructure/data-store/api";
 

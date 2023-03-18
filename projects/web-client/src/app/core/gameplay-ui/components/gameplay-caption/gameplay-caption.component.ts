@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-
-import { DialogRef, DIALOG_DATA } from 'src/app/shared/services/modal/modal.service';
+import { DialogRef, DIALOG_DATA } from 'src/app/shared/dialogs/api';
 
 @Component({
   selector: 'gameplay-caption',

@@ -1,15 +1,10 @@
 import { animate, animation, AnimationReferenceMetadata, stagger, style } from "@angular/animations";
-import { EASING } from "../animations-constants";
-
-export const direction = {
-  fromTop: 'translate(0, -30px)',
-  fromRight: 'translate(30px, 0)',
-  fromBottom: 'translate(0, 30px)',
-  fromLeft: 'translate(-30px, 0)'
-}
+import { EASING } from "../constants/animations-constants";
+import { FROM_DIRECTION } from "../constants/from-direction";
 
 
-export type SlideInDirectionType = keyof typeof direction
+
+export type SlideInDirectionType = keyof typeof FROM_DIRECTION
 type SlideInAnimation = (type: SlideInDirectionType, isStagger?: boolean) => AnimationReferenceMetadata
 
 // Params
@@ -20,7 +15,7 @@ type SlideInAnimation = (type: SlideInDirectionType, isStagger?: boolean) => Ani
 export const slideInAnimation: SlideInAnimation = (type, isStagger = false) => {
   const initial = style({ 
     opacity: '0', 
-    transform: direction[type]
+    transform: FROM_DIRECTION[type]
   });
 
   const final = animate(`{{ duration }} {{delay}} ${EASING.inOut}`, 

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ModalService } from 'src/app/shared/services/modal/modal.service';
+import { ModalService } from 'src/app/shared/dialogs/services/modal/modal.service';
 //import { GameplayService } from '../../services/gameplay/gameplay.service';
 
 @Component({

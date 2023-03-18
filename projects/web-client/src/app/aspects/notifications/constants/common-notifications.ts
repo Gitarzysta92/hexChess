@@ -1,6 +1,6 @@
 import { InjectionToken } from "@angular/core";
 
-import { ICONS } from "../../../shared/constants/icons";
+import { ICONS } from "../../../shared/icons/constants/icons";
 import { NotificationType } from "./notification-type.enum";
 
 

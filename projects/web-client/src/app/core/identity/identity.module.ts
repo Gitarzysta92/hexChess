@@ -13,6 +13,7 @@ import { policies, PoliciesToken } from './constants/policies';
 import { LogoutViewComponent } from './components/logout-view/logout-view.component';
 import { IdentityRoutingModule } from './identity.routing-module';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { PanelTemplateComponent } from './components/panel-template/panel-template.component';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
     GuestFormComponent,
     RegistrationFormComponent,  
     PasswordResetViewComponent, 
-    SessionExpiredViewComponent, LogoutViewComponent, TermsAndConditionsComponent
+    SessionExpiredViewComponent, LogoutViewComponent, TermsAndConditionsComponent, PanelTemplateComponent
   ],
   imports: [
     SharedModule,

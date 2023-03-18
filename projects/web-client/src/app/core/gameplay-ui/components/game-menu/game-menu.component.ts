@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ExpandableListItem } from 'src/app/shared/components/expandable-list/expandable-list.component';
-import { ModalService } from 'src/app/shared/services/modal/modal.service';
+import { IExpandableListItem } from 'src/app/shared/commons/api';
+import { ModalService } from 'src/app/shared/dialogs/services/modal/modal.service';
 import { GameExitConfirmationModalComponent } from '../game-exit-confirmation-modal/game-exit-confirmation-modal.component';
 
 
@@ -12,7 +12,7 @@ import { GameExitConfirmationModalComponent } from '../game-exit-confirmation-mo
 })
 export class GameMenuComponent implements OnInit, OnDestroy {
 
-  data: any & ExpandableListItem[] = [
+  data: any & IExpandableListItem[] = [
     { isActive: true, icon: 'exit-game', label: 'Quit Game', action: (e: MouseEvent) => this.openGameExitModal(e) }
   ]
 

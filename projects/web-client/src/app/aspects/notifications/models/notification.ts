@@ -1,7 +1,8 @@
-import { notificationApperance } from "src/app/shared/components/notification/notification.component";
+
 import { NotificationType } from "../api";
 import { INotification } from "./notification.interface";
 import { v4 as uuid } from 'uuid';
+import { notificationApperance } from "src/app/shared/commons/components/notification/notification.component";
 
 export class Notification implements INotification {
   public id: string;

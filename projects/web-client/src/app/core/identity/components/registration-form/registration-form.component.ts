@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { CheckboxInputComponent } from 'src/app/shared/components/checkbox-input/checkbox-input.component';
-import { TextInputConfig } from 'src/app/shared/components/text-input/text-input.component';
-import { ModalService } from 'src/app/shared/services/modal/modal.service';
-import { AccountValidators } from 'src/app/shared/validators/account.validator';
-import { CustomValidators } from 'src/app/shared/validators/custom.validator';
-import { ProfileValidators } from 'src/app/shared/validators/unique-profile.validator';
+import { CheckboxInputComponent } from 'src/app/shared/forms/components/checkbox-input/checkbox-input.component';
+import { TextInputConfig } from 'src/app/shared/forms/components/text-input/text-input.component';
+import { ModalService } from 'src/app/shared/dialogs/services/modal/modal.service';
+import { AccountValidators } from 'src/app/shared/forms/validators/account.validator';
+import { CustomValidators } from 'src/app/shared/forms/validators/custom.validator';
+import { ProfileValidators } from 'src/app/shared/forms/validators/unique-profile.validator';
 import { AuthPolicies, PoliciesToken } from '../../constants/policies';
 import { TermsAndConditionsComponent } from '../terms-and-conditions/terms-and-conditions.component';
 

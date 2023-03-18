@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
-  selector: 'app-password-recovery-view',
+  selector: 'password-recovery-view',
   templateUrl: './password-recovery-view.component.html',
   styleUrls: ['./password-recovery-view.component.scss']
 })

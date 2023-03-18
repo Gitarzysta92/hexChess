@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ICONS, IconsToken } from 'src/app/shared/constants/icons';
+import { ICONS, IconsToken } from 'src/app/shared/icons/constants/icons';
 
 
 @Component({

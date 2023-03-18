@@ -1,5 +1,5 @@
 import { UrlSegment } from '@angular/router';
-import { ICONS } from 'src/app/shared/constants/icons';
+import { ICONS } from 'src/app/shared/icons/constants/icons';
 import { MenuLocation } from 'src/app/aspects/navigation/constants/menu-location.enum';
 import { RoutesAdapter } from 'src/app/aspects/navigation/services/system-routes';
 import { AuthenticationGuard } from './guards/authentication.guard';

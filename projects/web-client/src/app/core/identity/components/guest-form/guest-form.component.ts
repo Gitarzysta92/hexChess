@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TextInputConfig } from 'src/app/shared/components/text-input/text-input.component';
-import { ProfileValidators } from 'src/app/shared/validators/unique-profile.validator';
+import { TextInputConfig } from 'src/app/shared/forms/components/text-input/text-input.component';
+import { ProfileValidators } from 'src/app/shared/forms/validators/unique-profile.validator';
 
 @Component({
   selector: 'app-guest-form',

@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StoreService } from 'src/app/infrastructure/data-store/api';
-import { ExpandableListItem } from 'src/app/shared/components/expandable-list/expandable-list.component';
+import { IExpandableListItem } from 'src/app/shared/commons/api';
 import { Menu, MenuItem } from '../../models/menu';
 import { RoutingService } from '../../services/routing/routing.service';
 
@@ -78,7 +78,7 @@ export class NavigationalMenuComponent implements OnInit {
 }
 
 
-export class ExpendableMenuItem extends MenuItem implements ExpandableListItem {
+export class ExpendableMenuItem extends MenuItem implements IExpandableListItem {
   expanded: boolean;
   settled: boolean;
   childrens: ExpendableMenuItem[];

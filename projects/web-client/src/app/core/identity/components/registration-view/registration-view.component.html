@@ -1,12 +1,10 @@
-<div class="flex-container_center_center fh ">
-  <div class="panel">
-    <div class="panel-header">
-      <app-logo></app-logo>
-    </div>
-    <div class="panel-menu">
-      <a class="btn-blank" routerLink="guest">Create account</a>
-    </div>
-    <div class="panel-content">
+<div class="flex-container_center_center fh">
+  <panel-template>
+    <ng-container menu>
+      <h1>Create account</h1>
+    </ng-container>
+
+    <ng-container content>
       <registration-form (onSubmit)="registerUser($event)"></registration-form>
       <div class="notifications-container">
         <notification *ngFor="let notify of notifications" [apperance]="notify.apperance" [duration]="notifyDuration" (closed)="removeNotify(notify)">
@@ -14,13 +12,15 @@
           <p slot="content" [innerHTML]="notify.content"></p>
         </notification>
       </div>
-    </div>
-  </div>
-  <div class="panel-footer">
-    <a class="link" routerLink="../log-in/user">Log-in</a>
-    <span class="separator">-</span>
-    <a class="link" target="_blank" [href]="termsAndConditionsUrl">Terms and conditions</a>
-  </div>
+    </ng-container>
+
+    <ng-container footer>
+      <a class="link" routerLink="../log-in/user">Log-in</a>
+      <span class="separator">-</span>
+      <a class="link" target="_blank" [href]="termsAndConditionsUrl">Terms and conditions</a>
+    </ng-container>
+
+  </panel-template>
 </div>
 
 

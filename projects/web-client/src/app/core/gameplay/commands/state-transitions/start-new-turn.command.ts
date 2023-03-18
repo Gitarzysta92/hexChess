@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 import { BaseCommandAsync, CommandMetadata } from "src/app/aspects/commands/command-bus/base-command";
-import { ModalService } from "src/app/shared/services/modal/modal.service";
+import { ModalService } from "src/app/shared/dialogs/services/modal/modal.service";
 import { GameplayCaptionComponent } from "../../../gameplay-ui/components/gameplay-caption/gameplay-caption.component";
 import { GameplayService } from "../../services/gameplay/gameplay.service";
 import { GameLogicService } from "../../../gameplay-logic/api";

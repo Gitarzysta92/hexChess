@@ -5,7 +5,7 @@ import { Subject, timer } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 import { MenuLocation, MenuService, RoutingService } from 'src/app/aspects/navigation/api';
 import { slideIn, slideOut, swapViews } from 'src/app/shared/animations/predefined-animations';
-import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
+import { ModalComponent } from 'src/app/shared/dialogs/components/modal/modal.component';
 
 @Component({
   selector: 'main-view-template',

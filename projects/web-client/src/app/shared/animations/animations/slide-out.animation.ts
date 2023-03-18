@@ -1,15 +1,9 @@
 import { animate, animation, AnimationReferenceMetadata, stagger, style } from "@angular/animations";
-import { EASING } from "../animations-constants";
-
-export const direction = {
-  toTop: 'translate(0, -30px)',
-  toRight: 'translate(30px, 0)',
-  toBottom: 'translate(0, 30px)',
-  toLeft: 'translate(-30px, 0)'
-}
+import { EASING } from "../constants/animations-constants";
+import { TO_DIRECTION } from "../constants/to-direction";
 
 
-export type SlideOutDirectionType = keyof typeof direction
+export type SlideOutDirectionType = keyof typeof TO_DIRECTION;
 type SlideOutAnimation = (type: SlideOutDirectionType, isStagger?: boolean) => AnimationReferenceMetadata
 
 // interval -> 60ms
@@ -21,7 +15,7 @@ export const slideOutAnimation: SlideOutAnimation = (type, isStagger = false) =>
   });
 
   const final = animate(`{{ duration }} {{delay}} ${EASING.inOut}`, 
-    style({ opacity: '0', transform: direction[type]})
+    style({ opacity: '0', transform: TO_DIRECTION[type]})
   )
 
   return animation([

@@ -8,7 +8,7 @@ import { fadeOutAnimation } from "src/app/shared/animations/animations/fade-out.
 import { slideInAnimation } from "src/app/shared/animations/animations/slide-in.animation";
 import { slideOutAnimation } from "src/app/shared/animations/animations/slide-out.animation";
 import { slideInFromTopMultipleElements, slideOut } from "src/app/shared/animations/predefined-animations";
-import { AttachedOverlayDirective } from "src/app/shared/directives/attached-overlay/attached-overlay.directive";
+import { AttachedOverlayDirective } from "src/app/shared/dialogs/directives/attached-overlay/attached-overlay.directive";
 import { State, StateController } from "src/app/utils/state-controller/state-controller";
 
 
