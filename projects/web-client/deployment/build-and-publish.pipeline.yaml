@@ -25,6 +25,7 @@ variables:
   dockerfilePath: '$(System.DefaultWorkingDirectory)/projects/web-client/Dockerfile'
   tag: '$(Build.BuildId)'
   root: '$(System.DefaultWorkingDirectory)/projects/web-client'
+  depsRoot: '$(System.DefaultWorkingDirectory)/projects'
 
 steps:
 - task: Bash@3
@@ -39,6 +40,12 @@ steps:
 - task: npmAuthenticate@0
   inputs:
     workingFile: '$(root)/.npmrc'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(depsRoot)'
+    Contents: '**'
+    TargetFolder: '$(root)'
 
 - task: Docker@2
   displayName: Build and push an image to container registry
