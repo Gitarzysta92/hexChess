@@ -14,7 +14,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from 'src/db-models/user';
 
 
-
 @Module({
   imports: [
     UsersModule,
@@ -31,7 +30,13 @@ import { User } from 'src/db-models/user';
     SequelizeModule.forFeature([User])
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, SessionSerializer],
-  exports: [AuthService],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    SessionSerializer],
+  exports: [
+    PassportModule
+  ],
 })
 export class AuthModule {}

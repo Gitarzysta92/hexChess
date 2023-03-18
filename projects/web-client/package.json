@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:asprod": "ng serve --configuration=productionLike",
+    "start:env:test": "ng serve --configuration=productionLike",
     "start:docker": "ng serve --host 0.0.0.0",
     "serve:dd": "node src/dev/rest-api-demo-data.js",
     "build": "ng build --verbose --stats-json --delete-output-path --sourceMap=true --ts-config tsconfig.app-prod.json",
