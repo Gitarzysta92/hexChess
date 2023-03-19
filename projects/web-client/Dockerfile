@@ -11,5 +11,5 @@ COPY --from=build app/dist/web-client /usr/share/nginx/html/
 COPY --from=build app/dist/web-client/index.html /usr/share/nginx/html/index.html
 EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;", "-c", "/host/path/nginx.conf"]
  
