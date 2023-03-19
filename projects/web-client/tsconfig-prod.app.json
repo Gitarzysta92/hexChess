@@ -21,6 +21,7 @@
   "exclude": [
     "src/test.ts",
     "src/**/*.spec.ts",
-    "src/dev/*"
+    "src/dev/*",
+    "3d-scene/src/demo-app/*.ts",
   ]
 }
