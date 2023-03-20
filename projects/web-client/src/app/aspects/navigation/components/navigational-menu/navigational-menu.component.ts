@@ -1,9 +1,8 @@
-import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, Input, OnInit } from '@angular/core';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StoreService } from 'src/app/infrastructure/data-store/api';
-import { IExpandableListItem } from 'src/app/shared/commons/api';
+import { ExpendableMenuItem } from '../../models/expendable-menu-item';
 import { Menu, MenuItem } from '../../models/menu';
 import { RoutingService } from '../../services/routing/routing.service';
 
@@ -35,7 +34,6 @@ export class NavigationalMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     if (!!this.locations && !Array.isArray(this.locations)) {
       this.locations = [this.locations]
     };
@@ -55,21 +53,9 @@ export class NavigationalMenuComponent implements OnInit {
     this.routing.navigate(url);
   }
 
-  // public bindCounterValue(componentRef, menuItem: MenuItem): void { 
-  //   if (menuItem.counterDataProvider) {
-  //     const data = menuItem.counterDataProvider(this._store);
-  //     data.pipe(takeUntil(this._destroyed))
-  //       .subscribe(value => {
-  //         console.log(value)
-  //         componentRef.instance.number = value;
-  //       });
-  //   }
-  // }
-
   private _createMenuItem(item: MenuItem): ExpendableMenuItem {
     const expendableItem = new ExpendableMenuItem({
       ...item,
-      // portal: !!item.counterComponent ? new ComponentPortal(item.counterComponent): new ComponentPortal(CounterBadgeComponent),
       counterData: !!item.counterDataProvider ? item.counterDataProvider(this._store) : null
     });
 
@@ -78,20 +64,4 @@ export class NavigationalMenuComponent implements OnInit {
 }
 
 
-export class ExpendableMenuItem extends MenuItem implements IExpandableListItem {
-  expanded: boolean;
-  settled: boolean;
-  childrens: ExpendableMenuItem[];
-  portal: ComponentPortal<any>;
-  counterData: Observable<number>;
 
-  constructor(data: Partial<ExpendableMenuItem>) {
-    super(data as MenuItem);
-    this.expanded = !!data.expanded;
-    this.settled = !!data.settled;
-    this.childrens = data.childrens || [];
-    this.portal = data.portal;
-    this.counterData = data.counterData;
-  }
-
-}

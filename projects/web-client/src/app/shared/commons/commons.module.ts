@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { CounterBadgeComponent } from "./components/counter-badge/counter-badge.component";
 import { ExpandableListComponent } from "./components/expandable-list/expandable-list.component";
@@ -10,6 +11,9 @@ import { TooltipComponent } from "./components/tooltip/tooltip.component";
     ExpandableListComponent,
     NotificationComponent,
     TooltipComponent
+  ],
+  imports: [
+    CommonModule
   ],
   exports: [
     CounterBadgeComponent,

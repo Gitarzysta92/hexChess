@@ -7,7 +7,6 @@
           {{ item.label }}
           <div class="appendix">
             <counter-badge [number]="(item.counterData | async)"></counter-badge>
-            <!-- <ng-template [cdkPortalOutlet]="item.portal" (attached)="bindCounterValue($event, item)"></ng-template> -->
           </div>
         </span>
       </a>
