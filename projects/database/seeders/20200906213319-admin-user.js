@@ -23,7 +23,6 @@ module.exports = {
     }]);
 
     await queryInterface.bulkInsert('AssignedArmies',[{
-      id: 1,
       armyId: "432d6de7-24cb-418c-8a6e-77841a36d59c",
       priority: 1,
       profileId: profileId,
