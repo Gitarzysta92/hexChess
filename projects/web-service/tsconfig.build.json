@@ -9,8 +9,9 @@
     },
   },
   "include": [
+    "game-logic/src/*",
     "tile-generator/src/*.ts",
-    "src/**/*.ts"
+    "src/**/*.ts",
   ],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }

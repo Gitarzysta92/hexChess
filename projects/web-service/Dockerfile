@@ -3,7 +3,7 @@ FROM node:17-alpine3.14 as build
 WORKDIR /app
 COPY . .
 RUN npm install
-RUN npm run build
+RUN npm run build:docker
 
 FROM node:17-alpine3.14 as prod
 WORKDIR /app
