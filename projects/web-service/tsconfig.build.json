@@ -3,11 +3,14 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@hexchess-game-logic/*": [ "game-logic/src/*" ],
       "@hexchess-tile-generator/*": [ "tile-generator/src/*" ],
+      "@hexchess-utils/*": ["utils/src/*"]
     },
   },
   "include": [
     "tile-generator/src/*.ts",
+    "src/**/*.ts"
   ],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }
