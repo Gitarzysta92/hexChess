@@ -43,7 +43,7 @@ export class OutsideClickDirective implements OnInit, OnDestroy {
   }
 
   private _checkIsInside(event: MouseEvent & { path: HTMLElement[] }): boolean {
-    return event.path.some(e => e == this._elementRef.nativeElement);
+    return event.composedPath()?.some(e => e == this._elementRef.nativeElement);
   }
 
 }

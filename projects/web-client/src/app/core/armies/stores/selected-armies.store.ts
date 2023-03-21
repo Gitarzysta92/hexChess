@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ArmiesNotificationsFactory } from '../services/notifications.factory';
 import { SelectedArmy } from './actions/actions';
-import { IArmyAssignmentDto } from '../models/army-assignment.dto';
 import { SelectedArmiesService } from '../services/selected-armies.service';
 import { Store, StoreService } from 'src/app/infrastructure/data-store/api';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
+import { forkJoin, map, Observable } from 'rxjs';
+import { IArmyAssignmentDto } from '../models/army-assignment.dto';
 
 export const selectedArmiesStore = Symbol('selected-armies-store');
 
@@ -74,7 +75,7 @@ export class SelectedArmiesStore {
   } 
 
   private _remove = (selected: IArmyAssignmentDto, state: IArmyAssignmentDto[]): IArmyAssignmentDto[] => {
-    return state.filter(a => a.army.id !== selected.army.id && a.priority !== selected.priority)
+    return state.filter(a => a.armyId !== selected.armyId && a.priority !== selected.priority)
   }
 
   private _validateSelectionLimit(selectedArmies: IArmyAssignmentDto[] | IArmyAssignmentDto, state: IArmyAssignmentDto[]): boolean {
@@ -84,3 +85,5 @@ export class SelectedArmiesStore {
     return new Set(selectedArmies.concat(state).map(a => a.priority)).size <= max;
   }
 }
+
+

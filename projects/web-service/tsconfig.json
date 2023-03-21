@@ -15,6 +15,16 @@
     "typeRoots": [
       "node_modules/@types",
       "src/typings"
-    ]
-  }
+    ],
+    "paths": {
+      "@hexchess-3d-scene/*": [ "../3d-scene/src/*" ],
+      "@hexchess-game-logic/*": [ "../game-logic/src/*" ],
+      "@hexchess-tile-generator/*": [ "../tile-generator/src/*" ],
+      "@hexchess-utils/*": ["../utils/src/*"]
+    }
+  },
+  "include": [
+    "../tile-generator/src/*.ts",
+    "src/**/*.ts"
+  ]
 }

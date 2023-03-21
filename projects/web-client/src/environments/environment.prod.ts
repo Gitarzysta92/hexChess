@@ -3,6 +3,6 @@ export const environment = {
   apiUrl: 'https://webservice.dev.hexchess.tk',
   matchmakingSocket: 'https://webservice.dev.hexchess.tk/matchmaking',
   selectedArmyFallbacksLimit: 2,
-  blobStorageUrl: 'https://hexchess-webservice.blackpebble-51ab22b9.westeurope.azurecontainerapps.io',
+  blobStorageUrl: 'https://hexchessstorage.blob.core.windows.net',
   avatarsContainerName: 'avatars'
 };

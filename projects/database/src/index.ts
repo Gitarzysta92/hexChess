@@ -1,6 +1,5 @@
-export * from './interfaces/i-assigned-army';
-export * from './interfaces/i-profile';
-export * from './interfaces/i-user';
+export * from './interfaces/assigned-army';
+export * from './interfaces/profile';
+export * from './interfaces/user';
 
-export * from './consts/army-type';
-export * from './consts/assigned-army-priority';
+export * from './constants/assigned-army-priority';

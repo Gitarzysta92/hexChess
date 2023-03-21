@@ -100,7 +100,7 @@ export class Store<T> {
     
   }
 
-  private _provideStateData(stateProvider: Function | Observable<any>): void {
+  private _provideStateData(stateProvider: StoreConfig<any>['initialState']): void {
     if (typeof stateProvider === 'function') {
       stateProvider = from(stateProvider());     
     };

@@ -1,5 +1,7 @@
+import { Observable } from "rxjs"
+
 export interface StoreConfig<T>  {
-  initialState: any,
+  initialState: T | Observable<T> | Promise<T> | ((...args: any) => T) | Function,
   isLazyLoaded?: boolean,
   actions?: {
     [key: string]: {

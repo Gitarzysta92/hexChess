@@ -3,22 +3,15 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.createTable('AssignedArmies', {
-      id: {
-        type: Sequelize.INTEGER,
-        field: "id",
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: true
-      },
       armyId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         field: "armyId",
         allowNull: false
       },
       priority: {
         type: Sequelize.INTEGER,
         field: "priority",
-        allowNull: true
+        allowNull: false
       },
       profileId: {
         type: Sequelize.STRING,

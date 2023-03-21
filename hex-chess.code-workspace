@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"name": "Web Client",
+			"path": "./projects/web-client"
+		},
+		{
+			"name": "Web Service",
+			"path": "./projects/web-service"
+		},
+		{
+			"name": "Root",
+			"path": "./",
+			"exclude": "./projects"
+		}
+
+	],
+	"settings": {}
+}

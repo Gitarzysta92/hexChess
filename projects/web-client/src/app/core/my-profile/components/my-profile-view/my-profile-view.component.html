@@ -16,7 +16,7 @@
             </div>
             <div class="passive_column-6">
               <div class="date">
-                <i name="date"></i> <strong>{{ account.createdAt | date:'mediumDate'  }}</strong>
+                <i name="date"></i> <strong>{{ account?.createdAt | date:'mediumDate'  }}</strong>
               </div>
             </div>
           </div>
@@ -27,7 +27,7 @@
         <div class="column language-picker">
           <language-picker
             [@slideIn]="{ value: true, params: { delay: '250ms' }}" 
-            [selectedLanguage]="account.languageId" 
+            [selectedLanguage]="account?.languageId" 
             (onChange)="updateAccount($event)">
           </language-picker>
         </div>
@@ -45,10 +45,10 @@
               minlength="5"
               maxlength="25"
               pattern="[A-z]+"
-              [uniqueNicknameValidator]="profile.id"
+              [uniqueNicknameValidator]="profile?.id"
               name="nickname" 
               type="text"
-              [value]="profile.nickname"
+              [value]="profile?.nickname"
               (onChange)="updateProfile($event, nickname)">
             </integrated-input>
           </div> 
@@ -65,7 +65,7 @@
               uniqueEmailValidator     
               name="email"
               type="email"
-              [value]="account.email"
+              [value]="account?.email"
               (onChange)="updateAccount({ email: $event }, email)">
             </integrated-input>
             <integrated-input #password    
@@ -77,7 +77,7 @@
               maxlength="25"
               name="password"
               type="password"
-              [value]="account.password"
+              [value]="account?.password"
               (onChange)="updateAccount({ password: $event }, password)">
             </integrated-input>
           </div> 

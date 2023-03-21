@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import { Notification } from "../../../aspects/notifications/api";
 import { ArmyNotifications, ArmyNotificationsToken } from "../constants/army-notifications";
-import { IArmyAssignmentDto } from "../models/army-assignment.dto";
+import { IArmyAssignment } from "../models/army-assignment";
 
 @Injectable({ providedIn: 'root' })
 export class ArmiesNotificationsFactory {
@@ -10,7 +10,7 @@ export class ArmiesNotificationsFactory {
     @Inject(ArmyNotificationsToken) private readonly _notifications: ArmyNotifications,
   ) {}
 
-  public createSuccessNotification(initial: IArmyAssignmentDto[], target: IArmyAssignmentDto[]): Notification {
+  public createSuccessNotification(initial: IArmyAssignment[], target: IArmyAssignment[]): Notification {
   
     if (target.length === 0)
       return this._getRandomArmyNotification();
@@ -29,7 +29,7 @@ export class ArmiesNotificationsFactory {
 
   }
 
-  private _getArmyUpdatedNotification(prev: IArmyAssignmentDto, curr: IArmyAssignmentDto): Notification {
+  private _getArmyUpdatedNotification(prev: IArmyAssignment, curr: IArmyAssignment): Notification {
     const notify = new Notification(this._notifications.selectedArmyAdded);
     const prevArmyName = prev.army.name;
     const currArmyName = curr.army.name;
@@ -37,14 +37,14 @@ export class ArmiesNotificationsFactory {
     return notify;
   }
 
-  private _getArmyAddedNotification(army: IArmyAssignmentDto): Notification {
+  private _getArmyAddedNotification(army: IArmyAssignment): Notification {
     const notify = new Notification(this._notifications.selectedArmyAdded);
     const armyName = army.army.name;
     notify.content + armyName;
     return notify;
   }
 
-  private _getArmyRemovedNotification(army: IArmyAssignmentDto): Notification {
+  private _getArmyRemovedNotification(army: IArmyAssignment): Notification {
     const notify = new Notification(this._notifications.selectedArmyRemoved);
     const armyName = army.army.name;
     notify.content + armyName;
@@ -55,7 +55,7 @@ export class ArmiesNotificationsFactory {
     return new Notification(this._notifications.rendomArmySetted);
   }
 
-  private _getSwapedArmies(initial: IArmyAssignmentDto[], target: IArmyAssignmentDto[]): { initial: IArmyAssignmentDto; target: IArmyAssignmentDto; } {
+  private _getSwapedArmies(initial: IArmyAssignment[], target: IArmyAssignment[]): { initial: IArmyAssignment; target: IArmyAssignment; } {
     const isMissingPriority = initial.concat(target).map(a => a.army.id).some(id => id === null);
     if (isMissingPriority) throw new Error();
 
@@ -66,11 +66,11 @@ export class ArmiesNotificationsFactory {
     }
   }
 
-  private _getAddedArmy(initial: IArmyAssignmentDto[], target: IArmyAssignmentDto[]): IArmyAssignmentDto {
+  private _getAddedArmy(initial: IArmyAssignment[], target: IArmyAssignment[]): IArmyAssignment {
     return target.find(ta => initial.some(ia => ia.priority !== ta.priority));
   }
 
-  private _getRemovedArmy(initial: IArmyAssignmentDto[], target: IArmyAssignmentDto[]): IArmyAssignmentDto {
+  private _getRemovedArmy(initial: IArmyAssignment[], target: IArmyAssignment[]): IArmyAssignment {
     return initial.find(ta => target.some(ia => ia.priority !== ta.priority));
   }
 

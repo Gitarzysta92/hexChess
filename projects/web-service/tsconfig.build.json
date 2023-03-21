@@ -1,4 +1,13 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@hexchess-tile-generator/*": [ "tile-generator/src/*" ],
+    },
+  },
+  "include": [
+    "tile-generator/src/*.ts",
+  ],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }

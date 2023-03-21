@@ -27,7 +27,7 @@ export class MyAccountStore {
 
   private _registerStore() {
     this._store = this._storeService.createStore<IMyAccountDto>(Symbol('my-account'), {
-      initialState: this._profileService.getMyAccount().pipe(catchError(() => of({}))),
+      initialState: this._profileService.getMyAccount().pipe(catchError(() => of({} as IMyAccountDto))),
       actions: { 
         [MyAccountAction.updateMyAccount]: {
           before: [account => this._profileService.updateMyAccount(account)], 

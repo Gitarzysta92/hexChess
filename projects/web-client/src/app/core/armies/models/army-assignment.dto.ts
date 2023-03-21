@@ -1,7 +1,5 @@
-import { IArmyBaseData } from "./army";
-
 export interface IArmyAssignmentDto {
-  army: IArmyBaseData;
+  armyId: string;
   priority?: number;
   profileId?: string;
 }

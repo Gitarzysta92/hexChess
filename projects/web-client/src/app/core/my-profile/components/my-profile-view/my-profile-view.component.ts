@@ -5,6 +5,7 @@ import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
 import { slideIn } from 'src/app/shared/animations/predefined-animations';
 import { AccountValidators } from 'src/app/shared/forms/validators/account.validator';
 import { ProfileValidators } from 'src/app/shared/forms/validators/unique-profile.validator';
+import { PASSWORD_PLACEHOLDER } from '../../constants/password-placeholder';
 import { IMyAccountDto } from '../../models/my-account.dto';
 import { IMyProfileDto } from '../../models/my-profile.dto';
 import { MyAccountStore } from '../../stores/my-account.store';
@@ -27,7 +28,7 @@ export class MyProfileViewComponent implements OnInit {
 
   public avatarUrl: string | undefined;
 
-  public passwordPlaceholder = "**********"
+  public passwordPlaceholder = PASSWORD_PLACEHOLDER;
 
   constructor(
     private readonly _myProfileStore: MyProfileStore,

@@ -67,8 +67,6 @@ azurite
 **/*.env
 *.env
 
-
-hex-chess.code-workspace
 hex-chess.solution.bat
 **/.documentation
 ./documentation

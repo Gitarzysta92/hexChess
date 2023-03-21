@@ -37,19 +37,19 @@ export class MyProfileStore {
 
   private _registerStore() {
     this._store = this._storeService.createStore<IMyProfileDto>(myProfile, {
-      initialState: this._localStorage.get(this._localStorageKey).pipe(switchMap(data => !!data ? of(data) : this._profileService.getMyProfile())),
+      initialState: this._localStorage.get<IMyProfileDto>(this._localStorageKey).pipe(switchMap(data => !!data ? of(data) : this._profileService.getMyProfile())),
       actions: { 
         [MyProfileAction.updateMyProfile]: {
           before: [profile => this._profileService.updateMyProfile(profile)], 
           action: this._updateProfile,
-          after: [profile => this._localStorage.update(this._localStorageKey, profile)]
+          after: [(_, state) => this._localStorage.update(this._localStorageKey, state)]
         },
         [MyProfileAction.updateAvatar]: {
           before: [
             (file, _, ctx) => this._profileService.updateMyAvatar(file).pipe(tap(r => ctx.fileName = r)),
           ],
           action: this._updateAvatar,
-          after: [profile => this._localStorage.update(this._localStorageKey, profile)]
+          after: [(_, state) => this._localStorage.update(this._localStorageKey, state)]
         }
       } 
     });

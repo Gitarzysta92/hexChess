@@ -10,6 +10,7 @@ import { BlobStorageModule } from './utils/blob-storage-client/blob-storage-clie
 import { BlobStorageConfig, blobStorageConfig, BLOB_STORAGE_CONFIG } from './configs/blob-storage.config';
 import { MatchmakingModule } from './modules/matchmaking/matchmaking.module';
 import { GameModule } from './modules/game/game.module';
+import { ArmiesModule } from './modules/armies/armies.module';
 
 
 @Module({
@@ -33,6 +34,7 @@ import { GameModule } from './modules/game/game.module';
     UsersModule,
     GameModule,
     MatchmakingModule,
+    ArmiesModule
   ],
   providers: [
     // {

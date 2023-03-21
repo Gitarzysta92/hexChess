@@ -4,7 +4,6 @@ import { Observable, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
 import { PanelOverlayComponent } from 'src/app/shared/dialogs/components/panel-overlay/panel-overlay.component';
-import { mapArmyBadgeToArmyBaseData } from '../../mappings/army-badge-to-army-base-data.mapping';
 import { IArmyAssignmentDto } from '../../models/army-assignment.dto';
 import { IArmyBadge } from '../../models/army-badge';
 import { ArmiesService } from '../../services/armies.service';
@@ -40,8 +39,8 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _selectedArmiesStore: SelectedArmiesStore,
-    private readonly _armiesService: ArmiesService,
-    private readonly _configurationService: ConfigurationService
+    private readonly _configurationService: ConfigurationService,
+    private readonly _armiesService: ArmiesService
   ) {
     this.armiesLimit = this._configurationService.selectedArmiesLimit + 1;
 
@@ -49,12 +48,15 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
       outer: "#707070",
       inner: "#242424",
       stroke: "#2b2b2b"
-    }
+    };
   }
 
   ngOnInit(): void {
-    this.selectedArmies = this._selectedArmiesStore.state
-      .pipe(switchMap(selectedArmies => this._getSelectedArmiesBadges(selectedArmies)))
+    this.selectedArmies = this._armiesService.getArmyBadges()
+      .pipe(
+        switchMap(badges => this._selectedArmiesStore.state
+          .pipe(map(selected => this._getSelectedArmiesBadges(selected, badges)))
+        ));
   }
 
   ngOnDestroy(): void {
@@ -63,7 +65,7 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
 
   public setSelectedArmy(armyBadge: IArmyBadge, oldArmy: IArmyAssignmentDto): void {
     this._selectedArmiesStore.setSelectedArmy({
-      army: mapArmyBadgeToArmyBaseData(armyBadge),
+      armyId: armyBadge.armyId,
       priority: oldArmy.priority,
       profileId: oldArmy.profileId
     });
@@ -71,20 +73,18 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
 
   public removeSelectedArmy(armyBadge: IArmyBadge): void {
     this._selectedArmiesStore.remove({
-      army: mapArmyBadgeToArmyBaseData(armyBadge)
+      armyId: armyBadge.armyId
     })
   }
 
-  private _getSelectedArmiesBadges(selected: IArmyAssignmentDto[]): Observable<IArmyBadge[]> {
-    return this._armiesService.getArmyBadges()
-      .pipe(map(badges => selected.reduce((acc, s) => {
-        const army = badges.find(a => a.armyId === s.army.id);
-        
-        if (!army)
-          throw new Error(`Cannot found badge for armyid: ${s.army.id}`)
+  private _getSelectedArmiesBadges(selected: IArmyAssignmentDto[], badges: IArmyBadge[]): IArmyBadge[] {
+    return selected.reduce((acc, s) => {
+      const army = badges.find(a => a.armyId === s.armyId);
+      if (!army)
+        throw new Error(`Cannot found badge for armyid: ${s.armyId}`)
 
-        return [...acc, army]; 
-      }, [])))
+      return [...acc, army]; 
+    }, [])
   }
 
 }

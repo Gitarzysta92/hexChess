@@ -8,7 +8,7 @@
     "start:docker": "ng serve --host 0.0.0.0",
     "serve:dd": "node src/dev/rest-api-demo-data.js",
     "build": "ng build --verbose --stats-json --delete-output-path --sourceMap=true --ts-config tsconfig.app.json --configuration=production",
-    "build:docker": "ng build --verbose --stats-json --delete-output-path --sourceMap=true --ts-config tsconfig-prod.app.json --configuration=production",
+    "build:docker": "ng build --verbose --stats-json --delete-output-path --sourceMap=true --ts-config tsconfig.build.json --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
