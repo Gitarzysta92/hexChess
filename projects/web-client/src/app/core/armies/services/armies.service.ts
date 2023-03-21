@@ -1,10 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
+import { forkJoin, map, Observable, switchMap, tap } from 'rxjs';
+import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
 import { IArmyBadge } from '../api';
-import { borgo, borgoGraphical } from '../constants/borgo';
-import { hegemony, hegemonyGraphical } from '../constants/hegemony';
 import { mapArmyToArmyBadge } from '../mappings/army-to-army-badge.mapping';
 import { IArmy } from '../models/army';
+import { IArmyDto } from '../models/army.dto';
 import { ITileGraphicalData } from '../models/tile-graphical-data';
 import { TilesService } from './tiles.service';
 
@@ -15,23 +16,24 @@ import { TilesService } from './tiles.service';
 export class ArmiesService {
 
   constructor(
-    private readonly _tileService: TilesService 
+    private readonly _tileService: TilesService,
+    private readonly _httpClient: HttpClient,
+    private readonly _configurationService: ConfigurationService
   ) { }
 
-  public getArmies(armyIds: string[]): Observable<IArmy[]> {
-    return forkJoin({
-      data: of([borgo, hegemony]),
-      graphicalData: of([...borgoGraphical, ...hegemonyGraphical])
-    })
+  public getArmies(armyIds?: string[]): Observable<IArmy[]> {
+    return this._httpClient.get<IArmyDto[]>(this._configurationService.apiUrl + "/armies")
       .pipe(
-        switchMap(r => this._tileService.getTileImageUrls(r.graphicalData as unknown as ITileGraphicalData[]).pipe(map(b => Object.assign(r, { imgBindings: b })))),
-        tap(r => this._bindGraphicalDataToArmy(r.data, r.graphicalData as unknown as ITileGraphicalData[])),
-        map(r => r.data)
+        map(as => as.filter(a => armyIds == null ? true : armyIds.includes(a.id))),
+        switchMap(as => forkJoin(as.map(a => this._tileService.getTileImageUrls(a.graphicalData).pipe(map(b => Object.assign(a, { imgBindings: b })))))),
+        tap(as => this._bindGraphicalDataToArmy(as, as.map(a => a.graphicalData)))
       );
   }
 
+
   public getArmyBadges(): Observable<IArmyBadge[]> {
-    return of([borgo, hegemony].map(a => mapArmyToArmyBadge(a)));
+    return this._httpClient.get<IArmyDto[]>(this._configurationService.apiUrl + "/armies")
+      .pipe(map(as => as.map(a => mapArmyToArmyBadge(a))));
   }
 
   public getArmyBadge(armyId): Observable<IArmyBadge> {

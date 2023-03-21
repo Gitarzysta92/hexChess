@@ -10,8 +10,7 @@
 		},
 		{
 			"name": "Root",
-			"path": "./",
-			"exclude": "./projects"
+			"path": "./"
 		}
 
 	],
