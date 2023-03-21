@@ -28,10 +28,6 @@ variables:
   root: '$(System.DefaultWorkingDirectory)/projects/web-service'
   depsRoot: '$(System.DefaultWorkingDirectory)/projects'
 
-extends:
-  template: build-migrations.pipeline.yaml
-
-
 steps:
 - task: Bash@3
   inputs:
@@ -64,7 +60,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(root)/deployment'
+    SourceFolder: '$(depsRoot)/database'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
