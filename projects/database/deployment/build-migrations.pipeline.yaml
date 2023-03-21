@@ -1,10 +1,3 @@
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - projects/database/src/migrations
 pool:
   vmImage: ubuntu-latest
 
