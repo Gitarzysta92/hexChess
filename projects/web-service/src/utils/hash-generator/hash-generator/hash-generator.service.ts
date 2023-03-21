@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { createHmac } from 'node:crypto';
 
 @Injectable()
-export class HashGenerator {
+export class HashGeneratorService {
   constructor( ) { }
 
   createMd5(tokenPayload: object, secret: string): string {

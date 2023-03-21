@@ -3,7 +3,7 @@ import { timestamp } from 'rxjs';
 import { SystemConfiguration } from 'src/aspects/events/services/configuration/system-configuration.service';
 import { EventService } from 'src/aspects/events/services/events/event.service';
 import { MatchmakingCompletedEvent } from 'src/modules/matchmaking/events/events';
-import { HashGenerator } from 'src/utils/hash-generator/hash-generator/hash-generator.service';
+import { HashGeneratorService } from 'src/utils/hash-generator/hash-generator/hash-generator.service';
 import { GameSessionsList } from '../../core/game-sessions-list';
 import { GameSessionDto } from '../../models/game-session.dto';
 
@@ -14,7 +14,7 @@ export class GameService {
     private readonly _eventService: EventService,
     private readonly _gameSessionsList: GameSessionsList,
     private readonly _systemConfiguration: SystemConfiguration,
-    private readonly _hashGenerator: HashGenerator
+    private readonly _hashGenerator: HashGeneratorService
   ) {
     this._listenForCompletedMatchmaking();
   }

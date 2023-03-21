@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HashGenerator } from './hash-generator/hash-generator/hash-generator.service';
+import { HashGeneratorService } from './hash-generator/hash-generator/hash-generator.service';
 import { TokenGenerator } from './token-generator/token-generator';
 
 
@@ -9,11 +9,11 @@ import { TokenGenerator } from './token-generator/token-generator';
   imports: [],
   providers: [
     TokenGenerator,
-    HashGenerator
+    HashGeneratorService
   ],
   exports: [
     TokenGenerator,
-    HashGenerator
+    HashGeneratorService
   ]
 })
 export class UtilityModule {}

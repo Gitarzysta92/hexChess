@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { HashGenerator } from "src/utils/hash-generator/hash-generator/hash-generator.service";
+import { HashGeneratorService } from "src/utils/hash-generator/hash-generator/hash-generator.service";
 import { GameRequest, GameSessionsList } from "./game-sessions-list";
 
 export interface StateUpdate {
@@ -14,7 +14,7 @@ export class GameStateManager {
 
   constructor(
     private readonly _gameSessionsList: GameSessionsList,
-    private readonly _hashGenerator: HashGenerator
+    private readonly _hashGenerator: HashGeneratorService
   ) {}
 
   updateGame(stateUpdate: StateUpdate) {

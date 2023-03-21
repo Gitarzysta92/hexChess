@@ -12,7 +12,7 @@ import { EventService } from 'src/aspects/events/services/events/event.service';
 import { TokenGenerator } from 'src/utils/token-generator/token-generator';
 import { MatchmakingCompletedEvent, MatchmakingRejectedEvent, PlayerLeftMatchmakingRoomEvent } from '../events/events';
 import { MatchmakingService } from '../services/matchmaking/matchmaking.service';
-import { HashGenerator } from 'src/utils/hash-generator/hash-generator/hash-generator.service';
+import { HashGeneratorService } from 'src/utils/hash-generator/hash-generator/hash-generator.service';
 import { SystemConfiguration } from 'src/aspects/events/services/configuration/system-configuration.service';
 
 
@@ -32,7 +32,7 @@ export class MatchmakingGateway implements OnGatewayConnection, OnGatewayDisconn
     private readonly _matchmakingService: MatchmakingService,
     private readonly _eventsService: EventService,
     private readonly _tokenGenerator: TokenGenerator,
-    private readonly _hashGenerator: HashGenerator,
+    private readonly _hashGenerator: HashGeneratorService,
     private readonly _systemConfiguration: SystemConfiguration
   ) { }
 

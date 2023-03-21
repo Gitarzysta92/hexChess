@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { GameType } from "src/modules/matchmaking/consts/game-types";
 
-import { HashGenerator } from "src/utils/hash-generator/hash-generator/hash-generator.service";
+import { HashGeneratorService } from "src/utils/hash-generator/hash-generator/hash-generator.service";
 import { GameSession, PlayerArmyAssignment} from "./game-session";
 
 
