@@ -1,9 +1,9 @@
 import { merge, fromEvent, connectable, ReplaySubject } from "rxjs";
 import { Vector3 } from "three";
-import { bootstrapScene } from "../index";
-import { SceneComposerSetup, TileDeclaration } from "../scene/interfaces/scene-composer";
+
+
 import { sceneSetup, tileGraphicalData } from "./scene-setup";
-import { TileGenerator } from 'hexchess-tile-generator';
+
 
 var canvas = document.createElement('canvas');
 document.body.appendChild(canvas);

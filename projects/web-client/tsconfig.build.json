@@ -22,6 +22,5 @@
     "src/test.ts",
     "src/**/*.spec.ts",
     "src/dev/*",
-    "3d-scene/src/demo-app/*.ts",
   ]
 }
