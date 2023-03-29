@@ -36,7 +36,6 @@ lerna-debug.log*
 
 # ENV - configurations
 **/.env
-**/*package-lock.json
 
 # Packed modules
 **/*.tgz
