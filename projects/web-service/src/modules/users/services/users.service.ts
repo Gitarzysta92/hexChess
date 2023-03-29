@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Sequelize } from 'sequelize-typescript';
 import { InjectModel } from '@nestjs/sequelize';
-
 import * as bcrypt from 'bcrypt';
 import { UserDto } from '../models/userDto';
 import { QueryAction, QueryResult, Update } from 'src/aspects/events/services/models/query-result';
@@ -10,9 +9,6 @@ import { User } from 'src/db-models/user';
 
 
 const saltRounds = 10;
-
-
-
 
 
 @Injectable()

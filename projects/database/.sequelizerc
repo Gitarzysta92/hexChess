@@ -1,6 +1,10 @@
-var path = require("path")
+var path = require("path");
+require('dotenv').config();
+require("@babel/register");
 
 module.exports = {
-  "env": "development",
-  "config": path.resolve("config", "config.js"),
+  "env": process.env.ENVIRONMENT || "development",
+  "config": path.resolve("config.js"),
+  'seeders-path': path.resolve('dist', 'seeders'),
+  'migrations-path': path.resolve('dist', 'migrations')
 }

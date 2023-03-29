@@ -1,14 +1,13 @@
-'use strict';
+import * as Sequelize from "sequelize";
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
+export default {
+  up: async (queryInterface: Sequelize.QueryInterface) => {
     return queryInterface.createTable('Profiles', {
       id: {
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
         field: "id",
-        autoIncrement: false,
         primaryKey: true,
-        allowNull: true
+        allowNull: false
       },
       nickname: {
         type: Sequelize.STRING,
@@ -22,7 +21,7 @@ module.exports = {
         allowNull: true
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
           model: "Users",
@@ -32,7 +31,7 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface: Sequelize.QueryInterface) => {
     return queryInterface.dropTable('profiles');
   }
 };

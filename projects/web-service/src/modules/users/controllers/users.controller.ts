@@ -18,8 +18,10 @@ import { PropsFilterPipe } from 'src/utils/props-filter-pipe/props-filter.pipe';
 import { ContextUserData, ContextUser } from 'src/extensions/decorators/context-user.decorator';
 import { Response } from 'express';
 import { ExistingUserQueryDto } from '../models/existing-user-query.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 
+@ApiTags('User')
 @Controller('user')
 export class UsersController {
   constructor(

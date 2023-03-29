@@ -14,7 +14,6 @@ import { AssignedArmy } from './assigned-army';
 import { IProfile } from 'hexchess-database';
 
 
-
 @Table
 export class Profile extends Model<Profile> implements IProfile {
   @PrimaryKey
@@ -39,7 +38,6 @@ export class Profile extends Model<Profile> implements IProfile {
   @BelongsTo(() => User)  
   user: User
 
-  
   @HasMany(() => AssignedArmy, {
     foreignKey: 'profileId',
     onDelete: 'CASCADE',
