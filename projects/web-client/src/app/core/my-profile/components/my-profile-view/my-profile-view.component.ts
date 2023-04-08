@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError, delay, finalize } from 'rxjs/operators';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, throwError } from 'rxjs';
+import { catchError, delay, finalize, takeUntil } from 'rxjs/operators';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
 import { slideIn } from 'src/app/shared/animations/predefined-animations';
 import { AccountValidators } from 'src/app/shared/forms/validators/account.validator';
@@ -21,14 +21,14 @@ import { IntegratedInputComponent } from '../integrated-input/integrated-input.c
     slideIn('slideIn')
   ]
 })
-export class MyProfileViewComponent implements OnInit {
+export class MyProfileViewComponent implements OnInit, OnDestroy {
 
   public profile: IMyProfileDto;
   public account: IMyAccountDto;
-
   public avatarUrl: string | undefined;
-
   public passwordPlaceholder = PASSWORD_PLACEHOLDER;
+
+  private _destroyed: Subject<void> = new Subject();
 
   constructor(
     private readonly _myProfileStore: MyProfileStore,
@@ -39,16 +39,24 @@ export class MyProfileViewComponent implements OnInit {
 
   ngOnInit(): void { 
     this._myProfileStore.state
+      .pipe(takeUntil(this._destroyed))
       .subscribe(profile => {
         this.profile = profile
-        this.avatarUrl = this._configurationService.avatarsBlobStorageUrl + '/' + profile.avatarFileName;
+        this.avatarUrl = !!profile.avatarFileName ?
+          this._configurationService.avatarsBlobStorageUrl + '/' + profile.avatarFileName :
+          this._configurationService.defaultAvatarUrl;
       });
   
     this._myAccountStore.state
-      .subscribe(account => {
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(account => { 
         this.account = account;
         this._changeDetector.markForCheck();
       });
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed.next();
   }
 
   public updateAccount(account: Partial<IMyAccountDto>, input?: IntegratedInputComponent): void {

@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
-import { MailSenderModule } from './utils/mail-sender/mail-sender.module';
+import { ProfilesModule } from './core/profiles/profiles.module';
+import { MailSenderModule } from './infrastructure/mail-sender/mail-sender.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { databaseConfig, MysqlDatabaseConfig, MYSQL_DATABASE_CONFIG } from './configs/sql-database.config';
-import { SmtpMailerConfig, smtpMailerConfig, SMTP_MAILER_CONFIG } from './configs/smtp-mailer.config';
-import { BlobStorageModule } from './utils/blob-storage-client/blob-storage-client.module';
-import { BlobStorageConfig, blobStorageConfig, BLOB_STORAGE_CONFIG } from './configs/blob-storage.config';
-import { MatchmakingModule } from './modules/matchmaking/matchmaking.module';
-import { GameModule } from './modules/game/game.module';
-import { ArmiesModule } from './modules/armies/armies.module';
+import { databaseConfig, MysqlDatabaseConfig, MYSQL_DATABASE_CONFIG } from './infrastructure/sql-database/sql-database.config';
+import { SmtpMailerConfig, smtpMailerConfig, SMTP_MAILER_CONFIG } from './infrastructure/mail-sender/smtp-mailer.config';
+import { BlobStorageModule } from './infrastructure/blob-storage-client/blob-storage-client.module';
+import { BlobStorageConfig, blobStorageConfig, BLOB_STORAGE_CONFIG } from './infrastructure/blob-storage-client/blob-storage.config';
+import { MatchmakingModule } from './core/matchmaking/matchmaking.module';
+import { GameModule } from './core/game/game.module';
+import { ArmiesModule } from './core/armies/armies.module';
+import { IdentityModule } from './core/identity/identity.module';
+import { SwaggerCustomizationModule } from './infrastructure/swagger-customization/swagger-customization.module';
 
 
 @Module({
@@ -30,11 +31,12 @@ import { ArmiesModule } from './modules/armies/armies.module';
       useFactory: (configService: ConfigService) => configService.get<BlobStorageConfig>(BLOB_STORAGE_CONFIG) as any,
       inject: [ConfigService]
     }),
-    AuthModule,
-    UsersModule,
+    IdentityModule,
+    ProfilesModule,
     GameModule,
     MatchmakingModule,
-    ArmiesModule
+    ArmiesModule,
+    SwaggerCustomizationModule
   ],
   providers: [
     // {

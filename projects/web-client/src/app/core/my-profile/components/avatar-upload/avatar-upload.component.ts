@@ -1,9 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/services/configuration.service';
-import { MyProfileStore } from '../../stores/my-profile.store';
-
 
 @Component({
   selector: 'avatar-upload',
@@ -29,8 +25,7 @@ export class AvatarUploadComponent implements OnInit {
   ngOnInit(): void { }
 
   public updateAvatar(event): void {
-    this.newFileName = event.target.files[0];
-    this.newFile.next(this.newFileName);
+    this.newFile.next(event.target.files[0]);
   }
 
   public onFormHover(event: MouseEvent) {

@@ -11,7 +11,7 @@ import { MyProfileStore } from '../../stores/my-profile.store';
   templateUrl: './my-profile-widget.component.html',
   styleUrls: ['./my-profile-widget.component.scss']
 })
-export class MyProfileWidgetComponent implements OnInit {
+export class MyProfileWidgetComponent {
 
   public profile: Observable<IMyProfileDto>
 
@@ -23,17 +23,21 @@ export class MyProfileWidgetComponent implements OnInit {
 
   constructor(
     private readonly _myProfileStore: MyProfileStore,
-    private readonly _configService: ConfigurationService
+    private readonly _configurationService: ConfigurationService
   ) { 
     this.profile = this._myProfileStore.state
-      .pipe(map(p => {
-        const pCopy = Object.assign({}, p);
-        if (pCopy.avatarFileName)
-          pCopy.avatarFileName = `${this._configService.avatarsBlobStorageUrl}/${pCopy.avatarFileName}`;
-        return pCopy;
-      }));
+      .pipe(
+        map(p => Object.assign({}, p)),
+        map(p => Object.assign(p, {
+          avatar: !!p.avatarFileName ?
+            `${this._configurationService.avatarsBlobStorageUrl}/${p.avatarFileName}` :
+            this._configurationService.defaultAvatarUrl
+          }))
+      );
   }
 
-  ngOnInit(): void {
+  public setDefaultAvatar(event: any) {
+    event.target.src = this._configurationService.defaultAvatarUrl;
   }
+
 }

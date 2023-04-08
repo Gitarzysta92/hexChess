@@ -1,8 +1,6 @@
-
 export interface IProfile {
   id: string;
-  userId: string;
+  accountId: string;
   nickname: string;
-  avatarUrl: string;
+  avatarFileName: string;
 }
-

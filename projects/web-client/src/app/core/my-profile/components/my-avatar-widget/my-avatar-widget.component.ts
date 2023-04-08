@@ -1,38 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { map, switchMap } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { RoutingService } from 'src/app/aspects/navigation/api';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
-import { BlobService } from 'src/app/utils/blob/blob.service';
 import { MyProfileStore } from '../../stores/my-profile.store';
 
 @Component({
   selector: 'my-avatar-widget',
   template: `
-  <div class="img-wrapper" (click)="navigateToMyProfile()">
-    <img [src]="(avatar | async)" (error)="setDefaultAvatar($event)" />
-  </div>
+    <div class="img-wrapper" (click)="navigateToMyProfile()">
+      <img [src]="(avatar | async)" (error)="setDefaultAvatar($event)" />
+    </div>
   `,
   styleUrls: ['./my-avatar-widget.component.scss']
 })
-export class MyAvatarWidgetComponent implements OnInit {
-  avatar: any;
+export class MyAvatarWidgetComponent {
+  public avatar: Observable<string>;
 
   constructor(
     private readonly _myProfileStore: MyProfileStore,
     private readonly _configService: ConfigurationService,
-    private readonly _blobService: BlobService,
     private readonly _routingService: RoutingService,
-    private readonly _sanitizer: DomSanitizer
+    private readonly _configurationService: ConfigurationService
   ) { 
-    const containerName = this._configService.avatarsContainerName;
-
     this.avatar = this._myProfileStore.state
-      .pipe(switchMap(p => this._blobService.getBlobAsObjectUrl(containerName, p.avatarFileName)))
-      .pipe(map(r => !!r && this._sanitizer.bypassSecurityTrustUrl(r)))
-  }
-
-  ngOnInit(): void {
+      .pipe(tap(console.log))
+      .pipe(map(p => `${this._configService.avatarsBlobStorageUrl}/${p.avatar}`));
   }
 
   public navigateToMyProfile(): void {
@@ -40,7 +33,7 @@ export class MyAvatarWidgetComponent implements OnInit {
   }
 
   public setDefaultAvatar(event: any) {
-    event.target.src = 'assets/images/avatar.png';
+    event.target.src = this._configurationService.defaultAvatarUrl;
   }
 
 }

@@ -1,0 +1,1 @@
+export const SWAGGER_CUSTOM_JS_FILENAME = "swagger-assets/swagger-custom.js";

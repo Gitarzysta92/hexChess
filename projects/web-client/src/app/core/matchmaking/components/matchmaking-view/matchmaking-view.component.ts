@@ -133,7 +133,7 @@ export class MatchmakingViewComponent implements OnInit, OnDestroy {
   private _mapToMatchedPlayer(profile: IProfileDto, armyId: string): MatchedPlayer {
     return {
       army: this.armyBadges.find(ab => ab.armyId === armyId),
-      avatarUrl: profile.avatarUrl,
+      avatarUrl: profile.avatarFileName,
       name: profile.nickname
     }
   } 

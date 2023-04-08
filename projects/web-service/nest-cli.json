@@ -1,5 +1,14 @@
 {
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
-  "entryFile": "web-service/src/main.js"
+  "entryFile": "web-service/src/main.js",
+  "compilerOptions": {
+    "assets": [
+      {
+        "include": "./infrastructure/swagger-customization/assets/*",
+        "outDir": "./dist/web-service/src",
+        "watchAssets": true
+      }
+    ]
+  }
 }

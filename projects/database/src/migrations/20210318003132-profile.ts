@@ -17,14 +17,14 @@ export default {
       },
       avatarUrl: {
         type: Sequelize.STRING,
-        field: "avatarUrl",
+        field: "avatarFileName",
         allowNull: true
       },
-      userId: {
+      accountId: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
-          model: "Users",
+          model: "Accounts",
           key: 'id',
         }
       }

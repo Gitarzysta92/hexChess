@@ -4,6 +4,7 @@ import { Observable, of, switchMap, merge, map } from "rxjs";
 import { ConfigurationService } from "src/app/infrastructure/configuration/api";
 import { WrappedSocket } from "src/app/utils/ng-web-sockets/ng-web-sockets.service";
 import { RoomPlayersUpdateEvent, MatchmakingCompletedEvent, MatchmakingRejectedEvent } from "../../models/events";
+import { IMatchmakingRequestDto } from "../../models/quickmatch-request.dto";
 
 @Injectable()
 export class MatchmakingService {
@@ -15,11 +16,8 @@ export class MatchmakingService {
     private readonly _config: ConfigurationService,
   ) { }
 
-  requestForQuickMatch(playersNumber: number, selectedArmyIds: string[]): Observable<any> {
-    return this._httpClient.post(this._config.apiUrl + this._endpointPath + '/quickmatch', {
-      requiredPlayers: playersNumber,
-      selectedArmies: selectedArmyIds
-    }, { responseType: 'text' })
+  requestForQuickMatch(payload: IMatchmakingRequestDto): Observable<any> {
+    return this._httpClient.post(this._config.apiUrl + this._endpointPath + '/quickmatch', payload, { responseType: 'text' })
   }
 
   joinRoom(token: string): Observable<RoomPlayersUpdateEvent | MatchmakingCompletedEvent | MatchmakingRejectedEvent> {

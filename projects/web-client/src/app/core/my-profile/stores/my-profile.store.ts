@@ -37,7 +37,8 @@ export class MyProfileStore {
 
   private _registerStore() {
     this._store = this._storeService.createStore<IMyProfileDto>(myProfile, {
-      initialState: this._localStorage.get<IMyProfileDto>(this._localStorageKey).pipe(switchMap(data => !!data ? of(data) : this._profileService.getMyProfile())),
+      initialState: this._localStorage.get<IMyProfileDto>(this._localStorageKey)
+        .pipe(switchMap(data => !!data ? of(data) : this._profileService.getMyProfile())),
       actions: { 
         [MyProfileAction.updateMyProfile]: {
           before: [profile => this._profileService.updateMyProfile(profile)], 
