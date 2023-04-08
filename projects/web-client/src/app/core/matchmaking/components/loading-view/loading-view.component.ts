@@ -28,7 +28,7 @@ export class MatchmakingLoadingViewComponent implements OnInit, OnDestroy {
       selectedArmies: this._selectedArmiesStore.state
     })
       .pipe(
-        switchMap(result => this._matchmakingService.requestForQuickMatch(parseInt(result.params.players), result.selectedArmies.map(a => a.armyId))),
+        switchMap(result => this._matchmakingService.requestForQuickMatch({ requiredPlayers: parseInt(result.params.players) })),
         catchError(err => {
           this._routingService.navigateToLobby();
           return throwError(err);

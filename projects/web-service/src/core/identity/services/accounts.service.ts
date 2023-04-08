@@ -7,10 +7,10 @@ import { Op } from 'sequelize';
 import { Account } from 'src/core/identity/models/account.entity';
 import { RegistrationDto } from '../models/registration.dto';
 import { AccountDto } from '../models/account.dto';
-import { AccountRole } from '../../../../../database/src/constants/account-role.enum';
 import { ExistingAccountQueryDto } from '../models/existing-account-query.dto';
 import { SALT_ROUNDS } from '../constants/salt-rounds';
 import { v4 as uuid } from 'uuid';
+import { AccountRole } from '@hexchess-database/constants/account-role.enum';
 
 
 @Injectable()

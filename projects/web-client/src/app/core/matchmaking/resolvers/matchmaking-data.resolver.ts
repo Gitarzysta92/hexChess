@@ -23,7 +23,7 @@ export class MatchmakingDataResolver implements Resolve<any> {
       })
       .pipe(
         switchMap(result => this._matchmakingService
-          .requestForQuickMatch(parseInt(result.params.players), result.selectedArmies.map(a => a.armyId))),
+          .requestForQuickMatch({ requiredPlayers: parseInt(result.params.players) })),
         catchError(err => {
           this._routingService.navigateToLobby();
           return throwError(err);

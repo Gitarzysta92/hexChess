@@ -1,9 +1,9 @@
-import { IArmy } from '../../armies/api';
+import { IArmyBadge } from '../../armies/api';
 
 export class MatchedPlayer {
   public avatarUrl: string;
   public name: string;
-  public army: IArmy;
+  public army: IArmyBadge;
 
   constructor(data: Partial<MatchedPlayer>) {
     this.avatarUrl = data.avatarUrl;
