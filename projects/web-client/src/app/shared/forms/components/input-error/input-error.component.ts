@@ -12,9 +12,6 @@ import { InputErrors, InputErrorsToken, INPUT_ERRORS } from 'src/app/shared/form
       font-size: 14px;
       box-sizing: border-box;
     }`
-  ],
-  providers: [
-    { provide: InputErrorsToken, useValue: INPUT_ERRORS }
   ]
 })
 export class InputErrorComponent implements OnInit, OnChanges {

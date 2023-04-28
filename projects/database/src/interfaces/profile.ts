@@ -3,4 +3,5 @@ export interface IProfile {
   accountId: string;
   nickname: string;
   avatarFileName: string;
+  languageId: number;
 }

@@ -4,8 +4,8 @@
       <app-logo></app-logo>
     </div>
     <div class="panel-menu">
-      <a class="btn-blank" routerLinkActive="active" routerLink="user">User</a>
-      <a class="btn-blank" routerLinkActive="active" routerLink="guest">Guest</a>
+      <a class="panel-menu-item" routerLinkActive="active" routerLink="user">User</a>
+      <a class="panel-menu-item" routerLinkActive="active" routerLink="guest">Guest</a>
     </div>
     <div class="panel-content" [@routeAnimations]="prepareRoute(outlet)">
       <router-outlet #outlet="outlet" (activate)="onOutletLoaded($event)"></router-outlet>

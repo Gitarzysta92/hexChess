@@ -38,7 +38,6 @@ import { slideOutAnimation } from '../../../animations/animations/slide-out.anim
 })
 export class CommonButtonComponent implements OnInit {
   
-  @Input() disabled: boolean = false;
   @Input() loader: boolean =  false;
   // @Input() colorCode: string = 'default';
   // @Input() outlined: boolean = false;

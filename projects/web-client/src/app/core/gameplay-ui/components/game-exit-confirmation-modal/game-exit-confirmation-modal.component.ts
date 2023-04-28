@@ -20,7 +20,6 @@ export class GameExitConfirmationModalComponent {
   }
 
   exitGame(): void {
-    console.log('aaaa')
     //this._gameplayService.exitGame();
   }
 }

@@ -24,8 +24,7 @@ export class MyAvatarWidgetComponent {
     private readonly _configurationService: ConfigurationService
   ) { 
     this.avatar = this._myProfileStore.state
-      .pipe(tap(console.log))
-      .pipe(map(p => `${this._configService.avatarsBlobStorageUrl}/${p.avatar}`));
+      .pipe(map(p => `${this._configService.avatarsBlobStorageUrl}/${p.avatarFileName}`));
   }
 
   public navigateToMyProfile(): void {

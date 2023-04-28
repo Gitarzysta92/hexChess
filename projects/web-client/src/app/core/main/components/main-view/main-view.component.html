@@ -27,16 +27,23 @@
   </ng-container>
 
   <ng-container topBarMobile>
-    <my-armies-widget [@slideIn]="{ value: true, params: { delay: '50ms' }}"></my-armies-widget> 
+    <my-armies-widget [@slideIn]="{ value: true, params: { delay: '50ms' }}"></my-armies-widget>
+    <mobile-menu-button 
+      (click)="modal.open()"
+      [@slideIn]="{ value: true, params: { delay: '150ms' }}"
+      [locations]="[mainMenu, secondaryMenu, mobileMenu]">
+    </mobile-menu-button> 
   </ng-container>
+  
+</main-view-template>
 
-  <ng-container mobileModal>
+<modal #modal>
+  <div class="modal-inner">
     <my-avatar-widget class="avatar"></my-avatar-widget>
     <navigational-menu
       class="mobile-menu"
       vertical
       [locations]="[mainMenu, secondaryMenu, mobileMenu]">
     </navigational-menu>
-  </ng-container>
-
-</main-view-template>
+  </div>
+</modal>

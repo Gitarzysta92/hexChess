@@ -23,7 +23,8 @@ const profiles: IProfile[] = [
     id: profileId,
     accountId: accountId,
     nickname: 'admin',
-    avatarFileName: 'avatar.png'
+    avatarFileName: 'avatar.png',
+    languageId: 1
   }
 ];
 

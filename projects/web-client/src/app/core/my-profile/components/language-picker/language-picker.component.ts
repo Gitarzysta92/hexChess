@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { PanelOriginDirective } from 'src/app/shared/dialogs/directives/panel-origin.directive';
 import { MyProfileStore } from '../../stores/my-profile.store';
 
 
@@ -14,7 +15,7 @@ const languages = [
   templateUrl: './language-picker.component.html',
   styleUrls: ['./language-picker.component.scss']
 })
-export class LanguagePickerComponent implements OnInit {
+export class LanguagePickerComponent {
 
   @Input() selectedLanguage: number;
 
@@ -32,17 +33,15 @@ export class LanguagePickerComponent implements OnInit {
      
   }
 
-  ngOnInit(): void { }
-
-  public setChoosenLanguage(lang: LanguageSelect): void {
+  public setChoosenLanguage(lang: LanguageSelect, panelOrigin: PanelOriginDirective): void {
+    panelOrigin.closePanel();
     this._myProfileStore.update({ languageId: lang.id });
   }
-
 }
 
 
 
-export class LanguageSelect {
+class LanguageSelect {
   id: number;
   name: string;
   flagUrl: string;

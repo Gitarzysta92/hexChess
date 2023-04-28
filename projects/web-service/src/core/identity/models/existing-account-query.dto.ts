@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsOptional } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class ExistingAccountQueryDto {
 
@@ -15,7 +15,7 @@ export class ExistingAccountQueryDto {
     type: String,
     example: 'some.example@email.com',
   })
-  @IsEmail()
+  @IsString()
   email: string;
 
 }

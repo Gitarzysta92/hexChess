@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable, of, Subject, timer } from 'rxjs';
-import { catchError, concatMap, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { ProfileService } from 'src/app/core/my-profile/providers/profile-service/profile.service';
+import { Observable, of, timer } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { ProfileService } from 'src/app/core/my-profile/services/profile-service/profile.service';
 
 
 

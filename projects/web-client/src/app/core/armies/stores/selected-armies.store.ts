@@ -2,64 +2,67 @@ import { Injectable } from '@angular/core';
 import { ArmiesNotificationsFactory } from '../services/notifications.factory';
 import { SelectedArmy } from './actions/actions';
 import { SelectedArmiesService } from '../services/selected-armies.service';
-import { Store, StoreService } from 'src/app/infrastructure/data-store/api';
+import { LocalStorageService, Store, StoreService } from 'src/app/infrastructure/data-store/api';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
-import { forkJoin, map, Observable } from 'rxjs';
+import { tap } from 'rxjs';
 import { IArmyAssignmentDto } from '../models/army-assignment.dto';
+import { notificationsStore } from 'src/app/aspects/notifications/stores/notifications.store';
+import { NotificationAction } from 'src/app/aspects/notifications/stores/actions/actions';
 
 export const selectedArmiesStore = Symbol('selected-armies-store');
 
 @Injectable({ providedIn: 'root'})
 export class SelectedArmiesStore {
 
-  public get state() { return this._collection.state };
-  public get currentState() { return this._collection.currentState; }
+  public get state() { return this._store.state };
+  public get currentState() { return this._store.currentState; }
 
-  private _collection: Store<IArmyAssignmentDto[]>;
+  private _store: Store<IArmyAssignmentDto[]>;
 
   constructor(
-    private readonly _store: StoreService,
+    private readonly _storeService: StoreService,
     private readonly _selectedArmiesService: SelectedArmiesService,
     private readonly _configurationService: ConfigurationService,
-    private readonly _notificationsFactory: ArmiesNotificationsFactory
+    private readonly _notificationsFactory: ArmiesNotificationsFactory,
+    private readonly _localStorageService: LocalStorageService
   ) {
     this._registerStore();
   }
 
   public setSelectedArmy(sa: IArmyAssignmentDto): void {
-    this._collection.dispatch(SelectedArmy.setSelectedArmy, sa);
+    this._store.dispatch(SelectedArmy.setSelectedArmy, sa);
   }
 
   public remove(sa: IArmyAssignmentDto): void {
-    this._collection.dispatch(SelectedArmy.removeSelectedArmy, sa);
+    this._store.dispatch(SelectedArmy.removeSelectedArmy, sa);
   }
 
-
   private _registerStore(): void {
-    this._collection = this._store.createStore<IArmyAssignmentDto[]>(selectedArmiesStore, {
+    const storeDefinition = {
       initialState: this._selectedArmiesService.getMyArmies(),
+      stateStorage: this._localStorageService,
       actions: { 
         [SelectedArmy.setSelectedArmy]: {
-          before: [ (payload, state) => this._validateSelectionLimit(payload, state) ],
-          action: this._setAssignedArmy,
+          before: [ ctx => this._validateSelectionLimit(ctx.payload, ctx.initialState) ],
+          action: ctx => this._setAssignedArmy(ctx.payload, ctx.initialState),
           after: [ 
-            // (_, state) => this._selectedArmiesService.setSelectedArmies(state)
-            //   .pipe(tap({ error: () => this._store.dispatch(NotificationsActions.notifyHttpConnectionError) })),
-            // () => this._commandBus.dispatch(NotificationsActions.add,
-            //   this._notificationsFactory.createSuccessNotification(this._collection.prevState, this._collection.currentState))
+            ctx => this._selectedArmiesService.setSelectedArmies(ctx.computedState)
+              .pipe(tap({ error: () => this._notifyFailure() })),
+            ctx => this._notifySuccess(ctx.initialState, ctx.computedState)
           ],
         },
         [SelectedArmy.removeSelectedArmy]: {
-          action: this._remove,
+          action: ctx => this._remove(ctx.payload, ctx.initialState),
           after: [ 
-            // (p, state) => this._selectedArmiesService.setSelectedArmies(state)
-            //   .pipe(tap({ error: () => this._commandBus.dispatch(NotificationsActions.notifyHttpConnectionError) })),
-            // (p, state) => this._commandBus.dispatch(NotificationsActions.add, 
-            //   this._notificationsFactory.createSuccessNotification(this._collection.prevState, this._collection.currentState))
+            ctx => this._selectedArmiesService.setSelectedArmies(ctx.computedState)
+              .pipe(tap({ error: () => this._notifyFailure() })),
+            ctx => this._notifySuccess(ctx.initialState, ctx.computedState)
           ]
         }
       }
-    });
+    }
+
+    this._store = this._storeService.createStore<IArmyAssignmentDto[]>(selectedArmiesStore, storeDefinition);
   }
 
   private _setAssignedArmy = (sa: IArmyAssignmentDto, state: IArmyAssignmentDto[]): IArmyAssignmentDto[] => {    
@@ -83,6 +86,16 @@ export class SelectedArmiesStore {
     if (!Array.isArray(selectedArmies)) selectedArmies = [selectedArmies]
     const max = this._configurationService.selectedArmiesLimit + 1;
     return new Set(selectedArmies.concat(state).map(a => a.priority)).size <= max;
+  }
+
+  private async _notifySuccess(prevState: IArmyAssignmentDto[], currentState: IArmyAssignmentDto[]): Promise<void> {
+    const n = await this._notificationsFactory.createSuccessNotification(prevState, currentState);
+    this._storeService.getStore(notificationsStore).dispatch(NotificationAction.add, n)
+  }
+
+  private async _notifyFailure(): Promise<void> {
+    const n = await this._notificationsFactory.createFailureNotification();
+    this._storeService.getStore(notificationsStore).dispatch(NotificationAction.add, n);
   }
 }
 

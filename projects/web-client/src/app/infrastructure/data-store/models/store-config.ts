@@ -1,13 +1,16 @@
 import { Observable } from "rxjs"
+import { IActionContext } from "./action-context"
+import { IStateStorage } from "./store-state-storage"
 
-export interface StoreConfig<T>  {
-  initialState: T | Observable<T> | Promise<T> | ((...args: any) => T) | Function,
+export interface IStoreConfig<S>  {
+  initialState: S | Observable<S> | Promise<S> | ((...args: any) => S) | Function,
   isLazyLoaded?: boolean,
+  stateStorage?: IStateStorage<S>
   actions?: {
-    [key: string]: {
-      before: Array<(p: any, state: T) => any>,
-      action: Function,
-      after: Array<(p: any, state: T) => any>
+    [key: symbol]: {
+      before?: Array<(c: IActionContext<S>) => any>,
+      action: (c: IActionContext<S>) => any,
+      after?: Array<(c: IActionContext<S>) => any>
     },
   } 
 }

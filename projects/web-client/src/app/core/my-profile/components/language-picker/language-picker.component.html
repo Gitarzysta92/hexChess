@@ -14,11 +14,7 @@
 </div>
 
 <panel-overlay [origin]="profilePanelOrigin" class="language-picker" >
-  <button class="language-select" *ngFor="let language of languagesForView" (click)="setChoosenLanguage(language)" >
+  <button class="language-select" *ngFor="let language of languagesForView" (click)="setChoosenLanguage(language, profilePanelOrigin)" >
     <span><strong>{{ language.name }}</strong></span><img src="{{ language.flagUrl }}" />
   </button>
 </panel-overlay>
-
-<!-- [hideOnMouseLeave]="true"  -->
-
-

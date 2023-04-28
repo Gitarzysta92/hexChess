@@ -16,12 +16,17 @@ import { PasswordResetService } from './services/password-reset.service';
 import { AccountsService } from './services/accounts.service';
 import { MyAccountController } from './controllers/my-account.controller';
 import { AccountsController } from './controllers/accounts.controller';
+import { ISmtpMailerConfig, smtpMailerConfig, SMTP_MAILER_CONFIG } from 'src/infrastructure/mail-sender/api';
 
 @Module({
   imports: [
     ProfilesModule,
     ConfigModule,
-    MailSenderModule.forFeature(),
+    MailSenderModule.forFeatureAsync({
+      imports: [ConfigModule.forFeature(smtpMailerConfig)],
+      useFactory: (configService: ConfigService) => configService.get<ISmtpMailerConfig>(SMTP_MAILER_CONFIG) as any,
+      inject: [ConfigService]
+    }),
     PassportModule.register({
       defaultStrategy: 'jwt',
       session: false,     

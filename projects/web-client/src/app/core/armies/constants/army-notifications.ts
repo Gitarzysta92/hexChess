@@ -17,7 +17,7 @@ export const ARMY_NOTIFICATIONS = {
     title: 'Some example title',
     content: `<strong>Problem:</strong> Duis maximus nibh ut magna maximus, iaculis rhoncus sapien vehicula. Donec metus ante, cursus eu aliquam ac.`
   },
-  rendomArmySetted: {
+  randomArmySetted: {
     type: NotificationType.Warning,
     icon: ICONS.warning,
     title: 'Some example title',

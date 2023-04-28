@@ -15,7 +15,6 @@ export class PasswordRecoveryGuard implements CanActivate {
 
   canActivate(targetRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const token = this._jwtParser.decode(targetRoute.params.token);
-
     if (token && token.exp > (Math.floor(Date.now()/1000))) return true;
     this._routerService.navigate(['session-expired']);    
     return false;

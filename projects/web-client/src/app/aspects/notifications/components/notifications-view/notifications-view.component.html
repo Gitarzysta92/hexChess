@@ -1,17 +1,21 @@
 <div class="fluid-container">
   <div class="row">
     <div class="column utility-bar">
-      <button class="blank-btn" (click)="markAllAsReaded()">Mark all as readed</button>
+      <button common-button 
+        (click)="markAllAsReaded()"
+        [disabled]="(readedNotifications | async).length === 0">
+        Mark all as readed
+      </button>
     </div>
   </div>
   <div class="row">
     <div class="column" @slideIn>
-      <app-notification 
+      <notification-record
         *ngFor="let notify of (notifications | async);trackBy: trackByFn" 
         class="notification"
         [data]="notify" 
         (readed)="markAsReaded($event)">
-      </app-notification>
+      </notification-record>
     </div>
   </div>
 </div> 

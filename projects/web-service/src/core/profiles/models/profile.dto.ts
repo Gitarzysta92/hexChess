@@ -6,6 +6,7 @@ export class ProfileDto implements IProfile {
   nickname: string;
   avatarFileName: string;
   selectedArmies: any[];
+  languageId: number;
 
   constructor(data: Partial<ProfileDto> & {assignedArmies?: any[]}) {
     this.id = data.id;
@@ -13,5 +14,6 @@ export class ProfileDto implements IProfile {
     this.nickname = data.nickname;
     this.avatarFileName = data.avatarFileName;
     this.selectedArmies = data.selectedArmies;
+    this.languageId = data.languageId;
   }
 }

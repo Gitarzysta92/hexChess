@@ -4,8 +4,8 @@ import { NOTIFY_DURATION_MS } from 'src/app/aspects/notifications/api';
 import { IdentityNotifications, IdentityNotificationsToken } from '../../constants/notifications';
 import { AuthPolicies, PoliciesToken } from '../../constants/policies';
 import { TERMS_AND_CONDITIONS_URL } from '../../constants/terms-and-conditions-url';
-import { User } from '../../models/user';
-import { UserService } from '../../services/user/user.service';
+import { IRegistrationEvent } from '../../models/registration-event';
+import { AccountService } from '../../services/account/account.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class RegistrationViewComponent implements OnInit {
   public termsAndConditionsUrl: string = TERMS_AND_CONDITIONS_URL;
 
   constructor(
-    private readonly _user: UserService,
+    private readonly _accountService: AccountService,
     private readonly _routing: RoutingService,
     @Inject(IdentityNotificationsToken) private readonly _notification: IdentityNotifications,
     @Inject(PoliciesToken) public readonly policies: AuthPolicies,
@@ -28,16 +28,15 @@ export class RegistrationViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public registerUser(submission: any): void {
-    const newUser = new User(submission.value as any);
-    this._user.register(newUser)
+  public registerUser(registration: IRegistrationEvent): void {
+    this._accountService.register(registration)
       .subscribe(result => {
         setTimeout(() => this._routing.nagivateToLogin(), this.notifyDuration);     
         this._showNotify('200');
-        submission.resolve();
+        registration.resolve();
       }, err => {
         this._showNotify('404');
-        submission.reject();
+        registration.reject();
       })
   }
 

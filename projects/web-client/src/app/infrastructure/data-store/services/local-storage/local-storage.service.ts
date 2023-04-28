@@ -1,20 +1,22 @@
 import { Injectable } from "@angular/core";
-import { map, Observable, of, tap, throwError } from "rxjs";
+import { Observable, of } from "rxjs";
+import { IStateStorage } from "../../models/store-state-storage";
 
 
 @Injectable({ providedIn: 'root'})
-export class LocalStorageService {
+export class LocalStorageService implements IStateStorage<unknown> {
   
-  constructor() {
+  constructor() {}
 
-  }
-
-  get<T extends object>(localStorageKey: string): Observable<T> {
+  read<T extends object>(localStorageKey: string): Observable<T> {
     return of(JSON.parse(localStorage.getItem(localStorageKey)))
-      //.pipe(map(v => !!v ? v : throwError(() => new Error()))).pipe(tap(console.log));
   }
-  update<T extends object>(localStorageKey: string, profile: T): void {
-    localStorage.setItem(localStorageKey, JSON.stringify(profile))
+  update<T extends object>(localStorageKey: string, profile: T): Observable<void> {
+    return of(localStorage.setItem(localStorageKey, JSON.stringify(profile)))
+  }
+
+  clear(localStorageKey: string): void {
+    localStorage.removeItem(localStorageKey);
   }
 
 }

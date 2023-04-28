@@ -50,25 +50,13 @@ footer {
   justify-content: flex-end;
 }
 
-
-
 .fluid-container {
   height: 100%; 
 
-  &.header {
-    @media screen and (max-width: $tablet) {
-      &:not(.mobile) { display: none; }
-    }
-    &.mobile {
-      display: none;
-      @media screen and (max-width: $tablet) { 
-        & { 
-          display: flex;
-          justify-content:space-between;
-          align-items: center;
-        }  
-      }
-    }
+  &.mobile {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
   }
 
   &.fh {
@@ -76,11 +64,4 @@ footer {
      padding: 50% 0;
     }
   }
-}
-
-.modal-inner {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }

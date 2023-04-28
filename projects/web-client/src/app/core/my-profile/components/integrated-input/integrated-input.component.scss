@@ -66,23 +66,17 @@
     height: 100%;
     box-sizing: border-box;
     opacity: 1;
-    &.disabled {
-      opacity: .5;
-    }
 
-
-    .btn-blank {
-      width: 100%;
+    .save-item {
       height: 100%;
-      font-size: 20px;
-      color: $text-secondary;
-      transition: color ease-in-out .2s;
-    
+      &.disabled {
+        opacity: .5;
+      }
+  
       &:not(&:disabled):hover {
         color: $orange;
       }
     }
-
   }
 
 
@@ -101,6 +95,5 @@
     font-weight: 700;
     opacity: .5;
     transition: opacity ease-in-out .2s;
-    width: 80%;
   }
 }

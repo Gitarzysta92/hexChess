@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { Component } from '@angular/core';
+import { RoutingService } from 'src/app/aspects/navigation/api';
+import { AccountService } from '../../services/account/account.service';
 
 @Component({
   selector: 'password-recovery-view',
   templateUrl: './password-recovery-view.component.html',
   styleUrls: ['./password-recovery-view.component.scss']
 })
-export class PasswordRecoveryViewComponent implements OnInit {
+export class PasswordRecoveryViewComponent {
 
   public email: string;
-
   public processing: boolean = false;
 
   constructor(
-    private readonly _authentication: AuthenticationService
+    private readonly _accountService: AccountService,
+    private readonly _routingService: RoutingService
   ) { }
 
-  ngOnInit(): void {
-  }
-
   public sendRecoveryLink() {
-    this._authentication.sendRecoveryLink(this.email);
+    this._accountService.sendRecoveryLink(this.email)
+      .subscribe(() => this._routingService.nagivateToLogin())
   }
-
 }

@@ -1,6 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RoutingService } from 'src/app/aspects/navigation/api';
+import { map, Observable, tap } from 'rxjs';
+import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
+import { IAuthenticatedDto } from '../../models/authenticated.dto';
+import { ICredentialsDto } from '../../models/credentials.dto';
 
 
 @Injectable({
@@ -8,14 +11,49 @@ import { RoutingService } from 'src/app/aspects/navigation/api';
 })
 export class AuthenticationService {
 
+  public token: string;
+
   constructor(
-    private readonly _router: Router,
-    private readonly _route: ActivatedRoute,
-    private readonly _routerService: RoutingService
+    private readonly _config: ConfigurationService,
+    private readonly _httpClient: HttpClient,
   ) { }
 
-  public sendRecoveryLink(email: string): void {
-    const token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MDY2NTc0MjAsImV4cCI6MTYzODI3OTgyMCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.TZi6JwT9DUKBs_u9u8Vk51b5aa85pGFsUz02X-CZDek";
-    this._routerService.navigate([ token ]);
+
+  public isAuthenticated(): boolean {
+    if (!this.token) {
+      this.token = localStorage.getItem('token');
+    }
+    return !!this.token;
+  }
+
+  public authenticate(credentials: ICredentialsDto): Observable<string> {
+    return this._httpClient.post<IAuthenticatedDto>(this._config.apiUrl + '/authentication/authenticate', credentials)
+      .pipe(
+        map(r => r["access_token"]),
+        tap(t => {
+          this.token = t;
+          localStorage.setItem('token', t)
+        })
+      );
+  }
+
+  public unauthenticate() {
+    this.token = null;
+    localStorage.removeItem('token');
+  }
+
+  public refreshToken(): void {
+    this._httpClient.get<IAuthenticatedDto>(this._config.apiUrl + 'authentication/refresh-token')
+      .pipe(map(r => r["access_token"]))
+      .subscribe({
+        next: t => {
+          this.token = t;
+          localStorage.setItem('token', t)
+        },
+        error: () => {
+          this.token = null;
+          localStorage.removeItem('token');
+        }
+      });
   }
 }

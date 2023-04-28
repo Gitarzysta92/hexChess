@@ -20,6 +20,9 @@ export class Profile extends Model<Profile> implements IProfile {
   @Column
   avatarFileName: string;
 
+  @Column
+  languageId: number;
+
   @BeforeCreate
   static setGuid(instance: Profile) {
     instance.id = uuid();

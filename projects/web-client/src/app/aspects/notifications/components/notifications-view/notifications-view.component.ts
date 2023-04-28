@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { slideInFromTopMultipleElements } from 'src/app/shared/animations/predefined-animations';
 import { INotification } from '../../models/notification.interface';
 import { NotificationsStore } from '../../stores/notifications.store';
 
 
 @Component({
-  selector: 'app-notifications-view',
+  selector: 'notifications-view',
   templateUrl: './notifications-view.component.html',
   styleUrls: ['./notifications-view.component.scss'],
   animations: [
@@ -16,14 +16,17 @@ import { NotificationsStore } from '../../stores/notifications.store';
 export class NotificationsViewComponent implements OnInit {
 
   public notifications: Observable<INotification[]>;
+  public readedNotifications: Observable<INotification[]>;
 
   constructor(
     private readonly _notificationsStore: NotificationsStore
-  ) { 
-    this.notifications = this._notificationsStore.state    
-  }
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.notifications = this._notificationsStore.state;
+    this.readedNotifications = this.notifications
+      .pipe(map(ns => ns.filter(n => !n.readed)))
+  }
 
   public markAsReaded(notify: INotification): void {
     this._notificationsStore.markAsReaded(notify);
@@ -33,8 +36,8 @@ export class NotificationsViewComponent implements OnInit {
     this._notificationsStore.markAllAsReaded();
   }
 
-  public trackByFn(index, item) {
-    return item.id
+  public trackByFn(index) {
+    return index;
   }
 
 }

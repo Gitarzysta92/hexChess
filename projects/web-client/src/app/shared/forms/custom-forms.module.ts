@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { InputErrorsToken, INPUT_ERRORS } from "./api";
 import { CheckboxInputComponent } from "./components/checkbox-input/checkbox-input.component";
 import { InputErrorComponent } from "./components/input-error/input-error.component";
 import { ReactiveFormComponent } from "./components/reactive-form/reactive-form.component";
@@ -32,6 +33,9 @@ import { UniqueNicknameValidatorDirective } from "./directives/unique-nickname-v
     UniqueNicknameValidatorDirective,
     ReactiveFormsModule,
     FormsModule,
+  ],
+  providers: [
+    { provide: InputErrorsToken, useValue: INPUT_ERRORS }
   ]
 })
 export class CustomFormsModule { }

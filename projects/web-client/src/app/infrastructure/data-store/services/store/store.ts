@@ -1,9 +1,13 @@
-import { Observable, filter, BehaviorSubject, from } from "rxjs";
-import { StoreConfig } from "../../models/store-config";
+import { Observable, filter, BehaviorSubject, from, of, switchMap, iif } from "rxjs";
+import { IStoreConfig } from "../../models/store-config";
+import { IStateStorage } from "../../models/store-state-storage";
 import { StoreActionQueue } from "./store-action-queue";
 
 export class Store<T> {
- 
+  
+  public key: Symbol;
+  public keyString: string;
+
   public get state(): Observable<T> {
     this._initializeState();
     return this._state
@@ -13,103 +17,123 @@ export class Store<T> {
   public prevState: T;
   public changed: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  private _key: Symbol;
   private _actions: { [key: string]: any };
   private _actionsQueue: StoreActionQueue;
   private _state: BehaviorSubject<T>;
   private _isLazyLoaded: boolean;
+  private _stateStorage?: IStateStorage<T>;
 
-  constructor(data: StoreConfig<T> & { key: Symbol }) {
-    this._key = data.key;
-    this._actions = {};
+  private _asyncDataProvider: string = "asyncDataProvider";
 
-    if (data.actions) {
-      for(let key of Object.getOwnPropertySymbols(data.actions) ) {
-        this._actions[key as any] = Object.assign({ before: [], after: [] }, data.actions[key as any]);
-      }
-    }
-    
+  constructor(data: IStoreConfig<T> & { key: Symbol }) {
+    this.key = data.key;
+    this.keyString = data.key.description;
     this._isLazyLoaded = data.isLazyLoaded;
+    this._stateStorage = data.stateStorage;
     this._actionsQueue = new StoreActionQueue();
 
-    if (this._isLazyLoaded || data.initialState instanceof Observable) {
-      Object.defineProperty(this, '_lazyLoadProvider', {
-        value: () => {
-          this._provideStateData(data.initialState);
-          delete this['_lazyLoadProvider'];
-        },
-        enumerable: true,
-        configurable: true
-      });
-    } else {
-      this._initializeState(data.initialState);
-    }
+    this._manageActionsInitialization(data.actions)
+    this._manageStateInitialization(data.initialState);
   }
-
 
   public dispatch<K>(action: any, payload?: K): Observable<void> {
     this._initializeState();
-
     this.prevState = this.currentState;
-    return this._dispatchAction(action, payload)
+    return this._executeAction(action, payload)
+  }
+
+  public clearState() {
+    this._setState(null);
+    this._stateStorage?.clear(this.keyString);
   }
 
 
-
-  public filter(action: any, cb: (payload: any) => any): void {
-    if (this._actions[action]) {
-      this._actions[action] = [];
-    }
-
-    this._actions[action].push(cb);
-  }
-
-
-  private _dispatchAction(actionKey: any, payload: any): Observable<void> {
+  private _executeAction(actionKey: any, payload: any): Observable<void> {
     if (!this._actions[actionKey]) {
       throw new Error(`Action not implemented ${actionKey.description}`)
     }
-
-    let currentStateCopy = this._makeObjectDeepCopy(this.currentState);
-    const context = {};
+    const actionContext = {
+      payload: payload,
+      initialState: this._makeObjectDeepCopy(this.currentState),
+      computedState: undefined,
+      custom: {}
+    };
     return this._actionsQueue.enqueue([
-      ...this._actions[actionKey].before.map(a => () => a(payload, currentStateCopy, context)),
-      () => { this._setState(this._actions[actionKey].action(payload, currentStateCopy, context)); return true },
-      () => { currentStateCopy = this._makeObjectDeepCopy(this.currentState); return true },
-      ...this._actions[actionKey].after.map(a => () => a(payload, currentStateCopy, context)),
-      () => this.changed.next(this.currentState)
+      ...this._actions[actionKey].before.map(a => () => a(actionContext)),
+      () => { actionContext.computedState = this._actions[actionKey].action(actionContext); return true },
+      ...this._actions[actionKey].after.map(a => () => a(actionContext)),
+      () => { this._setState(actionContext.computedState); return true },
+      () => this._stateStorage?.update(this.keyString, actionContext.computedState),
+      () => { this.changed.next(this.currentState); return true }
     ]);
   }
 
+  private _manageActionsInitialization(actions?: any): void {
+    this._actions = {};
+    if (!actions) {
+      return;
+    }
+    for(let key of Object.getOwnPropertySymbols(actions) ) {
+      this._actions[key as any] = Object.assign({ before: [], after: [] }, actions[key as any]);
+    }
+  }
 
   private _setState(data: T): void {
     const freezedData = this._freezeObjectRecursively(data);
     this._state.next(freezedData);
   }
 
-  //
-  // Initial state management
-  //
-  private _initializeState(initialData?: any): void {
-    const freezedData = this._freezeObjectRecursively(initialData);
-    if (!this._state) {
-      this._state = new BehaviorSubject<T>(freezedData);
-      this.changed.next(this.currentState);
+  private _manageStateInitialization(initialData: T | Observable<T> | Function | Promise<T>): void {
+    if (initialData instanceof Observable || initialData instanceof Promise || typeof initialData === "function") {
+      Object.defineProperty(this, this._asyncDataProvider, {
+        value: () => {
+          this._provideStateData(initialData);
+          delete this[this._asyncDataProvider];
+        },
+        enumerable: true,
+        configurable: true
+      });
     }
-    if (this['_lazyLoadProvider']) this['_lazyLoadProvider']();
     
+    if (!this._isLazyLoaded) {
+      this._initializeState(initialData as T);
+    }
   }
 
-  private _provideStateData(stateProvider: StoreConfig<any>['initialState']): void {
-    if (typeof stateProvider === 'function') {
-      stateProvider = from(stateProvider());     
-    };
-    if (!(stateProvider instanceof Observable)) throw new Error();
+  private _initializeState(initialData?: T): void {
+    if (!!this._state) {
+      return;
+    }
 
-    stateProvider.subscribe(result => {
-      this._setState(result)
-      this.changed.next(this.currentState);
-    });
+    let initialState;
+    if (!!initialData &&
+        !(initialData instanceof Observable) &&
+        !(initialData instanceof Promise) &&
+        !(typeof initialData === "function")) {
+      initialState = this._freezeObjectRecursively(initialData);
+    }
+    this._state = new BehaviorSubject<T>(initialState);
+    this.changed.next(this.currentState);
+
+    if (!!this[this._asyncDataProvider]) {
+      this[this._asyncDataProvider]();
+    };
+  }
+
+  private _provideStateData(stateProvider: IStoreConfig<T>['initialState']): void {
+    if (typeof stateProvider === 'function') {
+      stateProvider = from((stateProvider as Function)() as Promise<T>);     
+    };
+    if (!(stateProvider instanceof Observable)) {
+      throw new Error(`Error during state initialization. State provider must be Observable. Store: ${this.keyString}`)
+    };
+
+    (this._stateStorage?.read(this.keyString) ?? of(null))
+      .pipe(switchMap(v => iif(() => !!v, of(v), stateProvider as Observable<T> )))
+      .subscribe(result => {
+        this._setState(result)
+        this.changed.next(this.currentState);
+      });
   }
 
   //

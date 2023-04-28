@@ -11,6 +11,7 @@ import { ExistingAccountQueryDto } from '../models/existing-account-query.dto';
 import { SALT_ROUNDS } from '../constants/salt-rounds';
 import { v4 as uuid } from 'uuid';
 import { AccountRole } from '@hexchess-database/constants/account-role.enum';
+import { MyAccountUpdateDto } from '../models/my-account-update.dto';
 
 
 @Injectable()
@@ -24,7 +25,6 @@ export class AccountsService {
 
   public async createAccount(user: RegistrationDto): Promise<AccountDto> {
     let createdAccount;
-
 
     await this._sequelize.transaction(async t => {
       const transactionHost = { transaction: t };
@@ -64,21 +64,26 @@ export class AccountsService {
   }
 
 
-  public async updateAccount(account: AccountDto): Promise<QueryResult<Update, Account>> {
+  public async updateAccount(account: MyAccountUpdateDto): Promise<QueryResult<Update, Account>> {
     const result = await this._sequelize.transaction(async t => {
 
-      const userFromDb = await this._account.findOne({
+      const accountFromDb = await this._account.findOne({
         where: { id: account.id },
         transaction: t
       });
 
-      account.password = account.password ? await bcrypt.hash(account.password, SALT_ROUNDS) : userFromDb.password;
-      account.updatedAt = new Date();
-      account.createdAt = userFromDb.createdAt;
-      account.role = userFromDb.role;
+      Object.keys(account).forEach(k => {
+        if (k === 'password') {
+          accountFromDb.password = bcrypt.hashSync(account.password, SALT_ROUNDS)
+        } else {
+          accountFromDb[k] = account[k];
+        }
+      })
 
-      return await this._account.update(account, {
-        where: { id: account.id },
+      Object.assign(accountFromDb, { updatedAt: new Date() })
+      
+      return await this._account.update(accountFromDb, {
+        where: { id: accountFromDb.id },
         transaction: t
       }); 
 

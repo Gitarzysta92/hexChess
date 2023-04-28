@@ -3,6 +3,7 @@ import { ApiOAuth2, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../identity/guards/jwt-auth.guard";
 import { borgo, borgoGraphical } from "../constants/borgo";
 import { hegemony, hegemonyGraphical } from "../constants/hegemony";
+import { random } from "../constants/random";
 import { IArmyDto } from "../models/army.dto";
 
 @ApiOAuth2([], 'CustomOAuth')
@@ -16,7 +17,8 @@ export class ArmiesController {
   async getArmiesData(): Promise<IArmyDto[]> {
     return [
       Object.assign(borgo, { graphicalData: borgoGraphical as any }),
-      Object.assign(hegemony, { graphicalData: hegemonyGraphical as any })
+      Object.assign(hegemony, { graphicalData: hegemonyGraphical as any }),
+      Object.assign(random, { graphicalData: {} as any  })
     ]
   }
 

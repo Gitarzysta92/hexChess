@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'cross-button',
+  selector: '[cross-button]',
   template: `<div></div>`,
   styleUrls: ['./cross-button.component.scss']
 })

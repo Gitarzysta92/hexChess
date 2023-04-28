@@ -17,6 +17,14 @@
   display: inline-block;
   text-align: center;
 
+  &[disabled] {
+    opacity: .5;
+    cursor: initial;
+    &:hover {
+      background-color: $orange;
+    }
+  }
+
   ::ng-deep i {
     margin-left: 5px;
   }

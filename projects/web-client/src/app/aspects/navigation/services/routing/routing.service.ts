@@ -27,10 +27,6 @@ export class RoutingService {
     this.parameters = this.route.params;
   }
 
-  navigateBack() {
-    this._router.navigate(['/lobby']);
-  }
-
   navigateToLobby() {
     this._routerNavigate(['/lobby'])
   }

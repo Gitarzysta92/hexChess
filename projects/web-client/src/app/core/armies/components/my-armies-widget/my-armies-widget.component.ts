@@ -55,7 +55,8 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
     this.selectedArmies = this._armiesService.getArmyBadges()
       .pipe(
         switchMap(badges => this._selectedArmiesStore.state
-          .pipe(map(selected => this._getSelectedArmiesBadges(selected, badges)))
+          .pipe(map(selected =>
+            this._getSelectedArmiesBadges(selected, badges)))
         ));
   }
 
@@ -63,11 +64,10 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
     this._onDestroy.next();
   }
 
-  public setSelectedArmy(armyBadge: IArmyBadge, oldArmy: IArmyAssignmentDto): void {
+  public setSelectedArmy(armyBadge: IArmyBadge, currentlySelected: IArmyAssignmentDto): void {
     this._selectedArmiesStore.setSelectedArmy({
       armyId: armyBadge.armyId,
-      priority: oldArmy.priority,
-      profileId: oldArmy.profileId
+      priority: currentlySelected?.priority
     });
   }
 
@@ -79,11 +79,12 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
 
   private _getSelectedArmiesBadges(selected: IArmyAssignmentDto[], badges: IArmyBadge[]): IArmyBadge[] {
     return selected.reduce((acc, s) => {
-      const army = badges.find(a => a.armyId === s.armyId);
-      if (!army)
+      const badge = badges.find(a => a.armyId === s.armyId);
+      Object.assign(badge, s);
+      if (!badge)
         throw new Error(`Cannot found badge for armyid: ${s.armyId}`)
 
-      return [...acc, army]; 
+      return [...acc, badge]; 
     }, [])
   }
 

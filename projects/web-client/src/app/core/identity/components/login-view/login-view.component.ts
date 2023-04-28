@@ -6,9 +6,9 @@ import { catchError, finalize, Subscription, throwError } from 'rxjs';
 import { IdentityNotifications, IdentityNotificationsToken } from '../../constants/notifications';
 import { GuestFormComponent } from '../guest-form/guest-form.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from '../../services/user/user.service';
 import { RoutingService } from 'src/app/aspects/navigation/api';
-
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { ILoginEvent } from '../../models/login-event';
 
 @Component({
   selector: 'app-login-view',
@@ -83,7 +83,7 @@ export class LoginViewComponent implements OnInit {
     private readonly _routingService: RoutingService,
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
-    private readonly _userService: UserService,
+    private readonly _authenticationService: AuthenticationService,
     @Inject(IdentityNotificationsToken) private readonly _notification: IdentityNotifications,
   ) { }
 
@@ -114,8 +114,8 @@ export class LoginViewComponent implements OnInit {
     this._formSubscription = form.onSubmit.subscribe(submission => this.loginAsGuest(submission));
   }
 
-  public loginAsUser(submission: any): void {
-    this._userService.authenticate(submission.value)
+  public loginAsUser(submission: ILoginEvent): void {
+    this._authenticationService.authenticate(submission)
       .pipe(
         catchError(err => {
           this._showNotify(err);
@@ -127,20 +127,11 @@ export class LoginViewComponent implements OnInit {
         })
       )
       .subscribe(isAuthenticated => {
-        if (isAuthenticated) this._routingService.navigateBack();
-        submission.resolve();
+        if (isAuthenticated) this._routingService.navigateToLobby();
       });
   }
 
   public loginAsGuest(submission: any): void {
-    this._userService.authenticateGuest(submission.value)
-      .subscribe(isAuthenticated => {
-        if (isAuthenticated) this._routingService.navigateBack();
-        submission.resolve();
-      }, err => {
-        this._showNotify(err);
-        submission.reject();
-      });
   }
 
   private _showNotify(err: HttpErrorResponse): void {

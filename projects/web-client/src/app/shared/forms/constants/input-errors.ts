@@ -9,8 +9,7 @@ export const INPUT_ERRORS = {
   notEmail: '%content% is not a valid email',
   email: 'Email is not a valid email',
   connectionError: 'Connection error',
-  //specialCharacters: 'Your password must contains at least on of this characters: !@#$%^'
-  pattern: 'Your password must contains at least on of this characters: !@#$%^'
+  pattern: 'Text must contains one of the required characters'
 }
 
 

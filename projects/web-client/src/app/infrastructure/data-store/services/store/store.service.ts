@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfigurationService } from '../../../configuration/services/configuration.service';
-import { StoreConfig } from '../../models/store-config';
+import { IStoreConfig } from '../../models/store-config';
 import { Store } from './store';
 
 
@@ -21,14 +21,13 @@ export class StoreService {
     this._initializeGlobalStream();
   }
 
-  public createStore<T>(key: any, config: StoreConfig<T>): Store<T> {
+  public createStore<T>(key: any, config: IStoreConfig<T>): Store<T> {
     if (!!this._collections[key])
       if (this._config.isProduction) {
         return this._collections[key]
       } else {
         throw new Error(`Failed to create ${key.description} collection. Collection should be instantiated only once.`)
       } 
-
 
     Object.defineProperty(this._collections, key, {
       value: new Store<T>({key, ...config}),
@@ -39,15 +38,25 @@ export class StoreService {
     return this._collections[key];
   }
 
+
   public getStore<T>(key: any): Store<T> {
     return this._collections[key];
+  }
+
+  public clearStates() {
+    for (let key of Object.getOwnPropertySymbols(this._collections)) {
+      this._collections[key as any].clearState();
+     }
   }
 
   private _initializeGlobalStream(): void {
     this._state = new BehaviorSubject([]);
     this.state = this._state
-      .pipe(switchMap(c => combineLatest(c)))
-      .pipe(filter(c => c.every(c => c.value)))
+      .pipe(
+        switchMap(c => combineLatest(c)),
+        filter(c => c.every(c => c.value))
+      )
+
   }
 
   private _updateCollectionsInGlobalStream(collections: { [key: string]: Store<any> }): void {

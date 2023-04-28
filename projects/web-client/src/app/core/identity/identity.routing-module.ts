@@ -19,7 +19,7 @@ Identity.routes.bindComponents({
   },
   signup: RegistrationViewComponent,
   recovery: {
-    _: PasswordRecoveryViewComponent,
+    root: PasswordRecoveryViewComponent,
     sessionExpired: SessionExpiredViewComponent,
     token: PasswordResetViewComponent
   },

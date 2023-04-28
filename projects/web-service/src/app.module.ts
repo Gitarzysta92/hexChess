@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ProfilesModule } from './core/profiles/profiles.module';
-import { MailSenderModule } from './infrastructure/mail-sender/mail-sender.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { databaseConfig, MysqlDatabaseConfig, MYSQL_DATABASE_CONFIG } from './infrastructure/sql-database/sql-database.config';
-import { SmtpMailerConfig, smtpMailerConfig, SMTP_MAILER_CONFIG } from './infrastructure/mail-sender/smtp-mailer.config';
 import { BlobStorageModule } from './infrastructure/blob-storage-client/blob-storage-client.module';
 import { BlobStorageConfig, blobStorageConfig, BLOB_STORAGE_CONFIG } from './infrastructure/blob-storage-client/blob-storage.config';
 import { MatchmakingModule } from './core/matchmaking/matchmaking.module';
@@ -20,11 +18,6 @@ import { SwaggerCustomizationModule } from './infrastructure/swagger-customizati
       imports: [ConfigModule.forFeature(databaseConfig)],
       useFactory: (configService: ConfigService) => configService.get<MysqlDatabaseConfig>(MYSQL_DATABASE_CONFIG) as any,
       inject: [ConfigService],
-    }),
-    MailSenderModule.forRootAsync({
-      imports: [ConfigModule.forFeature(smtpMailerConfig)],
-      useFactory: (configService: ConfigService) => configService.get<SmtpMailerConfig>(SMTP_MAILER_CONFIG) as any,
-      inject: [ConfigService]
     }),
     BlobStorageModule.forRootAsync({
       imports: [ConfigModule.forFeature(blobStorageConfig)],

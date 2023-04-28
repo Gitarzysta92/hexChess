@@ -1,13 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable, combineLatest, of, Subject } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Menu, MenuItem } from 'src/app/aspects/navigation/api';
 import { StoreService } from 'src/app/infrastructure/data-store/api';
-
-
-export interface CountNumberEmiter {
-  countNumber: Subject<number>;
-}
 
 @Component({
   selector: 'mobile-menu-button',
@@ -30,10 +25,12 @@ export class MobileMenuButtonComponent implements OnInit {
     };
 
     this.count = combineLatest(this.locations || [of(null)])
-      .pipe(map(menus => menus.reduce((acc, curr) => curr?.items ? acc.concat(curr?.items) : [] ,[]) as MenuItem[]))
-      .pipe(map(items => items.filter(i => !!i.counterDataProvider).map(i => i.counterDataProvider(this._store))))
-      .pipe(switchMap(items => combineLatest(items)))
-      .pipe(map(items => items.reduce((acc, curr) => acc += curr , 0)))
+      .pipe(
+        map(menus => menus.reduce((acc, curr) => curr?.items ? acc.concat(curr?.items) : [] ,[]) as MenuItem[]),
+        map(items => items.filter(i => !!i.counterDataProvider).map(i => i.counterDataProvider(this._store))),
+        switchMap(items => combineLatest(items)),
+        map(items => items.reduce((acc, curr) => acc += curr , 0)),
+      )
   }
 }
 

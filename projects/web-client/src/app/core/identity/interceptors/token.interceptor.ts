@@ -7,35 +7,36 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UserService } from '../services/user/user.service';
 import { RoutingService } from 'src/app/aspects/navigation/api';
+import { AuthenticationService } from '../services/authentication/authentication.service';
+import { StoreService } from 'src/app/infrastructure/data-store/api';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
-    private readonly _userService: UserService,
+    private readonly _authenticationService: AuthenticationService,
     private readonly _routingService: RoutingService,
+    private readonly _storeService: StoreService
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const userToken = this._userService.token;
+    const userToken = this._authenticationService.token;
     if (userToken == null) return next.handle(req);
     const modifiedReq = req.clone({ 
       headers: req.headers.get('Authorization')?.toLocaleLowerCase() === 'skip' ? 
         req.headers.delete('Authorization') : req.headers.set('Authorization', `Bearer ${userToken}`),
     });
 
-    
     return next.handle(modifiedReq)
       .pipe(catchError(err => {
         if ((err as HttpErrorResponse).status === 401) {
-          this._userService.unauthenticate();
+          this._authenticationService.unauthenticate();
           this._routingService.nagivateToLogin();
+          this._storeService.clearStates();
         } else {
           return throwError(err);
         }
       }))
-      //.pipe(tap(res => console.log(res)));
   }
 }

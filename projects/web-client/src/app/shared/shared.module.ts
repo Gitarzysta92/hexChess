@@ -7,6 +7,7 @@ import { CustomFormsModule } from "./forms/custom-forms.module";
 import { GridModule } from "./grid/grid.module";
 import { IconsModule } from "./icons/icons.module";
 import { MiscModule } from "./misc/misc.module";
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { MiscModule } from "./misc/misc.module";
     IconsModule,
     MiscModule,
     CommonsModule,
-    GridModule
+    GridModule,
+    LayoutModule
   ],
   providers: [],
   exports: [
@@ -28,7 +30,8 @@ import { MiscModule } from "./misc/misc.module";
     IconsModule,
     MiscModule,
     CommonsModule,
-    GridModule
+    GridModule,
+    LayoutModule
   ]
 })
 export class SharedModule { }

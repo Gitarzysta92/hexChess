@@ -41,8 +41,16 @@ export class RoutesAdapter {
     const target = children || this._routes;
 
     Object.keys(target).map(key => {
-      const route  = target[key];
-      route.component = componentsMap[key]?.hasOwnProperty('_') ? componentsMap[key]['_'] : componentsMap[key];
+      const route = target[key];
+      
+      if (componentsMap?.hasOwnProperty(key)) {
+        if (componentsMap[key]['_']) {
+          route.component = componentsMap[key]['_'];
+        } else if (!route.children) {
+          route.component = componentsMap[key];
+        } 
+      }
+
       if (route?.children) 
         this.bindComponents(componentsMap[key], route.children);
       return route ;
@@ -63,7 +71,6 @@ export class RoutesAdapter {
   
       if (route?.children) 
         route.children = this.toDefaultFormat(route.children, callback);
-
     
       return route;
     })

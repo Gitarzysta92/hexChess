@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { Store, StoreService } from 'src/app/infrastructure/data-store/api';
+import { AuthenticationService } from '../../identity/api';
 import { IMyAccountDto } from '../models/my-account.dto';
-import { ProfileService } from '../providers/profile-service/profile.service';
+import { MyAccountService } from '../services/my-account/my-account.service';
 import { MyAccountAction } from './actions/actions';
 
 
@@ -16,7 +17,8 @@ export class MyAccountStore {
 
   constructor(
     private readonly _storeService: StoreService,
-    private readonly _profileService: ProfileService,
+    private readonly _myAccountService: MyAccountService,
+    private readonly _authenticationService: AuthenticationService
   ) {
     this._registerStore();
   }
@@ -27,12 +29,12 @@ export class MyAccountStore {
 
   private _registerStore() {
     this._store = this._storeService.createStore<IMyAccountDto>(Symbol('my-account'), {
-      initialState: this._profileService.getMyAccount().pipe(catchError(() => of({} as IMyAccountDto))),
+      initialState: this._myAccountService.getMyAccount().pipe(catchError(() => of({} as IMyAccountDto))),
       actions: { 
         [MyAccountAction.updateMyAccount]: {
-          before: [account => this._profileService.updateMyAccount(account)], 
-          action: this._updateAccount,
-          after: [() => this._profileService.refreshToken()]
+          before: [ctx => this._myAccountService.updateMyAccount(ctx.payload)], 
+          action: ctx => this._updateAccount(ctx.payload, ctx.initialState),
+          after: [() => this._authenticationService.refreshToken()]
         },
       } 
     });

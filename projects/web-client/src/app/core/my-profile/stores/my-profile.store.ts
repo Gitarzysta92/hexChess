@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { Store, StoreService } from 'src/app/infrastructure/data-store/api';
 import { LocalStorageService } from 'src/app/infrastructure/data-store/services/local-storage/local-storage.service';
 import { IMyProfileDto } from '../models/my-profile.dto';
-import { ProfileService } from '../providers/profile-service/profile.service';
+import { MyProfileService } from '../services/my-profile/my-profile.service';
 import { MyProfileAction } from './actions/actions';
 
 const myProfile = Symbol('my-profile');
@@ -21,7 +21,7 @@ export class MyProfileStore {
 
   constructor(
     private readonly _storeService: StoreService,
-    private readonly _profileService: ProfileService,
+    private readonly _myProfileService: MyProfileService,
     private readonly _localStorage: LocalStorageService
   ) {
     this._registerStore();
@@ -37,30 +37,35 @@ export class MyProfileStore {
 
   private _registerStore() {
     this._store = this._storeService.createStore<IMyProfileDto>(myProfile, {
-      initialState: this._localStorage.get<IMyProfileDto>(this._localStorageKey)
-        .pipe(switchMap(data => !!data ? of(data) : this._profileService.getMyProfile())),
+      initialState: this._localStorage.read<IMyProfileDto>(this._localStorageKey)
+        .pipe(switchMap(data => !!data ? of(data) : this._myProfileService.getMyProfile())),
       actions: { 
         [MyProfileAction.updateMyProfile]: {
-          before: [profile => this._profileService.updateMyProfile(profile)], 
-          action: this._updateProfile,
-          after: [(_, state) => this._localStorage.update(this._localStorageKey, state)]
+          action: (ctx) => this._updateMyProfile(ctx.payload, ctx.initialState),
+          after: [
+            ctx => this._myProfileService.updateMyProfile(ctx.computedState),
+            ctx => this._localStorage.update(this._localStorageKey, ctx.computedState)
+          ]
         },
         [MyProfileAction.updateAvatar]: {
           before: [
-            (file, _, ctx) => this._profileService.updateMyAvatar(file).pipe(tap(r => ctx.fileName = r)),
+            ctx => this._myProfileService.updateMyAvatar(ctx.payload)
+              .pipe(tap(n => Object.assign(ctx.custom, { fileName: n }))),
           ],
-          action: this._updateAvatar,
-          after: [(_, state) => this._localStorage.update(this._localStorageKey, state)]
+          action: ctx => this._updateAvatar(ctx.custom.fileName, ctx.initialState),
+          after: [
+            ctx => this._localStorage.update(this._localStorageKey, ctx.computedState)
+          ]
         }
       } 
     });
   }
 
-  private _updateProfile = (p: IMyProfileDto, state: IMyProfileDto): IMyProfileDto => {
+  private _updateMyProfile = (p: IMyProfileDto, state: IMyProfileDto): IMyProfileDto => {
     return Object.assign(state, p);
   }
 
-  private _updateAvatar = (file: File, state: IMyProfileDto, ctx: any): IMyProfileDto => {
-    return Object.assign(state, { avatar: ctx.fileName })
+  private _updateAvatar = (fileName: string, state: IMyProfileDto): IMyProfileDto => {
+    return Object.assign(state, { avatarFileName: fileName })
   }
 }

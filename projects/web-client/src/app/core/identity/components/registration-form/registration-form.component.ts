@@ -8,6 +8,7 @@ import { CustomValidators } from 'src/app/shared/forms/validators/custom.validat
 import { ProfileValidators } from 'src/app/shared/forms/validators/unique-profile.validator';
 import { AuthPolicies, PoliciesToken } from '../../constants/policies';
 import { TermsAndConditionsComponent } from '../terms-and-conditions/terms-and-conditions.component';
+import { IRegistrationEvent } from '../../models/registration-event';
 
 @Component({
   selector: 'registration-form',
@@ -17,7 +18,7 @@ import { TermsAndConditionsComponent } from '../terms-and-conditions/terms-and-c
 })
 export class RegistrationFormComponent {
 
-  @Output() onSubmit: EventEmitter<any> = new EventEmitter(); 
+  @Output() onSubmit: EventEmitter<IRegistrationEvent> = new EventEmitter(); 
 
   public processing: boolean = false;
   public formConfig: { [key: string]: TextInputConfig };
@@ -52,7 +53,7 @@ export class RegistrationFormComponent {
     if (form.valid) {
       this.processing = true;
       this.onSubmit.next({ 
-        value: form.value, 
+        ...form.value, 
         resolve: () => this.processing = false,
         reject: () => this.processing = false,
       });

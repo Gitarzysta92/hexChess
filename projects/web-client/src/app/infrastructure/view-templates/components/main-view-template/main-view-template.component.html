@@ -1,7 +1,7 @@
 <ng-container *ngIf="dataLoaded else loader">
   <div class="container fh">
     <header [@slideOut]>
-      <div class="fluid-container flex_center-center fh header">
+      <div *ngIf="!isMobile" class="fluid-container flex_center-center fh header">
         <div class="row">
           <div class="column-3 armies">
             <ng-content select="[topBarLeft]"></ng-content>
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-      <div class="fluid-container header mobile">
+      <div *ngIf="isMobile" class="fluid-container header mobile">
         <ng-content select="[topBarMobile]"></ng-content>
       </div>
     </header>
@@ -35,10 +35,3 @@
     </div>
   </div>
 </ng-template>
-
-
-<modal #modal>
-  <div class="modal-inner">
-    <ng-content select="[mobileModal]"></ng-content>
-  </div>
-</modal>

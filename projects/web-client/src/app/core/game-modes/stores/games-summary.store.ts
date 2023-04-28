@@ -24,7 +24,11 @@ export class GamesSummaryStore {
   private _registerStore() {
     this._collection = this._store.createStore<GameSummary[]>(Symbol('games-summary'), {
       initialState: [ new GameSummary({ victory: true }), new GameSummary({ victory: false }) ],
-      actions: { [addGameSummary]: { action: this._addGameSummary } } 
+      actions: {
+        [addGameSummary]: {
+          action: ctx => this._addGameSummary(ctx.payload, ctx.initialState)
+        }
+      } 
     });
   }
 

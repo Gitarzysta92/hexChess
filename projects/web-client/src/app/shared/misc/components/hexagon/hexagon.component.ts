@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnChanges, OnInit, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 export interface HexagonColors {
   stroke: string;
@@ -17,22 +17,19 @@ const defaultColors: HexagonColors = {
 @Component({
   selector: 'hexagon',
   template: `
-      <div class="outer red">
-        <div class="inner-wrapper">
-          <div class="inner">
-            <ng-content></ng-content>
-          </div>
-        </div>
-      </div>
-      <div class="stroke-wrapper">
-        <div class="stroke"></div>
-      </div>
+    <svg height="100%" width="100%" viewBox="0 0 300 300" class="outer">
+      <polygon points="300,150 225,280 75,280 0,150 75,20 225,20" [attr.fill]="this.colors.outer"></polygon>
+    </svg>
+    <svg height="80%" width="80%" viewBox="0 0 300 300" class="inner">
+      <polygon points="300,150 225,280 75,280 0,150 75,20 225,20" [attr.fill]="this.colors.inner"></polygon>
+    </svg>
+    <div class="content-wrapper flex_center-center" [style.color]="this.colors.outer">
+      <ng-content></ng-content>
+    </div>
     `,
   styleUrls: ['./hexagon.component.scss']
 })
-export class HexagonComponent implements OnChanges {
-
-  @HostBinding('class.red') aasd = true;
+export class HexagonComponent {
 
   @Input() colors: HexagonColors = defaultColors;
 
@@ -40,25 +37,4 @@ export class HexagonComponent implements OnChanges {
     private readonly _renderer: Renderer2,
     private readonly _elementRef: ElementRef
   ) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.colors) {
-      const stroke = this._elementRef.nativeElement.querySelector('.stroke-wrapper');
-      this._renderer.setStyle(stroke, 'background-color', this.colors.stroke);
-      this._renderer.setStyle(stroke, 'border-right-color', this.colors.stroke);
-      this._renderer.setStyle(stroke, 'border-left-color', this.colors.stroke);
-
-      const outer = this._elementRef.nativeElement;
-      this._renderer.setStyle(outer.querySelector('.outer'), 'background-color', this.colors.outer);
-      this._renderer.setStyle(outer, 'border-right-color', this.colors.outer);
-      this._renderer.setStyle(outer, 'border-left-color', this.colors.outer);
-
-      const inner = this._elementRef.nativeElement.querySelector('.inner-wrapper');
-      this._renderer.setStyle(inner, 'background-color', this.colors.inner);
-      this._renderer.setStyle(inner, 'border-right-color', this.colors.inner);
-      this._renderer.setStyle(inner, 'border-left-color', this.colors.inner);
-      this._renderer.setStyle(inner, 'color', this.colors.outer);
-    }
-  }
-
 }

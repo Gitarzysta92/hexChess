@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HexagonColors } from '../hexagon/hexagon.component';
 
 
@@ -15,22 +15,24 @@ export interface ArmyBadgeConfig {
     </hexagon>
   `,
   styles: [
-    `:host { display: flex; }`,
-    `hexagon i::before {
-        position: absolute;
-        top: 0;
-        left: -50%;
-        right: -50%;
-        margin: 0 auto;
-        font-size: 0.85em;
-        z-index: 4444;
+    `:host {
+      display: block;
+    }`,
+    `hexagon {
+      width: 100%;
+      height:100%;
     }`,
     `hexagon i {
-      position: initial;
-    }`
+      height: 100%;
+      font-size: 0.6em;
+    }`,
+    `hexagon i::before {
+      top: 50%;
+      transform: translate(0, -50%);
+    }`,
   ]
 })
-export class ArmyBadgeComponent implements OnInit {
+export class ArmyBadgeComponent{
   
   @Input('setup') set setup(data: ArmyBadgeConfig) {
     this.icon = data?.icon;
@@ -39,9 +41,4 @@ export class ArmyBadgeComponent implements OnInit {
 
   public colors: HexagonColors;
   public icon: string;
-
-  constructor( ) { }
-
-  ngOnInit(): void {}
-
 }

@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { AccountsService } from 'src/core/identity/services/accounts.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { MailSender } from 'src/infrastructure/mail-sender/mail-sender';
+import { MailSenderService } from 'src/infrastructure/mail-sender/services/mail-sender.service';
+import { MailTemplateService } from 'src/infrastructure/mail-sender/services/mail-template.service';
 
 @Injectable()
 export class PasswordResetService {
@@ -10,7 +11,8 @@ export class PasswordResetService {
   constructor(
     private readonly _accountService: AccountsService,
     private readonly jwtService: JwtService,
-    private readonly _mailSender: MailSender
+    private readonly _mailSender: MailSenderService,
+    private readonly _mailTemplateService: MailTemplateService
   ) {}
 
   public async sendResetEmail(email: string): Promise<void> {
@@ -25,14 +27,14 @@ export class PasswordResetService {
       username: user.email
     }, {
       algorithm: "HS256",
-      expiresIn: date.setDate(date.getDate() + 1)
+      expiresIn: date.setDate(date.getDate() + 1000)
     });
 
   
     var mailOptions = {
       to: email,
       subject: 'Hex - password reset',
-      text: token
+      text: this._mailTemplateService.generatePasswordResetMailBody(token)
     };
 
     this._mailSender.sendEmail(mailOptions);

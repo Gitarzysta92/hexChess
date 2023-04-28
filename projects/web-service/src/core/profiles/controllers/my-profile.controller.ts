@@ -6,7 +6,7 @@ import { ServiceExceptionFilter } from 'src/aspects/errors/service-exception-fil
 import { ContextUser, ContextUserData } from 'src/shared/extensions/api';
 import { ApiBody, ApiConsumes, ApiOAuth2, ApiTags } from '@nestjs/swagger';
 import { ModelValidationPipe } from 'src/shared/utils/api';
-import { MyProfileQueryDto } from '../models/my-profile-query.dto';
+import { MyProfileUpdateDto } from '../models/my-profile-update.dto';
 
 @ApiOAuth2([], 'CustomOAuth')
 @ApiTags('MyProfile')
@@ -28,7 +28,7 @@ export class MyProfileController {
   @UseGuards(JwtAuthGuard)
   async updateMyProfile(
     @ContextUser() user: ContextUserData,
-    @Body(new ModelValidationPipe()) profile: MyProfileQueryDto
+    @Body(new ModelValidationPipe()) profile: MyProfileUpdateDto
   ) {
     Object.assign(profile, { id: user.profileId });
     return await this._profilesService.updateProfile(profile);

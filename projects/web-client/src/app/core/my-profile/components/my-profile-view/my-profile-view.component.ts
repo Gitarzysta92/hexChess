@@ -5,7 +5,6 @@ import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
 import { slideIn } from 'src/app/shared/animations/predefined-animations';
 import { AccountValidators } from 'src/app/shared/forms/validators/account.validator';
 import { ProfileValidators } from 'src/app/shared/forms/validators/unique-profile.validator';
-import { PASSWORD_PLACEHOLDER } from '../../constants/password-placeholder';
 import { IMyAccountDto } from '../../models/my-account.dto';
 import { IMyProfileDto } from '../../models/my-profile.dto';
 import { MyAccountStore } from '../../stores/my-account.store';
@@ -26,7 +25,6 @@ export class MyProfileViewComponent implements OnInit, OnDestroy {
   public profile: IMyProfileDto;
   public account: IMyAccountDto;
   public avatarUrl: string | undefined;
-  public passwordPlaceholder = PASSWORD_PLACEHOLDER;
 
   private _destroyed: Subject<void> = new Subject();
 
@@ -64,24 +62,23 @@ export class MyProfileViewComponent implements OnInit, OnDestroy {
       .pipe(
         delay(2000),
         catchError(err => {
-          if (!!input)
-            input.setFailureState();
+          input?.setFailureState();
           return throwError(err);
         }),
-        finalize(() => !!input && input.setSuccessState())
+        finalize(() => input?.setSuccessState())
       )
       .subscribe()
   }
 
-  public updateProfile(nickname: string, input: IntegratedInputComponent): void {
+  public updateProfile(nickname: string, input?: IntegratedInputComponent): void {
     const newProfile = Object.assign({}, this.profile);
     newProfile.nickname = nickname;
 
     this._myProfileStore.update(newProfile)
       .pipe(delay(2000))
       .subscribe(
-        () => input.setSuccessState(), 
-        () => input.setFailureState()
+        () => input?.setSuccessState(), 
+        () => input?.setFailureState()
       )
   }
 

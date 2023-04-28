@@ -1,3 +1,5 @@
+@import '../../../../../scss/colors.scss';
+
 
 .notification {
   position: relative;
@@ -8,8 +10,12 @@
   border: none;
   font-size: 12px;
   font-weight: 500;
-  color:#f7d8d8;
+  color: $text-primary;
   overflow: hidden;
+
+  .row {
+    justify-content: start;
+  }
 
   [class^="column"], .crossbar {
     position: relative;
@@ -19,10 +25,14 @@
   .crossbar {
     position: absolute;
     top: 10px;
-    right: 10px;
-    font-size: 10px;
-    color:#f7d8d8;
-   
+    right: 5px;
+    font-size: 5px;
+    color:$text-primary;
+    transform: scale(.5);
+  }
+
+  ::ng-deep .crossbar div, ::ng-deep .crossbar div::before {
+    background-color: $text-primary;
   }
 
   ::ng-deep [slot=icon] {
@@ -32,7 +42,7 @@
 
   ::ng-deep [slot=content] {
     padding-right: 30px;
-    color: #ecdede;
+    color: $text-primary;
   }
 
   .progress-bar {
@@ -46,34 +56,24 @@
   }
 
   &.success {
-    background-color: blue;
+    background-color: $success;
     .progress-bar {
-      background: blueviolet;
-    }
-  }
-
-  &.success {
-    background-color: #94b21b;
-    .progress-bar {
-      background: #829d17;
+      background: $success-secondary;
     }
   }
 
   &.warning {
-    background-color: yellow;
+    background-color: $warning;
     .progress-bar {
-      background: yellowgreen;
+      background: $warning-secondary;
     }
   }
 
   &.error {
-    background-color: #e15454;
+    background-color: $error;
     .progress-bar {
-      background: #d33636;
+      background: $error-secondary;
     }
   }
-
-
-
 
 }

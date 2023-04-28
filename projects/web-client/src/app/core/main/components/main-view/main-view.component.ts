@@ -43,7 +43,8 @@ export class MainViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _changeDetector: ChangeDetectorRef,
-    private readonly _menuService: MenuService
+    private readonly _menuService: MenuService,
+    public readonly routing: RoutingService
   ) { 
     this.mainMenu = this._menuService.getMenuData(MenuLocation.MainMenu),
     this.secondaryMenu = this._menuService.getMenuData(MenuLocation.SecondaryMenu),
@@ -51,22 +52,17 @@ export class MainViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-    timer(2000)
+    
+    this.routing.onNavigationStart
+      .pipe(takeUntil(this._onDestroy))
+      .pipe(delay(150))
       .subscribe(() => {
-        this.dataLoaded = true;
-        this._changeDetector.markForCheck();
+        this._mobileMenuModal.close();
       });
   }
 
   ngOnDestroy(): void {
     this._onDestroy.next();
   }
-
-  public prepareRoute(outlet: RouterOutlet) {
-    if(!outlet.isActivated) return 'void';
-    return outlet && outlet.component?.constructor?.name;
-  }
-
 }
 

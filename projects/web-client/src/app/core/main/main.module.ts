@@ -4,12 +4,14 @@ import { ViewTemplatesModule } from "src/app/infrastructure/view-templates/view-
 import { ArmiesSharedModule } from "../armies/armies.shared-module";
 import { MyProfileSharedModule } from "../my-profile/my-profile.shared-module";
 import { MainViewComponent } from "./components/main-view/main-view.component";
+import { MobileMenuButtonComponent } from "./components/mobile-menu-button/mobile-menu-button.component";
 import { NotFoundViewComponent } from "./components/not-found-view/not-found-view.component";
 
 @NgModule({
   declarations: [
     MainViewComponent,
-    NotFoundViewComponent
+    NotFoundViewComponent,
+    MobileMenuButtonComponent
   ],
   imports: [
     ViewTemplatesModule,

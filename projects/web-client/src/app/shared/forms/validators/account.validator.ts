@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, of, Subject, timer } from 'rxjs';
 import { catchError, concatMap, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { UserService } from 'src/app/core/identity/services/user/user.service';
+import { AccountService } from 'src/app/core/identity/services/account/account.service';
 
 
 
@@ -10,7 +10,7 @@ import { UserService } from 'src/app/core/identity/services/user/user.service';
 export class AccountValidators {
 
   constructor(
-    private readonly _userService: UserService,
+    private readonly _userService: AccountService,
   ) { }
   
   public emailUniqueness(control: AbstractControl, profileId?: string): Observable<ValidationErrors|null> {

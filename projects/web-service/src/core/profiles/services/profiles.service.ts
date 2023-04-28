@@ -7,15 +7,16 @@ import { BlobStorageClient } from 'src/infrastructure/blob-storage-client/blob-s
 import { AssignedArmy } from 'src/core/armies/models/assigned-army.entity';
 import { Profile } from 'src/core/profiles/models/profile.entity';
 import { Account } from 'src/core/identity/models/account.entity';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class ProfilesService {
 
   constructor(
     @InjectModel(Profile)
-    private _profile: typeof Profile,
-    private _sequelize: Sequelize,
-    private _blobStorage: BlobStorageClient
+    private readonly _profile: typeof Profile,
+    private readonly _sequelize: Sequelize,
+    private readonly _blobStorage: BlobStorageClient
   ) {}
 
   public async search(profile: { [key: string]: any }): Promise<ProfileDto[]> {
@@ -76,8 +77,13 @@ export class ProfilesService {
   }
 
   public async updateProfile(profile: Partial<ProfileDto>) {
-    const result = await this._profile.update(profile, {
+    const profileFromDb = await this._profile.findOne({
       where: { id: profile.id, },
+    });
+
+    Object.keys(profile).forEach(k => profileFromDb[k] = profile[k])
+    const result = await this._profile.update(profileFromDb, {
+      where: { id: profileFromDb.id, },
       returning: true,
     })
 
@@ -109,10 +115,11 @@ export class ProfilesService {
 
 
   public async updateAvatar(profileId: string, fileName: string, buffer: Buffer): Promise<string> {
+    fileName = crypto.createHash('md5').update(fileName).digest('hex');
     const imageName = await this._blobStorage.upload(fileName, buffer);
     if (!imageName) return;
 
-    const result = await this._profile.update({ avatarFileName: fileName }, {
+    await this._profile.update({ avatarFileName: fileName }, {
       where: {
         id: profileId
       }

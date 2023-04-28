@@ -11,17 +11,16 @@ import { IPanelOrigin } from '../models/panel-origin';
   exportAs:'panel-origin'
 })
 export class PanelOriginDirective implements IPanelOrigin {
+
+  public state: Subject<IOriginState> = new Subject();
+  public get isOpen() { return this._open };
+
   private _open: boolean = false;
   private _context: any;
-  public state: Subject<IOriginState> = new Subject();
-
-  public get isOpen() { return this._open };
-  
 
   @Input('onClick') set setOnClick(value) {
     this._onClick = true;
   }
-
   private _onClick: boolean = false;
 
   @HostListener('click', ['$event']) toggle() {
@@ -31,11 +30,8 @@ export class PanelOriginDirective implements IPanelOrigin {
   }
 
   constructor(
-    //private readonly overlay: Overlay
     public elementRef: ElementRef
-  ) {   
-    //this.overlay.create()
-  }
+  ) {}
 
   public setState(value: boolean): void {
     this._open = value;
@@ -47,6 +43,10 @@ export class PanelOriginDirective implements IPanelOrigin {
     this.setState(true);
   }
 
-  //@HostBinding()
+  public closePanel(): void {
+    this._context = null;
+    this.setState(false);
+  }
+
 
 }

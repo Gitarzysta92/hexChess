@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { INotification } from '../../models/notification.interface';
 
 @Component({
-  selector: 'app-notification',
+  selector: 'notification-record',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })

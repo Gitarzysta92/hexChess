@@ -27,8 +27,8 @@
         <div class="column language-picker">
           <language-picker
             [@slideIn]="{ value: true, params: { delay: '250ms' }}" 
-            [selectedLanguage]="account?.languageId" 
-            (onChange)="updateAccount($event)">
+            [selectedLanguage]="profile?.languageId" 
+            (onChange)="updateProfile($event)">
           </language-picker>
         </div>
       </div>      
@@ -62,7 +62,7 @@
               required
               email
               maxlength="50"
-              uniqueEmailValidator     
+              [uniqueEmailValidator]="account?.id" 
               name="email"
               type="email"
               [value]="account?.email"
@@ -77,6 +77,7 @@
               maxlength="25"
               name="password"
               type="password"
+              placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
               [value]="account?.password"
               (onChange)="updateAccount({ password: $event }, password)">
             </integrated-input>

@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ButtonsModule } from "../buttons/buttons.module";
 import { CounterBadgeComponent } from "./components/counter-badge/counter-badge.component";
 import { ExpandableListComponent } from "./components/expandable-list/expandable-list.component";
 import { NotificationComponent } from "./components/notification/notification.component";
@@ -13,7 +14,8 @@ import { TooltipComponent } from "./components/tooltip/tooltip.component";
     TooltipComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ButtonsModule
   ],
   exports: [
     CounterBadgeComponent,

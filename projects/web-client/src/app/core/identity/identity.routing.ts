@@ -26,8 +26,9 @@ export namespace Identity {
       token: { 
         path:':token',
         matcher: (url: UrlSegment[]) => {
-          console.log([Object.assign(url[0], { parameters: url[0].path })]);
-          return url.length === 1 && url[0].path !== 'session-expired' ? ({consumed: [Object.assign(url[0], { parameters: {token: url[0].path} })]}) : null
+          return url.length === 1 && url[0].path !== 'session-expired' ?
+            ({ consumed: url, posParams: { token: new UrlSegment(url[0].path, {}) } }) :
+            null
         },
         canActivate: [PasswordRecoveryGuard],
         data: { onFailurePath: 'session-expired'}

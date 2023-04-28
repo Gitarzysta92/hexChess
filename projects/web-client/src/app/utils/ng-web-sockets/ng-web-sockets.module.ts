@@ -11,7 +11,6 @@ export interface SocketIoConfig {
 
 /** Socket factory */
 export function SocketFactory(config: SocketIoConfig) {
-  console.log(config);
   return new WrappedSocket(config);
 }
 

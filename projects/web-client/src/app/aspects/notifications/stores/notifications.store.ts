@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Store, StoreService } from 'src/app/infrastructure/data-store/api';
+import { LocalStorageService, Store, StoreService } from 'src/app/infrastructure/data-store/api';
 import { INotification } from '../models/notification.interface';
-import { NotificationsProvider } from '../services/notifications.provider';
+import { NotificationsService } from '../services/notifications.service';
 import { NotificationAction } from './actions/actions';
 
-export const notificationsStore = Symbol('notifications-store');
+export const notificationsStoreKey = 'notifications-store';
+export const notificationsStore = Symbol(notificationsStoreKey);
 
 @Injectable()
 export class NotificationsStore { 
@@ -15,7 +16,8 @@ export class NotificationsStore {
 
   constructor(
     private readonly _store: StoreService,
-    private readonly _provider: NotificationsProvider
+    private readonly _provider: NotificationsService,
+    private readonly _localStorageService: LocalStorageService
   ) {
     this._registerStore();
   }
@@ -29,7 +31,7 @@ export class NotificationsStore {
   }
 
   public markAllAsReaded(): void {
-    this._collection.dispatch<INotification>(NotificationAction.markAsReaded);
+    this._collection.dispatch<INotification>(NotificationAction.markAllAsReaded);
   }
  
   private _registerStore() {
@@ -38,15 +40,16 @@ export class NotificationsStore {
       isLazyLoaded: true,
       actions: {
         [NotificationAction.add]: {
-          before: [n => this._provider.addNotification(n)],
-          action: this._addNotification,
+          action: ctx => this._addNotification(ctx.payload, ctx.initialState),
+          after: [ctx => this._localStorageService.update(notificationsStoreKey, ctx.computedState) ]
         },
         [NotificationAction.markAsReaded]: {
-          //before: [n => this._provider.updateNotification(n)],
-          action: this._markAsReaded
+          action: ctx => this._markAsReaded(ctx.payload, ctx.initialState),
+          after: [ctx => this._localStorageService.update(notificationsStoreKey, ctx.computedState) ]
         },
-        [NotificationAction.markAsReaded]: {
-          action: this._markAllAsReaded
+        [NotificationAction.markAllAsReaded]: {
+          action: ctx => this._markAllAsReaded(ctx.initialState),
+          after: [ctx => this._localStorageService.update(notificationsStoreKey, ctx.computedState) ]
         }
       }
     });
@@ -57,5 +60,5 @@ export class NotificationsStore {
   private _markAsReaded = (nr: INotification, state: INotification[]): INotification[] => 
     state.map(n => n.id === nr.id ? Object.assign(n, { readed: true }) : n);
   
-  private _markAllAsReaded = (_, state: INotification[]) => state.map(n => Object.assign(n, { readed: true }))
+  private _markAllAsReaded = (state: INotification[]) => state.map(n => Object.assign(n, { readed: true }))
 }
