@@ -11,8 +11,8 @@ import { slideOutAnimation } from '../../../animations/animations/slide-out.anim
     "[class.blank-btn]": "isBlank"
   },
   animations: [
-    trigger('routeAnimations', [
-      transition('* <=> *', [
+    trigger('loader', [
+      transition('show <=> hide', [
         group([
           query(':enter', [
             style({ 
@@ -45,7 +45,8 @@ export class CommonButtonComponent implements OnInit {
   @Input() set blank(_: unknown) { this.isBlank = true; }
   public isBlank: boolean = false;
 
-  @HostBinding('@routeAnimations') get state() { return this.loader };
+  @HostBinding('@loader') get state() { return this.loader ? 'show' : 'hide' };
+
 
   // @HostBinding('style.background-color') get backgroundColor(): string {
   //   return !this.outlined ? this._colors[this.colorCode].backgroundColor || this._colors.default.backgroundColor : 'transparent';

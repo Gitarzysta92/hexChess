@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { UserLoginFormComponent } from '../user-login-form/user-login-form.component';
-import { catchError, finalize, Subscription, throwError } from 'rxjs';
+import { catchError, delay, finalize, Subscription, throwError } from 'rxjs';
 import { IdentityNotifications, IdentityNotificationsToken } from '../../constants/notifications';
 import { GuestFormComponent } from '../guest-form/guest-form.component';
 import { HttpErrorResponse } from '@angular/common/http';

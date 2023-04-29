@@ -5,6 +5,7 @@ import { CrossButtonComponent } from "./components/cross-button/cross-button.com
 import { CommonButtonComponent } from "./components/common-button/common-button.component";
 import { VisibilityToggleButtonComponent } from './components/visibility-toggle-button/visibility-toggle-button.component';
 import { IconsModule } from "../icons/icons.module";
+import { MiscModule } from "../misc/misc.module";
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { IconsModule } from "../icons/icons.module";
     VisibilityToggleButtonComponent
   ],
   imports: [
+    MiscModule,
     CommonModule,
     IconsModule
   ],
