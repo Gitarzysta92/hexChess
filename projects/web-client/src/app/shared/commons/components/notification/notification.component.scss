@@ -13,8 +13,22 @@
   color: $text-primary;
   overflow: hidden;
 
-  .row {
+  .content {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
     justify-content: start;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 100;
+
+    .icon {
+      width: 20%;
+    }
+
+    .text {
+      width: 60%;
+    }
   }
 
   [class^="column"], .crossbar {

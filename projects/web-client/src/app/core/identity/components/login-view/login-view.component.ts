@@ -2,16 +2,17 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { UserLoginFormComponent } from '../user-login-form/user-login-form.component';
-import { catchError, delay, finalize, Subscription, throwError } from 'rxjs';
+import { catchError, finalize, Subscription, throwError } from 'rxjs';
 import { IdentityNotifications, IdentityNotificationsToken } from '../../constants/notifications';
 import { GuestFormComponent } from '../guest-form/guest-form.component';
-import { HttpErrorResponse } from '@angular/common/http';
 import { RoutingService } from 'src/app/aspects/navigation/api';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { ILoginEvent } from '../../models/login-event';
+import { PanelTemplateComponent } from '../panel-template/panel-template.component';
+import { IPanelTemplateNotificationsMap } from '../../models/panel-template-notifications-map';
 
 @Component({
-  selector: 'app-login-view',
+  selector: 'login-view',
   templateUrl: './login-view.component.html',
   styleUrls: ['./login-view.component.scss'],
   animations: [
@@ -74,10 +75,9 @@ import { ILoginEvent } from '../../models/login-event';
 })
 export class LoginViewComponent implements OnInit {
 
+  public notificationsMap: IPanelTemplateNotificationsMap;
   public mode: string = "user";
   private _formSubscription: Subscription;
-
-  public notifications: Notification[] = [];
 
   constructor(
     private readonly _routingService: RoutingService,
@@ -87,7 +87,11 @@ export class LoginViewComponent implements OnInit {
     @Inject(IdentityNotificationsToken) private readonly _notification: IdentityNotifications,
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.notificationsMap = {
+      failure: this._notification.error
+    };
+  }
 
   public toggleMode(mode: string) {
     this._router.navigate([mode], { relativeTo: this._route });
@@ -105,20 +109,20 @@ export class LoginViewComponent implements OnInit {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
-  public onOutletLoaded(form: UserLoginFormComponent) {
+  public onOutletLoaded(form: UserLoginFormComponent, panelTemplate: PanelTemplateComponent) {
     this._formSubscription && this._formSubscription.unsubscribe();
     if (form instanceof UserLoginFormComponent)
-    this._formSubscription = form.onSubmit.subscribe(submission => this.loginAsUser(submission));
+    this._formSubscription = form.onSubmit.subscribe(submission => this.loginAsUser(submission, panelTemplate));
 
     if (form instanceof GuestFormComponent)
-    this._formSubscription = form.onSubmit.subscribe(submission => this.loginAsGuest(submission));
+    this._formSubscription = form.onSubmit.subscribe(submission => this.loginAsGuest(submission, panelTemplate));
   }
 
-  public loginAsUser(submission: ILoginEvent): void {
+  public loginAsUser(submission: ILoginEvent, panelTemplate: PanelTemplateComponent): void {
     this._authenticationService.authenticate(submission)
       .pipe(
         catchError(err => {
-          this._showNotify(err);
+          panelTemplate.showFailureNotification(err);
           submission.reject();
           return throwError(err);
         }),
@@ -131,28 +135,6 @@ export class LoginViewComponent implements OnInit {
       });
   }
 
-  public loginAsGuest(submission: any): void {
-  }
-
-  private _showNotify(err: HttpErrorResponse): void {
-    let notify;
-    switch(err.status) {
-      case 401:
-        notify = this._notification.badCredentials;
-        break;
-      case 200:
-        notify = this._notification.loginSuccess;
-        break;
-    };
-
-    notify && this.notifications.push({ ...notify });
-  }
-
-  public removeNotify(notify: Notification): void {
-    this.notifications = this.notifications.filter(n => n != notify);
-  }
+  public loginAsGuest(submission: any, panelTemplate: PanelTemplateComponent): void { }
 
 }
-
-
-

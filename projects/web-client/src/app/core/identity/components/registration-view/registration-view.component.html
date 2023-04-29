@@ -1,17 +1,11 @@
 <div class="flex-container_center_center fh">
-  <panel-template>
+  <panel-template #panelTemplate [notificationsMap]="notificationsMap">
     <ng-container menu>
       <h1>Create account</h1>
     </ng-container>
 
     <ng-container content>
-      <registration-form (onSubmit)="registerUser($event)"></registration-form>
-      <div class="notifications-container">
-        <notification *ngFor="let notify of notifications" [apperance]="notify.apperance" [duration]="notifyDuration" (closed)="removeNotify(notify)">
-          <i slot="icon" name="{{ notify.icon }}"></i>
-          <p slot="content" [innerHTML]="notify.content"></p>
-        </notification>
-      </div>
+      <registration-form (onSubmit)="registerUser($event, panelTemplate)"></registration-form>
     </ng-container>
 
     <ng-container footer>

@@ -1,9 +1,9 @@
 <div class="notification {{ apperance }}">
-  <div class="row">
-    <div class="column-2 flex_center-center icon">
+  <div class="content">
+    <div class="icon flex_center-center icon">
       <ng-content select="[slot=icon]"></ng-content>
     </div>
-    <div class="column-6">
+    <div class="text">
       <ng-content select="[slot=content]"></ng-content>
     </div>
   </div>

@@ -1,11 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { delay, tap } from 'rxjs';
 import { RoutingService } from 'src/app/aspects/navigation/api';
-import { NOTIFY_DURATION_MS } from 'src/app/aspects/notifications/api';
 import { IdentityNotifications, IdentityNotificationsToken } from '../../constants/notifications';
 import { AuthPolicies, PoliciesToken } from '../../constants/policies';
 import { TERMS_AND_CONDITIONS_URL } from '../../constants/terms-and-conditions-url';
+import { IPanelTemplateNotificationsMap } from '../../models/panel-template-notifications-map';
 import { IRegistrationEvent } from '../../models/registration-event';
 import { AccountService } from '../../services/account/account.service';
+import { PanelTemplateComponent } from '../panel-template/panel-template.component';
 
 
 @Component({
@@ -15,8 +17,8 @@ import { AccountService } from '../../services/account/account.service';
 export class RegistrationViewComponent implements OnInit {
 
   public notifications: Notification[] = [];
-  public notifyDuration: number = NOTIFY_DURATION_MS;
   public termsAndConditionsUrl: string = TERMS_AND_CONDITIONS_URL;
+  public notificationsMap: IPanelTemplateNotificationsMap;
 
   constructor(
     private readonly _accountService: AccountService,
@@ -26,37 +28,29 @@ export class RegistrationViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
-
-  public registerUser(registration: IRegistrationEvent): void {
-    this._accountService.register(registration)
-      .subscribe(result => {
-        setTimeout(() => this._routing.nagivateToLogin(), this.notifyDuration);     
-        this._showNotify('200');
-        registration.resolve();
-      }, err => {
-        this._showNotify('404');
-        registration.reject();
-      })
-  }
-
-  private _showNotify(err: any): void {
-    let notify;
-
-    switch(err) {
-      case '404':
-        notify = this._notification.badCredentials;
-        break;
-      case '200':
-        notify = this._notification.registrationSuccess;
-        break;
+    this.notificationsMap = {
+      failure: this._notification.error,
+      success: this._notification.loginSuccess
     };
-    
-    notify && this.notifications.push(notify);
   }
 
-  public removeNotify(notify: Notification): void {
-    this.notifications = this.notifications.filter(n => n != notify);
+  public registerUser(registration: IRegistrationEvent, panelTemplate: PanelTemplateComponent): void {
+    this._accountService.register(registration)
+      .pipe(
+        tap(() => {
+          panelTemplate.showSuccessNotification();
+          registration.resolve();
+        }),
+        delay(panelTemplate.notificationDuration)
+      )
+      .subscribe({
+        complete: () => {
+          this._routing.nagivateToLogin();
+        },
+        error: err => {
+          panelTemplate.showFailureNotification(err);
+          registration.reject();
+        }
+      });
   }
-
 }

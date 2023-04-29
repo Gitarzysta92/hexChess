@@ -9,9 +9,9 @@
 
   <text-input #email required name="email" placeholder="Email" [config]="formConfig.email">
     <div class="icon-wrapper flex-container_center_center">
-      <i *ngIf="email.control.status === 'VALID' && email.value" name="approve"></i>
+      <i *ngIf="email.status === 'VALID' && email.value" name="approve"></i>
       <div circle-spinner *ngIf="email.control.status === 'PENDING' && email.value"></div>
-      <i *ngIf="email.control.status === 'INVALID' && email.value" name="disapprove"></i>
+      <i *ngIf="email.status === 'INVALID' && email.value" name="disapprove"></i>
     </div>
   </text-input>
 
