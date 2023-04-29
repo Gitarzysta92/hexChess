@@ -14,7 +14,7 @@ export function setup(app: INestApplication): void {
   //app.use(passport.session());
 
   app.enableCors({
-    origin: process.env.ALLOWED_ORIGIN,
+    origin: process.env.WEBCLIENT_HOST,
     credentials: true,
     exposedHeaders: ['Authorization'],
   });

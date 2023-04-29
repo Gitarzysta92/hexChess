@@ -8,7 +8,7 @@ export class MailTemplateService {
   ) { }
 
   public generatePasswordResetMailBody(token: string): string {
-    return `${process.env.ALLOWED_ORIGIN}/account/recovery/${token}`
+    return `${process.env.WEBCLIENT_HOST}/account/recovery/${token}`
   }
 
 }
