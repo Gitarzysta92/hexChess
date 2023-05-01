@@ -20,7 +20,7 @@ export class LogoutViewComponent implements OnInit {
 
   ngOnInit(): void {
     this._authenticationService.unauthenticate();
-    this._storeService.clearStates();
+    this._storeService.closeStores();
     timer(2000)
       .subscribe(() => {
         this._routingService.nagivateToLogin();

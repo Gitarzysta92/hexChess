@@ -4,15 +4,16 @@ import { SelectedArmy } from './actions/actions';
 import { SelectedArmiesService } from '../services/selected-armies.service';
 import { LocalStorageService, Store, StoreService } from 'src/app/infrastructure/data-store/api';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IArmyAssignmentDto } from '../models/army-assignment.dto';
 import { notificationsStore } from 'src/app/aspects/notifications/stores/notifications.store';
 import { NotificationAction } from 'src/app/aspects/notifications/stores/actions/actions';
+import { IMainInitializer } from 'src/app/infrastructure/configuration/models/main-initializer';
 
-export const selectedArmiesStore = Symbol('selected-armies-store');
+export const selectedArmiesStore = Symbol('selected-armies');
 
 @Injectable({ providedIn: 'root'})
-export class SelectedArmiesStore {
+export class SelectedArmiesStore implements IMainInitializer {
 
   public get state() { return this._store.state };
   public get currentState() { return this._store.currentState; }
@@ -25,19 +26,17 @@ export class SelectedArmiesStore {
     private readonly _configurationService: ConfigurationService,
     private readonly _notificationsFactory: ArmiesNotificationsFactory,
     private readonly _localStorageService: LocalStorageService
-  ) {
-    this._registerStore();
+  ) { }
+
+  public setSelectedArmy(sa: IArmyAssignmentDto): Observable<void> {
+    return this._store.dispatch(SelectedArmy.setSelectedArmy, sa);
   }
 
-  public setSelectedArmy(sa: IArmyAssignmentDto): void {
-    this._store.dispatch(SelectedArmy.setSelectedArmy, sa);
+  public removeSelectedArmy(sa: IArmyAssignmentDto): Observable<void> {
+    return this._store.dispatch(SelectedArmy.removeSelectedArmy, sa);
   }
 
-  public remove(sa: IArmyAssignmentDto): void {
-    this._store.dispatch(SelectedArmy.removeSelectedArmy, sa);
-  }
-
-  private _registerStore(): void {
+  public initialize(): void {
     const storeDefinition = {
       initialState: this._selectedArmiesService.getMyArmies(),
       stateStorage: this._localStorageService,
@@ -63,7 +62,7 @@ export class SelectedArmiesStore {
     }
 
     this._store = this._storeService.createStore<IArmyAssignmentDto[]>(selectedArmiesStore, storeDefinition);
-  }
+  };
 
   private _setAssignedArmy = (sa: IArmyAssignmentDto, state: IArmyAssignmentDto[]): IArmyAssignmentDto[] => {    
     if (state.every(a => a.priority !== sa.priority)) {
@@ -98,5 +97,3 @@ export class SelectedArmiesStore {
     this._storeService.getStore(notificationsStore).dispatch(NotificationAction.add, n);
   }
 }
-
-

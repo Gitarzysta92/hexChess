@@ -1,18 +1,11 @@
-import { Component, ElementRef, HostBinding, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
+import { IHexagonColors } from '../../models/hexgon-colors';
 
-export interface HexagonColors {
-  stroke: string;
-  outer: string;
-  inner: string;
-}
-
-
-const defaultColors: HexagonColors = {
+const defaultColors: IHexagonColors = {
   stroke: '#131217', 
   outer: '#6d3495',
   inner: '#1d0536'
 }
-
 
 @Component({
   selector: 'hexagon',
@@ -31,7 +24,7 @@ const defaultColors: HexagonColors = {
 })
 export class HexagonComponent {
 
-  @Input() colors: HexagonColors = defaultColors;
+  @Input() colors: IHexagonColors = defaultColors;
 
   constructor(
     private readonly _renderer: Renderer2,

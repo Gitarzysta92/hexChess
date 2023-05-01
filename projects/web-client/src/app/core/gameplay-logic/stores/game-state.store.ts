@@ -23,6 +23,7 @@ export class GameStateStore {
   ) {
     this._stateGenerator = new StateGenerator(ArmyHelper, CoordsHelper, GameHelper);
   }
+  initialize: () => void;
 
   public registerStore(stateCfg: GameConfiguration): void {
     this._state = this._store.createStore<GameState>(gameStateStore, {

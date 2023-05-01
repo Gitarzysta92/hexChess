@@ -1,5 +1,5 @@
 <div #armyPanelOrigin="panel-origin" panel-origin>
-  <army-badge *ngFor="let army of (selectedArmies | async); let i = index" [setup]="army" (click)="armyPanelOrigin.openPanel(army)"></army-badge>
+  <army-badge *ngFor="let army of (selectedArmies | async); let i = index" [setup]="army" [showLoader]="army.isProcessing" (click)="armyPanelOrigin.openPanel(army)"></army-badge>
   <hexagon *ngIf="(selectedArmies | async)?.length < armiesLimit" [colors]="addArmySlotButtonSetup" (click)="armyPanelOrigin.openPanel()" class="add-army">
     <i name="add"></i>
   </hexagon>

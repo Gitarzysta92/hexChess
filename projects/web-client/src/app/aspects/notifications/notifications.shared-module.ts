@@ -7,7 +7,6 @@ import { COMMON_NOTIFICATIONS, CommonNotificationsToken } from "./constants/comm
 import { NotificationsStore } from "./stores/notifications.store";
 
 
-
 @NgModule({
   declarations: [
     NotificationWidgetComponent,
@@ -34,6 +33,3 @@ export class NotificationsSharedModule {
     };
   }
 }
-
-
-

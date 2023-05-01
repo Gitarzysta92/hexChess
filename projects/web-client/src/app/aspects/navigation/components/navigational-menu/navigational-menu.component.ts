@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { StoreService } from 'src/app/infrastructure/data-store/api';
 import { ExpendableMenuItem } from '../../models/expendable-menu-item';
 import { Menu, MenuItem } from '../../models/menu';
@@ -39,7 +39,10 @@ export class NavigationalMenuComponent implements OnInit {
     };
 
     combineLatest(this.locations || [of(null)])
-    .pipe(map(menus => menus.reduce((acc, curr) => curr?.items ? acc.concat(curr?.items) : [] ,[])))
+      .pipe(
+        map(menus => menus.reduce((acc, curr) => curr?.items ? acc.concat(curr?.items) : [], [])),
+        takeUntil(this._destroyed)
+      )
       .subscribe(items => {
         this.data = items.map(i => this._createMenuItem(i));
       });

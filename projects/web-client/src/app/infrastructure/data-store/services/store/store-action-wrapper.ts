@@ -28,6 +28,7 @@ export class StoreActionWrapper {
         await result.toPromise()
       }
     } catch (error) {
+      console.log(error);
       return this._finished.error(error);
     }
 

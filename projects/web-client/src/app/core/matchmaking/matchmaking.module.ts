@@ -9,6 +9,7 @@ import { MatchmakingSharedModule } from './matchmaking.shared-module';
 import { MatchmakingService } from './services/matchmaking/matchmaking.service';
 import { MatchmakingDataResolver } from './resolvers/matchmaking-data.resolver';
 import { MatchmakingRoutingModule } from './matchmaking.routing-module';
+import { ArmiesSharedModule } from '../armies/armies.shared-module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { MatchmakingRoutingModule } from './matchmaking.routing-module';
     PlayerBadgeComponent,
   ],
   imports: [
+    ArmiesSharedModule,
     MatchmakingRoutingModule,
     MatchmakingSharedModule,
     SharedModule,

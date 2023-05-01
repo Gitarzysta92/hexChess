@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
+import { IMainInitializer } from 'src/app/infrastructure/configuration/models/main-initializer';
 import { Store, StoreService } from 'src/app/infrastructure/data-store/api';
 import { AuthenticationService } from '../../identity/api';
 import { IMyAccountDto } from '../models/my-account.dto';
@@ -8,7 +9,7 @@ import { MyAccountAction } from './actions/actions';
 
 
 @Injectable({ providedIn: 'root'})
-export class MyAccountStore {
+export class MyAccountStore implements IMainInitializer  {
 
   public get state() { return this._store.state };
   public get currentState() { return this._store.currentState };
@@ -19,15 +20,14 @@ export class MyAccountStore {
     private readonly _storeService: StoreService,
     private readonly _myAccountService: MyAccountService,
     private readonly _authenticationService: AuthenticationService
-  ) {
-    this._registerStore();
-  }
+  ) { }
+
 
   public update(profile: Partial<IMyAccountDto>): Observable<void> {
     return this._store.dispatch<Partial<IMyAccountDto>>(MyAccountAction.updateMyAccount, profile);
   }
 
-  private _registerStore() {
+  public initialize(): void {
     this._store = this._storeService.createStore<IMyAccountDto>(Symbol('my-account'), {
       initialState: this._myAccountService.getMyAccount().pipe(catchError(() => of({} as IMyAccountDto))),
       actions: { 

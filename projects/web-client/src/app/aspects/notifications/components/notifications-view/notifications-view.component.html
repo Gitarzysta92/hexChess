@@ -3,7 +3,7 @@
     <div class="column utility-bar">
       <button common-button 
         (click)="markAllAsReaded()"
-        [disabled]="(readedNotifications | async).length === 0">
+        [disabled]="(readedNotifications | async)?.length === 0">
         Mark all as readed
       </button>
     </div>

@@ -16,8 +16,6 @@ import { Identity } from './core/identity/identity.routing';
 import { MainModule } from './core/main/main.module';
 import { ArmiesSharedModule } from './core/armies/armies.shared-module';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,8 +27,8 @@ import { ArmiesSharedModule } from './core/armies/armies.shared-module';
     HttpClientModule,
     AppRoutingModule,
     MatchmakingSharedModule,
-    GameModesSharedModule,
-    MyProfileSharedModule,
+    GameModesSharedModule.forRoot(),
+    MyProfileSharedModule.forRoot(),
     NotificationsSharedModule.forRoot(),
     ArmiesSharedModule.forRoot(),
     MainModule

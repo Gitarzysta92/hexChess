@@ -28,9 +28,12 @@ export class StoreService {
       } else {
         throw new Error(`Failed to create ${key.description} collection. Collection should be instantiated only once.`)
       } 
+    
+    const newStore = new Store<T>({ key, ...config });
+    newStore.initialize();
 
     Object.defineProperty(this._collections, key, {
-      value: new Store<T>({key, ...config}),
+      value: newStore,
       enumerable: true    
     });
 
@@ -41,6 +44,13 @@ export class StoreService {
 
   public getStore<T>(key: any): Store<T> {
     return this._collections[key];
+  }
+
+  public closeStores() {
+    this.clearStates();
+    for (let key of Object.getOwnPropertySymbols(this._collections)) {
+      delete this._collections[key as any];
+     }
   }
 
   public clearStates() {

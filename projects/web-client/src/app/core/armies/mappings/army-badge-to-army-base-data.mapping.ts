@@ -1,5 +1,6 @@
-import { IArmyBadge } from "../api";
+
 import { IArmyBaseData } from "../models/army";
+import { IArmyBadge } from "../models/army-badge";
 
 
 export function mapArmyBadgeToArmyBaseData(armyBadge: IArmyBadge): IArmyBaseData {

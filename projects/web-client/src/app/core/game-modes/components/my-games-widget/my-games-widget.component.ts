@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { GameSummary } from '../../models/game-summary';
 import { GamesSummaryStore } from '../../stores/games-summary.store';
 
@@ -19,6 +19,7 @@ export class MyGamesWidgetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.gameSummaries = this._gamesSummaryStore.state.pipe((map(games => games.slice(0, 3))));
+    this.gameSummaries = this._gamesSummaryStore.state
+      .pipe(map(games => games.slice(0, 3)));
   }
 }

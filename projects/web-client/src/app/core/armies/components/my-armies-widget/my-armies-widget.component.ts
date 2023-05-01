@@ -1,7 +1,7 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { delay, map, switchMap } from 'rxjs/operators';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
 import { PanelOverlayComponent } from 'src/app/shared/dialogs/components/panel-overlay/panel-overlay.component';
 import { IArmyAssignmentDto } from '../../models/army-assignment.dto';
@@ -55,8 +55,7 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
     this.selectedArmies = this._armiesService.getArmyBadges()
       .pipe(
         switchMap(badges => this._selectedArmiesStore.state
-          .pipe(map(selected =>
-            this._getSelectedArmiesBadges(selected, badges)))
+          .pipe(map(selected => this._getSelectedArmiesBadges(selected, badges)))
         ));
   }
 
@@ -64,28 +63,51 @@ export class MyArmiesWidgetComponent implements OnInit, OnDestroy {
     this._onDestroy.next();
   }
 
-  public setSelectedArmy(armyBadge: IArmyBadge, currentlySelected: IArmyAssignmentDto): void {
+  public setSelectedArmy(
+    armyBadge: IArmyBadge & { isProcessing: boolean },
+    currentlySelected: IArmyAssignmentDto & { isProcessing: boolean }
+  ): void {
+    if (currentlySelected) {
+      currentlySelected.isProcessing = true;
+    } else {
+      armyBadge.isProcessing = true;
+    }
     this._selectedArmiesStore.setSelectedArmy({
       armyId: armyBadge.armyId,
       priority: currentlySelected?.priority
-    });
+    })
+      .subscribe({
+        error: () => {
+          if (currentlySelected) {
+            currentlySelected.isProcessing = false;
+          } else {
+            armyBadge.isProcessing = false;
+          }
+        }
+      });
   }
 
-  public removeSelectedArmy(armyBadge: IArmyBadge): void {
-    this._selectedArmiesStore.remove({
-      armyId: armyBadge.armyId
+  public removeSelectedArmy(currentlySelected: IArmyAssignmentDto & { isProcessing: boolean }): void {
+    currentlySelected.isProcessing = true;
+    this._selectedArmiesStore.removeSelectedArmy({
+      armyId: currentlySelected.armyId,
+      priority: currentlySelected.priority
     })
+      .subscribe({
+        complete: () => currentlySelected.isProcessing = false,
+        error: () => currentlySelected.isProcessing = false
+      })
   }
 
   private _getSelectedArmiesBadges(selected: IArmyAssignmentDto[], badges: IArmyBadge[]): IArmyBadge[] {
     return selected.reduce((acc, s) => {
       const badge = badges.find(a => a.armyId === s.armyId);
+      (badge as any).isProcessing = false;
       Object.assign(badge, s);
-      if (!badge)
-        throw new Error(`Cannot found badge for armyid: ${s.armyId}`)
-
-      return [...acc, badge]; 
-    }, [])
+      if (!badge) {
+        throw new Error(`Cannot found badge for armyid: ${s.armyId}`);
+      }
+      return [...acc, badge];
+    }, []);
   }
-
 }

@@ -33,7 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
         if ((err as HttpErrorResponse).status === 401) {
           this._authenticationService.unauthenticate();
           this._routingService.nagivateToLogin();
-          this._storeService.clearStates();
+          this._storeService.closeStores();
         } else {
           return throwError(err);
         }

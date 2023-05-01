@@ -65,9 +65,9 @@ export class ArmiesNotificationsFactory {
     const isMissingPriority = initial.concat(target).map(a => a.armyId).some(id => id === null);
     if (isMissingPriority) throw new Error();
 
-    const targetArmy = target.find(ta => initial.some(ia => ia.armyId !== ta.armyId));
+    const targetArmy = target.find(ta => initial.some(ia => ia?.armyId !== ta?.armyId));
     return {
-      initial: initial.find(a => a.priority === targetArmy.priority),
+      initial: initial.length === 1 ? initial[0] : initial.find(a => a?.priority === targetArmy?.priority),
       target: targetArmy
     }
   }

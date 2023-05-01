@@ -7,3 +7,4 @@ export * from "./models/tile";
 export * from "./models/tile-image-binding";
 export * from "./mappings/army-to-army-badge.mapping";
 export * from "./models/army-assignment.dto";
+export * from "./models/army-badge-config";

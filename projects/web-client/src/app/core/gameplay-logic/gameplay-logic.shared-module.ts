@@ -14,4 +14,4 @@ import { GamepLoopService } from "./services/game-loop/game-loop.service";
     GameStateStore
   ]
 })
-export class GameplayLogicSharedModule { }
+export class GameplayLogicSharedModule {}

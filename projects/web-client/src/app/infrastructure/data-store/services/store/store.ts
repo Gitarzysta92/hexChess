@@ -22,8 +22,10 @@ export class Store<T> {
   private _state: BehaviorSubject<T>;
   private _isLazyLoaded: boolean;
   private _stateStorage?: IStateStorage<T>;
-
   private _asyncDataProvider: string = "asyncDataProvider";
+  private _initialActions: any;
+  private _initialState: any;
+
 
   constructor(data: IStoreConfig<T> & { key: Symbol }) {
     this.key = data.key;
@@ -31,9 +33,13 @@ export class Store<T> {
     this._isLazyLoaded = data.isLazyLoaded;
     this._stateStorage = data.stateStorage;
     this._actionsQueue = new StoreActionQueue();
+    this._initialActions = data.actions;
+    this._initialState = data.initialState
+  }
 
-    this._manageActionsInitialization(data.actions)
-    this._manageStateInitialization(data.initialState);
+  public initialize() {
+    this._manageActionsInitialization(this._initialActions)
+    this._manageStateInitialization(this._initialState);
   }
 
   public dispatch<K>(action: any, payload?: K): Observable<void> {
@@ -131,7 +137,7 @@ export class Store<T> {
     (this._stateStorage?.read(this.keyString) ?? of(null))
       .pipe(switchMap(v => iif(() => !!v, of(v), stateProvider as Observable<T> )))
       .subscribe(result => {
-        this._setState(result)
+        this._setState(result);
         this.changed.next(this.currentState);
       });
   }
