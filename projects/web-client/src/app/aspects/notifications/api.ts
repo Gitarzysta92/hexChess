@@ -5,3 +5,4 @@ export * from './models/notification';
 export * from './constants/notification-type.enum';
 export * from './notifications.routing';
 export * from './constants/notify-duration';
+export * from './stores/actions/actions';

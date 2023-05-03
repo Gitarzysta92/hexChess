@@ -1,4 +1,4 @@
-<main-view-template>
+<main-view-template [showLoader]="showLoader">
 
   <ng-container topBarLeft>
     <my-armies-widget [@slideIn]="{ value: true, params: { delay: '50ms' }}"></my-armies-widget>
@@ -17,6 +17,7 @@
       [@slideIn]="{ value: true, params: { delay: '200ms' }}">
     </my-profile-widget>      
     <panel-overlay [hideOnMouseLeave]="true" [origin]="profilePanelOrigin">
+      <settings-widget class="settings-widget"></settings-widget>
       <navigational-menu
         class="secondary-menu" 
         vertical
@@ -45,5 +46,6 @@
       vertical
       [locations]="[mainMenu, secondaryMenu, mobileMenu]">
     </navigational-menu>
+    <settings-widget></settings-widget>
   </div>
 </modal>

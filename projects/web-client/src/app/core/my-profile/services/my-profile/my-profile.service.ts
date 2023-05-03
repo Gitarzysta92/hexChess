@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfigurationService } from 'src/app/infrastructure/configuration/api';
+import { IMySettingsDto } from '../../api';
 import { IMyProfileDto } from '../../models/my-profile.dto';
 
 @Injectable({
@@ -24,6 +25,11 @@ export class MyProfileService {
 
   public updateMyProfile(profile: IMyProfileDto): Observable<boolean> {
     return this._httpClient.patch<IMyProfileDto>(this._config.apiUrl + this._endpointPath, profile).pipe(map(result => !!result));
+  }
+
+  public updateMySettings(settings: IMySettingsDto): Observable<boolean> {
+    return of(true);
+    //return this._httpClient.patch<IMySettingsDto>(this._config.apiUrl + this._endpointPath + "settings", settings).pipe(map(result => !!result));
   }
 
   public updateMyAvatar(file: File): Observable<string> {

@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { NavigationModule } from "src/app/aspects/navigation/navigation.module";
+import { SoundEffectsModule } from "src/app/aspects/sound-effects/sound-effects.module";
 import { ViewTemplatesModule } from "src/app/infrastructure/view-templates/view-templates.module";
 import { ArmiesSharedModule } from "../armies/armies.shared-module";
 import { MyProfileSharedModule } from "../my-profile/my-profile.shared-module";
@@ -17,7 +18,8 @@ import { NotFoundViewComponent } from "./components/not-found-view/not-found-vie
     ViewTemplatesModule,
     NavigationModule,
     MyProfileSharedModule,
-    ArmiesSharedModule
+    ArmiesSharedModule,
+    SoundEffectsModule
   ]
 })
 export class MainModule { }

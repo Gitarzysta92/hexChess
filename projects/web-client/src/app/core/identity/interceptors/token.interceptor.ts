@@ -10,6 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { RoutingService } from 'src/app/aspects/navigation/api';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { StoreService } from 'src/app/infrastructure/data-store/api';
+import { SoundEffectsService } from 'src/app/aspects/sound-effects/api';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -17,7 +18,8 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(
     private readonly _authenticationService: AuthenticationService,
     private readonly _routingService: RoutingService,
-    private readonly _storeService: StoreService
+    private readonly _storeService: StoreService,
+    private readonly _soundEffectsService: SoundEffectsService
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -34,6 +36,7 @@ export class TokenInterceptor implements HttpInterceptor {
           this._authenticationService.unauthenticate();
           this._routingService.nagivateToLogin();
           this._storeService.closeStores();
+          this._soundEffectsService.clearAll()
         } else {
           return throwError(err);
         }

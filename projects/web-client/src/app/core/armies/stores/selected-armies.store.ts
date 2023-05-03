@@ -89,7 +89,7 @@ export class SelectedArmiesStore implements IMainInitializer {
 
   private async _notifySuccess(prevState: IArmyAssignmentDto[], currentState: IArmyAssignmentDto[]): Promise<void> {
     const n = await this._notificationsFactory.createSuccessNotification(prevState, currentState);
-    this._storeService.getStore(notificationsStore).dispatch(NotificationAction.add, n)
+    this._storeService.getStore(notificationsStore).dispatch(NotificationAction.add, n);
   }
 
   private async _notifyFailure(): Promise<void> {

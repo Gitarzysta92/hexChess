@@ -3,7 +3,7 @@
     <div *ngFor="let item of lobbyItems" [ngClass]="'column-' + item.size" class="tile" [ngSwitch]="item.type" >
       
       <ng-container *ngSwitchCase="'gameMode'">
-        <game-mode-tile [id]="item.config.modeId"></game-mode-tile>
+        <game-mode-tile soundEffectTrigger [id]="item.config.modeId"></game-mode-tile>
       </ng-container>
 
     </div>

@@ -7,10 +7,10 @@ my-profile-widget, my-armies-widget {
 
 .secondary-menu {
   position: relative;
-  top: 20px;
+  top: 30px;
   list-style-type: none;
   padding: 20px 10px;
-  background-color: #1b1a21;
+  background-color: $secondary-dark;
   border-radius: 5px;
   margin: 0;
 
@@ -27,6 +27,21 @@ my-profile-widget, my-armies-widget {
     }
   } 
 }
+
+.settings-widget {
+  position: relative;
+  top: 20px;
+  list-style-type: none;
+  padding: 20px 30px;
+  background-color: $secondary-dark;
+  border-radius: 5px;
+  margin: 0;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+
 
 .avatar {
   margin-bottom: 20px;

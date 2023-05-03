@@ -83,6 +83,24 @@
             </integrated-input>
           </div> 
         </div>
+        <div class="row" [@slideIn]="{ value: true, params: { delay: '250ms' }}">
+          <div class="column">
+            <h5>Settings</h5><hr class="with-title">
+            <div (click)="mySettingsStore.toggleSound()">
+              <label for="volume">Mute</label>
+              <i name="sound-muted" *ngIf="settings.sound.isMuted"></i>
+              <i name="sound-unmuted" *ngIf="!settings.sound.isMuted"></i>
+            </div>
+            <div>
+              <label for="volume">Music volume</label>
+              <input type="range" id="volume" name="volume" min="0" max="100" [ngModel]="settings.sound.musicVolume" (change)="mySettingsStore.changeMusicVolume($event.target.value)">
+            </div>
+            <div>
+              <label for="volume">Sound effects volume</label>
+              <input type="range" id="volume" name="volume" min="0" max="100" [ngModel]="settings.sound.soundEffectsVolume" (change)="mySettingsStore.changeSoundEffectsVolume($event.target.value)">
+            </div>
+          </div> 
+        </div>
       </div>
     </div>
   </div>

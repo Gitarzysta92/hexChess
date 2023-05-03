@@ -1,9 +1,8 @@
 import { query, transition, trigger, animateChild } from '@angular/animations';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Subject, timer } from 'rxjs';
-import { RoutingService } from 'src/app/aspects/navigation/api';
+import { Subject, takeUntil } from 'rxjs';
 import { slideIn, slideOut, swapViews } from 'src/app/shared/animations/predefined-animations';
 
 @Component({
@@ -22,14 +21,14 @@ import { slideIn, slideOut, swapViews } from 'src/app/shared/animations/predefin
     ])
   ]
 })
-export class MainViewTemplateComponent implements OnInit, OnDestroy {
+export class MainViewTemplateComponent implements OnInit, OnDestroy, OnChanges {
+
+  @Input() showLoader: boolean = true;
 
   public isMobile: boolean = false;
-  public dataLoaded: boolean = false;
-  private _onDestroy: Subject<void> = new Subject();
+  private _destroyed: Subject<void> = new Subject();
 
   constructor(
-    public readonly routing: RoutingService,
     private readonly _changeDetector: ChangeDetectorRef,
     private readonly _breakPointObserver: BreakpointObserver
   ) { }
@@ -37,21 +36,21 @@ export class MainViewTemplateComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._breakPointObserver
       .observe(["(max-width: 1024px)"])
+      .pipe(takeUntil(this._destroyed))
       .subscribe(s => {
         this.isMobile = s.matches;
         this._changeDetector.markForCheck();
       });
+  }
 
-
-    timer(2000)
-      .subscribe(() => {
-        this.dataLoaded = true;
-        this._changeDetector.markForCheck();
-      });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.showLoader.currentValue !== changes.showLoader.previousValue) {
+      this._changeDetector.markForCheck();
+    }
   }
 
   ngOnDestroy(): void {
-    this._onDestroy.next();
+    this._destroyed.next();
   }
 
   public prepareRoute(outlet: RouterOutlet) {

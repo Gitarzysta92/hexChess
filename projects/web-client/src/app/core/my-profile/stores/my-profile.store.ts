@@ -22,7 +22,7 @@ export class MyProfileStore implements IMainInitializer {
     private readonly _storeService: StoreService,
     private readonly _myProfileService: MyProfileService,
     private readonly _localStorageService: LocalStorageService
-  ) { }
+  ) {}
   
   public update(profile: Partial<IMyProfileDto>): Observable<void> {
     return this._store.dispatch<Partial<IMyProfileDto>>(MyProfileAction.updateMyProfile, profile);

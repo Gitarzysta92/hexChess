@@ -1,4 +1,4 @@
-<ng-container *ngIf="dataLoaded else loader">
+<ng-container *ngIf="!showLoader else loader">
   <div class="container fh">
     <header [@slideOut]>
       <div *ngIf="!isMobile" class="fluid-container flex_center-center fh header">
@@ -17,7 +17,7 @@
     </header>
     <main 
       [@routeAnimations]="prepareRoute(outlet)" 
-      [@triggerChilds]="{ value: dataLoaded ? 'loaded' : 'void' }">
+      [@triggerChilds]="{ value: !showLoader ? 'loaded' : 'void' }">
       <router-outlet #outlet="outlet"></router-outlet>
     </main>
     <footer>

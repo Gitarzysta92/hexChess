@@ -28,7 +28,8 @@ const ICONS_NAMES = {
   undo: { class: "oi oi-action-undo", glyph: "action-undo" },
   'next-player': { class: "oi oi-caret-right", glyph: "caret-right" },
   'exit-game': { class: "oi oi-account-logout", glyph: "account-logout" },
-
+  'sound-unmuted': { class: "oi oi-volume-high", glyph: "volume-high" },
+  'sound-muted': { class: "oi oi-volume-low", glyph: "volume-low" },
 
   // armies icons
   borgo: { class: "", glyph: "borgo" },

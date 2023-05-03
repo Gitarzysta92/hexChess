@@ -7,8 +7,10 @@ import { AccountValidators } from 'src/app/shared/forms/validators/account.valid
 import { ProfileValidators } from 'src/app/shared/forms/validators/unique-profile.validator';
 import { IMyAccountDto } from '../../models/my-account.dto';
 import { IMyProfileDto } from '../../models/my-profile.dto';
+import { IMySettingsDto } from '../../models/my-settings.dto';
 import { MyAccountStore } from '../../stores/my-account.store';
 import { MyProfileStore } from '../../stores/my-profile.store';
+import { MySettingsStore } from '../../stores/my-settings.store';
 import { IntegratedInputComponent } from '../integrated-input/integrated-input.component';
 
 @Component({
@@ -26,11 +28,14 @@ export class MyProfileViewComponent implements OnInit, OnDestroy {
   public account: IMyAccountDto;
   public avatarUrl: string | undefined;
 
+  public settings: IMySettingsDto;
+
   private _destroyed: Subject<void> = new Subject();
 
   constructor(
     private readonly _myProfileStore: MyProfileStore,
     private readonly _myAccountStore: MyAccountStore,
+    public mySettingsStore: MySettingsStore,
     private readonly _configurationService: ConfigurationService,
     private readonly _changeDetector: ChangeDetectorRef
   ) { }
@@ -49,6 +54,13 @@ export class MyProfileViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroyed))
       .subscribe(account => { 
         this.account = account;
+        this._changeDetector.markForCheck();
+      });
+    
+    this.mySettingsStore.state
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(settings => { 
+        this.settings = settings;
         this._changeDetector.markForCheck();
       });
   }
@@ -85,5 +97,4 @@ export class MyProfileViewComponent implements OnInit, OnDestroy {
   public updateAvatar(file: File): void {
     this._myProfileStore.updateAvatar(file);
   }
-
 }

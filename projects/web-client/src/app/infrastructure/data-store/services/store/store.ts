@@ -69,7 +69,7 @@ export class Store<T> {
       () => { actionContext.computedState = this._actions[actionKey].action(actionContext); return true },
       ...this._actions[actionKey].after.map(a => () => a(actionContext)),
       () => { this._setState(actionContext.computedState); return true },
-      () => this._stateStorage?.update(this.keyString, actionContext.computedState),
+      () => this._stateStorage?.createOrUpdate(this.keyString, actionContext.computedState),
       () => { this.changed.next(this.currentState); return true }
     ]);
   }

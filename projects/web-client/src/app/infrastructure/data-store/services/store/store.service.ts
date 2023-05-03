@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { ConfigurationService } from '../../../configuration/services/configuration.service';
 import { IStoreConfig } from '../../models/store-config';
 import { Store } from './store';
-
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
@@ -14,21 +12,16 @@ export class StoreService {
 
   private _collections: { [key: string]: Store<any> };
 
-  constructor(
-    private readonly _config: ConfigurationService
-  ) { 
+  constructor() { 
     this._collections = {};
     this._initializeGlobalStream();
   }
 
   public createStore<T>(key: any, config: IStoreConfig<T>): Store<T> {
-    if (!!this._collections[key])
-      if (this._config.isProduction) {
-        return this._collections[key]
-      } else {
-        throw new Error(`Failed to create ${key.description} collection. Collection should be instantiated only once.`)
-      } 
-    
+    if (!!this._collections[key]) {
+      return this._collections[key];
+    }
+
     const newStore = new Store<T>({ key, ...config });
     newStore.initialize();
 
@@ -66,7 +59,6 @@ export class StoreService {
         switchMap(c => combineLatest(c)),
         filter(c => c.every(c => c.value))
       )
-
   }
 
   private _updateCollectionsInGlobalStream(collections: { [key: string]: Store<any> }): void {

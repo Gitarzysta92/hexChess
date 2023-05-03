@@ -7,6 +7,7 @@ import { GameplaySharedModule } from '../gameplay/api';
 import { NotificationsSharedModule } from '../../aspects/notifications/api';
 import { LobbySharedModule } from './lobby.shared-module';
 import { RouterModule } from '@angular/router';
+import { SoundEffectsModule } from 'src/app/aspects/sound-effects/sound-effects.module';
 
 
 
@@ -31,7 +32,8 @@ class LobbyRoutingModule { }
     LobbyRoutingModule,
     GameplaySharedModule,
     GameModesSharedModule,
-    NotificationsSharedModule
+    NotificationsSharedModule,
+    SoundEffectsModule
   ],
   providers: [
     
