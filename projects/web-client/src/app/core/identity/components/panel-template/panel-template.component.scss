@@ -1,6 +1,10 @@
 @import '../../../../../scss/commons.scss';
 @import '../../../../../scss/colors.scss';
 
+:host {
+  margin: 20px;
+}
+
 .panel {
   max-width: 500px;
   width: 100%;

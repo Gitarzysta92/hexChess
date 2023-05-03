@@ -5,11 +5,11 @@ export const SOUND_COMMON_ASSETS = [
   {
     key: BACKGROUND_SOUND_THEME,
     loadingType: AssetLoadingMode.Lazy,
-    sourceUrl: "audio/background-theme-burning-bright.mp3"
+    sourceUrl: "/audio/background-theme-burning-bright.mp3"
   },
   {
     key: ROLLOVER_SOUND,
     loadingType: AssetLoadingMode.Preload,
-    sourceUrl: "audio/rollover.mp3"
+    sourceUrl: "/audio/rollover.mp3"
   }
 ]
