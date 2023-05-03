@@ -15,6 +15,8 @@ import { NotificationsSharedModule } from './aspects/notifications/api';
 import { Identity } from './core/identity/identity.routing';
 import { MainModule } from './core/main/main.module';
 import { ArmiesSharedModule } from './core/armies/armies.shared-module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,13 @@ import { ArmiesSharedModule } from './core/armies/armies.shared-module';
     MyProfileSharedModule.forRoot(),
     NotificationsSharedModule.forRoot(),
     ArmiesSharedModule.forRoot(),
-    MainModule
+    MainModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     { provide: Window, useValue: window },
